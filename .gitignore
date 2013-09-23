@@ -1,0 +1,6 @@
+/data/*
+/docs/*
+/vendor/*
+/composer*
+!/composer.json
+/components/*
