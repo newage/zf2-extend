@@ -11,6 +11,14 @@
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.2.*",
         "zendframework/zend-developer-tools": "dev-master",
-        "bjyoungblood/BjyProfiler": "dev-master"
-    }
+        "zendframework/zftool": "dev-master",
+        "bjyoungblood/BjyProfiler": "dev-master",
+        "newage/console-tools": "dev-develop"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@github.com:newage/console-tools.git"
+        }
+    ]
 }
