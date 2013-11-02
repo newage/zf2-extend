@@ -10,7 +10,7 @@ return array(
             'created_at' => '2011-07-01 14:06:28',
             'updated_at' => '2011-07-01 14:06:28',
             'user_detail_id' => 1,
-            'role_id' => 1,
+            'role_id' => 3,
             'status' => 'ENABLE'
         ),
         array(

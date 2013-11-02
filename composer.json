@@ -10,11 +10,13 @@
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.2.*",
-        "zendframework/zend-developer-tools": "dev-master",
-        "zendframework/zftool": "dev-master",
-        "bjyoungblood/BjyProfiler": "dev-master",
         "doctrine/doctrine-orm-module": "0.7.*",
-        "newage/console-tools": "dev-develop"
+        "newage/console-tools": "dev-develop",
+        "zendframework/zftool": "dev-master"
+    },
+    "require-dev": {
+        "zendframework/zend-developer-tools": "dev-master",
+        "bjyoungblood/BjyProfiler": "dev-master"
     },
     "repositories": [
         {
