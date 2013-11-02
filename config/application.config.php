@@ -4,7 +4,10 @@ return array(
     'modules' => array(
         'ZFTool',
         'ConsoleTools',
+        'DoctrineModule',
+        'DoctrineORMModule',
         'Application',
+        'User'
     ),
 
     // These are various options for the listeners attached to the ModuleManager

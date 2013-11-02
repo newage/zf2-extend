@@ -1,8 +1,13 @@
 <?php
 return array(
     'modules' => array(
+        'ZFTool',
+        'ConsoleTools',
         'ZendDeveloperTools',
+        'DoctrineModule',
+        'DoctrineORMModule',
         'Application',
+        'User'
     ),
 
     'module_listener_options' => array(
