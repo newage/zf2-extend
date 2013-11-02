@@ -7,6 +7,9 @@ php composer.phar install
 echo "Copy config file for developer tools"
 cp vendor/zendframework/zend-developer-tools/config/zenddevelopertools.local.php.dist config/autoload/zdt.local.php
 
+echo "Copy config file for console tools"
+cp vendor/newage/console-tools/config/autolod/console-tools.local.php.dist config/autoload/console-tools.local.php
+
 echo 'export PATH=$PATH:'${PWD} >> ~/.bashrc
 
 echo "Install finish successfully!"

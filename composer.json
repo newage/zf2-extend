@@ -13,12 +13,13 @@
         "zendframework/zend-developer-tools": "dev-master",
         "zendframework/zftool": "dev-master",
         "bjyoungblood/BjyProfiler": "dev-master",
+        "doctrine/doctrine-orm-module": "0.7.*",
         "newage/console-tools": "dev-develop"
     },
     "repositories": [
         {
             "type": "vcs",
-            "url":  "git@github.com:newage/console-tools.git"
+            "url":  "https://github.com/newage/zf2-console-tools.git"
         }
     ]
 }

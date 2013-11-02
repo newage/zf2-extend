@@ -1,2 +1,2 @@
 #!/bin/sh
-./zf.php $@
+./vendor/newage/console-tools/zf.php $@
