@@ -10,18 +10,11 @@
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.2.*",
-        "doctrine/doctrine-orm-module": "0.7.*",
-        "newage/console-tools": "dev-develop",
+        "doctrine/doctrine-module": "0.*",
+        "doctrine/doctrine-orm-module": "0.*",
         "zendframework/zftool": "dev-master"
     },
     "require-dev": {
-        "zendframework/zend-developer-tools": "dev-master",
-        "bjyoungblood/BjyProfiler": "dev-master"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "https://github.com/newage/zf2-console-tools.git"
-        }
-    ]
+        "zendframework/zend-developer-tools": "dev-master"
+    }
 }
