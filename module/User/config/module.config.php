@@ -1,24 +1,27 @@
 <?php
 
 return array(
+    'data-fixture' => array(
+        'User_fixture' => __DIR__ . '/../src/Fixture',
+    ),
     'doctrine' => array(
         'driver' => array(
             'application_entities' => array(
                 'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'cache' => 'xcache',
-                'paths' => array(__DIR__ . '/../src/Entity')
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/Entity'),
             ),
             'orm_default' => array(
                 'drivers' => array(
                     'User\Entity' => 'application_entities'
                 )
-            )
+            ),
         ),
         'configuration' => array(
             'orm_default' => array(
-                'metadata_cache' => 'zend.static.local',
-                'query_cache'    => 'zend.static.local',
-                'result_cache'   => 'zend.static.local',
+//                'metadata_cache' => 'zend.static.local',
+//                'query_cache'    => 'zend.static.local',
+//                'result_cache'   => 'zend.static.local',
             ),
         ),
     ),

@@ -12,6 +12,7 @@
         "zendframework/zendframework": "2.2.*",
         "doctrine/doctrine-module": "0.*",
         "doctrine/doctrine-orm-module": "0.*",
+        "hounddog/doctrine-data-fixture-module": "0.*",
         "zendframework/zftool": "dev-master"
     },
     "require-dev": {

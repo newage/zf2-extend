@@ -5,8 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="users")
  */
-class Users {
+class User {
     
     /**
      * @ORM\Id
@@ -31,7 +32,7 @@ class Users {
     protected $salt;
     
     /**
-     * @ORM\OneToOne(targetEntity="Roles")
+     * @ORM\OneToOne(targetEntity="Role")
      * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      */
     protected $roleId;
@@ -74,11 +75,6 @@ class Users {
     public function getPassword()
     {
         return $this->password;
-    }
-
-    public function getSalt()
-    {
-        return $this->salt;
     }
 
     public function getRoleId()

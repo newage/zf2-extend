@@ -2,10 +2,10 @@
 return array(
     'modules' => array(
         'ZFTool',
-        'ConsoleTools',
         'ZendDeveloperTools',
         'DoctrineModule',
         'DoctrineORMModule',
+        'DoctrineDataFixtureModule',
         'Application',
         'User'
     ),
