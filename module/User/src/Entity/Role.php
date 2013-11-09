@@ -5,7 +5,7 @@ namespace User\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity {}
+ * @ORM\Entity
  * @ORM\Table(name="roles")
  */
 class Role
@@ -23,8 +23,6 @@ class Role
     protected $name;
     
     /**
-     * @ORM\OneToOne(targetEntity="Role")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      * @ORM\Column(type="integer", name="parent_id")
      */
     protected $parentId;

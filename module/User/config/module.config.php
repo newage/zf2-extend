@@ -26,16 +26,18 @@ return array(
         ),
     ),
     'service_manager' => array(
+        'invokables' => array(
+            'UserForm' => 'User\Form\UserForm'
+        ),
         'factories' => array(
             'doctrine.cache.zend.static.local' => function ($sm) {
                 return new \DoctrineModule\Cache\ZendStorageCache($sm->get('cache.static.local'));
             },
         ),
     ),
-    
     'router' => array(
         'routes' => array(
-            'application' => array(
+            'user' => array(
                 'type'    => 'Literal',
                 'options' => array(
                     'route'    => '/user',
@@ -61,6 +63,39 @@ return array(
                     ),
                 ),
             ),
+            'user.login' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/login',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'User\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'login',
+                    ),
+                ),
+            ),
+            'user.logout' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/logout',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'User\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'logout',
+                    ),
+                ),
+            ),
+            'user.create' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/registration',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'User\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'create',
+                    ),
+                ),
+            ),
         ),
     ),
     'controllers' => array(
@@ -68,6 +103,11 @@ return array(
             'User\Controller\Index' => 'User\Controller\IndexController'
         ),
     ),
+//    'view_helpers' => array(
+//        'invokables' => array(
+//            'bootstrapForm' => 'Application\View\Helper\NavLinkHelper'
+//        )
+//    ),
     'view_manager' => array(
         'template_map' => array(
             'user/index/index' => __DIR__ . '/../view/user/index/index.phtml',

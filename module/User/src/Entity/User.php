@@ -7,7 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class User {
+class User
+{
+    const SECRET_KEY = 'secret key for user';
+    const STATUS_ENABLE = 'ENABLE';
+    const STATUS_DISABLE = 'DISABLE';
     
     /**
      * @ORM\Id
@@ -17,7 +21,7 @@ class User {
     protected $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      */
     protected $email;
     
@@ -32,10 +36,10 @@ class User {
     protected $salt;
     
     /**
-     * @ORM\OneToOne(targetEntity="Role")
+     * @ORM\ManyToOne(targetEntity="Role")
      * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      */
-    protected $roleId;
+    protected $role;
     
     /**
      * @ORM\Column(type="datetime", name="created_at")
@@ -43,17 +47,12 @@ class User {
     protected $createdAt;
     
     /**
-     * @ORM\Column(type="datetime", name="updated_at")
+     * @ORM\Column(type="datetime", name="updated_at", nullable=true)
      */
     protected $updatedAt;
     
     /**
-     * @ORM\Column(type="datetime", name="last_logon_at")
-     */
-    protected $lastLogonAt;
-    
-    /**
-     * @ORM\Column(type="string", name="pasword_reset_hash")
+     * @ORM\Column(type="string", name="pasword_reset_hash", nullable=true)
      */
     protected $passwordResetHash;
     
@@ -77,9 +76,9 @@ class User {
         return $this->password;
     }
 
-    public function getRoleId()
+    public function getRole()
     {
-        return $this->roleId;
+        return $this->role;
     }
 
     public function getCreatedAt()
@@ -90,11 +89,6 @@ class User {
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-
-    public function getLastLogonAt()
-    {
-        return $this->lastLogonAt;
     }
 
     public function getPasswordResetHash()
@@ -115,7 +109,9 @@ class User {
 
     public function setPassword($password)
     {
-        $this->password = $password;
+        $salt = md5(time());
+        $this->setSalt($salt);
+        $this->password = md5($password . $salt . self::SECRET_KEY);
         return $this;
     }
 
@@ -125,33 +121,27 @@ class User {
         return $this;
     }
 
-    public function setRoleId($roleId)
+    public function setRole($role)
     {
-        $this->roleId = $roleId;
+        $this->role = $role;
         return $this;
     }
 
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTime("now");
         return $this;
     }
 
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt()
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new \DateTime("now");
         return $this;
     }
 
-    public function setLastLogonAt($lastLogonAt)
+    public function setPasswordResetHash()
     {
-        $this->lastLogonAt = $lastLogonAt;
-        return $this;
-    }
-
-    public function setPasswordResetHash($passwordResetHash)
-    {
-        $this->passwordResetHash = $passwordResetHash;
+        $this->passwordResetHash = md5(time());
         return $this;
     }
 

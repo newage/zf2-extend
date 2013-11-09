@@ -45,3 +45,8 @@ Run install file
 ```
 ./vendor/bin/doctrine-module orm:schema-tool:create
 ```
+
+###Apply fixtures
+```
+./vendor/bin/doctrine-module data-fixture:import
+```

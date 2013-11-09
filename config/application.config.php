@@ -6,6 +6,7 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
         'DoctrineDataFixtureModule',
+        'ZfcTwitterBootstrap',
         'Application',
         'User'
     ),

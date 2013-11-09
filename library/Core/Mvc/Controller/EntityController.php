@@ -2,13 +2,14 @@
 namespace Core\Mvc\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Doctrine\ORM\EntityManager;
 
 /**
- * Description of Index
+ * Abstract controller for use entity manager
  *
- * @author vadim
+ * @author V.Leontiev
  */
-class EntityController extends AbstractActionController
+abstract class EntityController extends AbstractActionController
 {
     
     /**
@@ -23,7 +24,7 @@ class EntityController extends AbstractActionController
      * @access protected
      * @return PostController
      */
-    protected function setEntityManager(\Doctrine\ORM\EntityManager $em)
+    protected function setEntityManager(EntityManager $em)
     {
         $this->entityManager = $em;
         return $this;
