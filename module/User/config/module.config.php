@@ -108,6 +108,8 @@ return array(
     ),
     'service_manager' => array(
         'invokables' => array(
+            'RoleMapper' => 'User\Mapper\RoleMapper',
+            'RoleForm' => 'User\Form\RoleForm',
             'UserMapper' => 'User\Mapper\UserMapper',
             'UserForm' => 'User\Form\UserForm'
         ),
@@ -120,6 +122,13 @@ return array(
                 $model->setServiceLocator($sm);
                 $model->setForm($sm->get('UserForm'));
                 $model->setMapper($sm->get('UserMapper'));
+                return $model;
+            },
+            'RoleModel' => function($sm) {
+                $model = new \User\Model\RoleModel();
+                $model->setServiceLocator($sm);
+                $model->setForm($sm->get('RoleForm'));
+                $model->setMapper($sm->get('RoleMapper'));
                 return $model;
             }
         ),
