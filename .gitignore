@@ -1,5 +1,3 @@
-/data/*
-/docs/*
 /vendor/*
 /composer*
 !/composer.json

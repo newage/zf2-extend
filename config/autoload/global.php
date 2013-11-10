@@ -1,16 +1,15 @@
 <?php
-/**
- * Global Configuration Override
- *
- * You can use this file for overriding configuration values from modules, etc.
- * You would place values in here that are agnostic to the environment and not
- * sensitive to security.
- *
- * @NOTE: In practice, this file will typically be INCLUDED in your source
- * control, so do not include passwords or other sensitive information in this
- * file.
- */
 
 return array(
-    // ...
+    'caches' => array(
+        'cache.static.local' => array(
+            'adapter' => 'apc',
+            'plugins' => array(
+                'exception_handler' => array(
+                    'throw_exceptions' => false,
+                ),  
+                'serializer',
+            ),          
+        ),
+    ),
 );

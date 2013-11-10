@@ -10,7 +10,13 @@
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.2.*",
-        "doctrine/doctrine-orm-module": "0.7.*",
+        "doctrine/doctrine-module": "0.*",
+        "doctrine/doctrine-orm-module": "0.*",
+        "hounddog/doctrine-data-fixture-module": "0.*",
+        "zendframework/zftool": "dev-master",
+        "mwillbanks/zfc-twitter-bootstrap": "0.3.0"
+    },
+    "require-dev": {
         "zendframework/zend-developer-tools": "dev-master"
     }
 }
