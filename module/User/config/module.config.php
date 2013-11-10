@@ -25,16 +25,6 @@ return array(
             ),
         ),
     ),
-    'service_manager' => array(
-        'invokables' => array(
-            'UserForm' => 'User\Form\UserForm'
-        ),
-        'factories' => array(
-            'doctrine.cache.zend.static.local' => function ($sm) {
-                return new \DoctrineModule\Cache\ZendStorageCache($sm->get('cache.static.local'));
-            },
-        ),
-    ),
     'router' => array(
         'routes' => array(
             'user' => array(
@@ -61,6 +51,30 @@ return array(
                             ),
                         ),
                     ),
+                    'create' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/registration',
+                            'defaults' => array(
+                                'controller'    => 'Index',
+                                'action'        => 'create',
+                            ),
+                        ),
+                    ),
+                    'update' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/update/:id',
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'User\Controller',
+                                'controller'    => 'Index',
+                                'action'        => 'update'
+                            ),
+                            'constraints' => array(
+                                'id' => '[0-9]+'
+                            )
+                        ),
+                    ),
                 ),
             ),
             'user.login' => array(
@@ -85,22 +99,29 @@ return array(
                     ),
                 ),
             ),
-            'user.create' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    'route'    => '/registration',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'User\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'create',
-                    ),
-                ),
-            ),
         ),
     ),
     'controllers' => array(
         'invokables' => array(
             'User\Controller\Index' => 'User\Controller\IndexController'
+        ),
+    ),
+    'service_manager' => array(
+        'invokables' => array(
+            'UserMapper' => 'User\Mapper\UserMapper',
+            'UserForm' => 'User\Form\UserForm'
+        ),
+        'factories' => array(
+            'doctrine.cache.zend.static.local' => function ($sm) {
+                return new \DoctrineModule\Cache\ZendStorageCache($sm->get('cache.static.local'));
+            },
+            'UserModel' => function($sm) {
+                $model = new \User\Model\UserModel();
+                $model->setServiceLocator($sm);
+                $model->setForm($sm->get('UserForm'));
+                $model->setMapper($sm->get('UserMapper'));
+                return $model;
+            }
         ),
     ),
 //    'view_helpers' => array(

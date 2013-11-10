@@ -2,18 +2,17 @@
 
 namespace User\Form;
 
-use Core\Form\AbstractForm as Form;
-use Doctrine\ORM\EntityManager;
-use Zend\InputFilter\InputFilterProviderInterface;
+use Core\Form\AbstractDoctrineForm as Form;
+use Zend\InputFilter\Factory as InputFactory;
+use Zend\InputFilter\InputFilter;
 
 /**
  * Registration form for user
  *
  * @author V.Leontiev
  */
-class UserForm extends Form implements InputFilterProviderInterface
+class UserForm extends Form
 {
-    protected $inputFilter;
     
     public function init()
     {
@@ -23,41 +22,55 @@ class UserForm extends Form implements InputFilterProviderInterface
             'name' => 'email',
             'type'  => 'text',
             'options' => array('label' => 'Email'),
-            'attributes' => array(
-                'required' => true
-            )
         ));
 
         $this->add(array(
             'name' => 'password',
             'type'  => 'password',
             'options' => array('label' => 'Password'),
-            'attributes' => array(
-                'required' => true
-            )
+        ));
+        
+        $this->add(array(
+            'name' => 'passwordVerify',
+            'type'  => 'password',
+            'options' => array('label' => 'Password Verify'),
         ));
 
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
                 'type'  => 'submit',
-                'value' => 'Registration',
+                'value' => 'Submit',
                 'id' => 'submitbutton',
             ),
         ));
     }
     
-    public function getInputFilterSpecification()
+    public function getInputFilter()
     {
-        $entityManager = $this->getEntityManager();
-        return array(
-            'id' => array(
+        if (!$this->inputFilter) {
+            $entityManager = $this->getEntityManager();
+            $inputFilter   = new InputFilter();
+            $factory       = new InputFactory();
+            
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'id',
                 'required' => false,
                 'filters' => array(
                     array('name' => 'Int'),
                 )
-            ),
-            'email' => array(
+            )));
+            
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'role',
+                'required' => false,
+                'filters' => array(
+                    array('name' => 'Int'),
+                )
+            )));
+            
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'email',
                 'required' => true,
                 'validators' => array(
                     array(
@@ -69,13 +82,15 @@ class UserForm extends Form implements InputFilterProviderInterface
                             'object_repository' => $entityManager->getRepository('User\Entity\User'),
                             'fields' => 'email',
                             'messages' => array(
-                                'objectFound' => 'Sorry, a user with this email already exists!'
+                                'objectFound' => 'Sorry, a user with this email already exists !'
                             )
                         )
                     )
-                ),
-            ),
-            'password' => array(
+                )
+            )));
+            
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'password',
                 'required' => true,
                 'validators' => array(
                     array(
@@ -86,7 +101,38 @@ class UserForm extends Form implements InputFilterProviderInterface
                         ),
                     ),
                 ),
-            )
-        );
+                'filters'   => array(
+                    array('name' => 'StringTrim'),
+                ),
+            )));
+            
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'passwordVerify',
+                'required' => true,
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 3,
+                        ),
+                    ),
+                    array(
+                        'name'    => 'Identical',
+                        'options' => array(
+                            'token' => 'password',
+                            'message' => 'Passwords not match !'
+                        ),
+                    ),
+                ),
+                'filters'   => array(
+                    array('name' => 'StringTrim'),
+                ),
+            )));
+            
+            $this->inputFilter = $inputFilter;
+        }
+        
+        return $this->inputFilter;
     }
 }

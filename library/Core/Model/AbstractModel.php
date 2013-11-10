@@ -1,49 +1,35 @@
 <?php
 
-namespace Core\Form;
+namespace Core\Model;
 
-use Zend\Form\Form;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Core\Form\AbstractForm;
 use Core\Mapper\AbstractMapper;
-use Core\Form\InputFilterInterface;
 
 /**
- * Initialize serviceManager
+ * Model with business logic for user entity/form/mapper
  *
  * @author V.Leontiev
  */
-abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface, InputFilterInterface
+abstract class AbstractModel implements ServiceLocatorAwareInterface
 {
-    
-    /**
-     * Input filters
-     * 
-     * @var type 
-     */
-    protected $inputFilter;
-    
     /**
      * Service locator object
-     * 
      * @var \Zend\ServiceManager\ServiceLocatorInterface 
      */
     protected $serviceLocator;
     
     /**
+     * Form object
+     * @var AbstractForm
+     */
+    protected $form;
+    
+    /**
      * Mapper object
-     * 
      * @var AbstractMapper
      */
     protected $mapper;
-       
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct('post');
-        $this->init();
-    }
     
     /**
      * Get service locatol
@@ -68,43 +54,45 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
     }
     
     /**
+     * Set current form
+     * 
+     * @param AbstractForm $form
+     * @return AbstractModel
+     */
+    public function setForm(AbstractForm $form)
+    {
+        $this->form = $form;
+        return $this;
+    }
+    
+    /**
+     * Get current form
+     * @return AbstractForm
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
+    
+    /**
      * Get mapper
+     * 
      * @return AbstractMapper
      */
     public function getMapper()
     {
-        if (!$this->mapper) {
-            /** @TODO need exception */
-        }
         return $this->mapper;
     }
 
     /**
      * Set mapper
-     * @param \Core\Mapper\AbstractMapper $mapper
-     * @return \Core\Form\AbstractForm
+     * 
+     * @param AbstractMapper $userMapper
+     * @return AbstractModel
      */
     public function setMapper(AbstractMapper $mapper)
     {
         $this->mapper = $mapper;
         return $this;
     }
-    
-    /**
-     * Bind object if exist field with 'id' key
-     * 
-     * @param array|\ArrayAccess|Traversable $data
-     * @return Form|FormInterface
-     */
-    public function setData($data)
-    {
-        if ($data instanceof Traversable) {
-            $data = ArrayUtils::iteratorToArray($data);
-        }
-        if (isset($data['id'])) {
-            $this->bind($this->getMapper()->find($data['id']));
-        }
-        return parent::setData($data);
-    }
-
 }

@@ -4,10 +4,10 @@ namespace User\Controller;
 
 use Zend\View\Model\ViewModel;
 use Core\Mvc\Controller\EntityController;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 
-use User\Entity\User;
+use User\Mapper\UserMapper;
 use User\Form\UserForm;
+use User\Model\UserModel;
 
 /**
  * Description of Index
@@ -16,6 +16,20 @@ use User\Form\UserForm;
  */
 class IndexController extends EntityController
 {
+    
+    /**
+     * User form
+     * @var UserForm 
+     */
+    protected $userForm;
+    
+    /**
+     * User mapper
+     * @var UserMapper
+     */
+    protected $userMapper;
+        
+    protected $userModel;
     
     public function indexAction()
     {
@@ -38,39 +52,22 @@ class IndexController extends EntityController
      */
     public function updateAction()
     {
-        if (!$this->params('id')) {
-            
-        }
-        
-        $em = $this->getEntityManager();
-        $entityUser = $em->getRepository('User\Entity\User')->find($this->params('id'));
-        
-        /* @var $form \User\Form\UserForm */
-        $form = $this->getServiceLocator()->get('UserForm');
-        $form->setHydrator(new DoctrineObject($em, $entityUser));
-        $form->bind($entityUser);
+        $model = $this->getUserModel();
+        $form = $model->getUpdateUserForm();
+        $form->setData(array('id' => $this->params('id')));
 
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
             
             if ($form->isValid()) {
-                if ($form->hasAttribute('parent_id')) {
-                    $entityUser->setRole(
-                        $em->getRepository('User\Entity\Role')->findOneBy(
-                            array('id' => $form->getAttribute('parent_id'))
-                        )
-                    );
-                }
-                $entityUser->setUpdatedAt();
-                
-                $em->persist($entityUser);
-                $em->flush();
+                $model->update();
 
                 $this->flashMessenger()->addSuccessMessage('User Updated');
-
-                return $this->redirect()->toRoute('user', array('controller' => 'index', 'action' => 'update'));
+                return $this->redirect()->toRoute('user/update');
             }
+        } else {
+            $form = $this->getUserModel()->getForm();
         }
 
         return new ViewModel(array(
@@ -85,33 +82,17 @@ class IndexController extends EntityController
      */
     public function createAction()
     {
-        $entityUser = new User;
-        $em = $this->getEntityManager();
-
-//        $classMethodsHydrator = new \Zend\Stdlib\Hydrator\ClassMethods(false);
-//        $classMethodsHydrator->addStrategy('password', new \User\Hydrator\Strategy\MD5());
-        
-        /* @var $form \User\Form\UserForm */
-        $form = $this->getServiceLocator()->get('UserForm');
-        $form->setHydrator(new DoctrineObject($em, $entityUser));
-        $form->bind($entityUser);
+        $model = $this->getUserModel();
+        $form = $model->getUserForm();
 
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
             
             if ($form->isValid()) {
-                $entityUser->setRole($em->getRepository('User\Entity\Role')->findOneBy(array('name' => 'user')));
-                $entityUser->setStatus('ENABLED');
-                $entityUser->setCreatedAt();
-                $entityUser->setUpdatedAt();
-                
-                $em->persist($entityUser);
-                $em->flush();
-
+                $model->create();
                 $this->flashMessenger()->addSuccessMessage('User Saved');
-
-                return $this->redirect()->toRoute('user.create');
+                return $this->redirect()->toRoute('user/create');
             }
         }
 
@@ -123,5 +104,23 @@ class IndexController extends EntityController
     public function logoutAction()
     {
         
+    }
+    
+    /**
+     * 
+     * @return UserModel
+     */
+    public function getUserModel()
+    {
+        if (!$this->userModel) {
+            $this->setUserModel($this->getServiceLocator()->get('UserModel'));
+        }
+        return $this->userModel;
+    }
+    
+    public function setUserModel(UserModel $model)
+    {
+        $this->userModel = $model;
+        return $this;
     }
 }

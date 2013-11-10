@@ -75,6 +75,11 @@ class User
     {
         return $this->password;
     }
+    
+    public function getSalt()
+    {
+        return $this->salt;
+    }
 
     public function getRole()
     {
@@ -109,9 +114,7 @@ class User
 
     public function setPassword($password)
     {
-        $salt = md5(time());
-        $this->setSalt($salt);
-        $this->password = md5($password . $salt . self::SECRET_KEY);
+        $this->password = $password;
         return $this;
     }
 
@@ -150,6 +153,4 @@ class User
         $this->status = $status;
         return $this;
     }
-
-
 }
