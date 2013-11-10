@@ -50,3 +50,13 @@ Run install file
 ```
 ./vendor/bin/doctrine-module data-fixture:import
 ```
+
+##MVC Structure
+
+Entity - Provide access to data. Are simple. Data, keep them simple! No logic, just simple checks. Only aware only of themselves + associations.
+
+Mapper - Provide methods for work with DB.
+
+Model - Implement all business logic. Work with form and mapper and other model.
+
+Controller - Call model and add data to view.

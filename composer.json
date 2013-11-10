@@ -14,9 +14,7 @@
         "doctrine/doctrine-orm-module": "0.*",
         "hounddog/doctrine-data-fixture-module": "0.*",
         "zendframework/zftool": "dev-master",
-        "mwillbanks/zfc-twitter-bootstrap": "0.3.0",
-        "bjyoungblood/bjy-authorize":"1.4.*",
-        "zf-commons/zfc-user-doctrine-orm":"0.1.*"
+        "mwillbanks/zfc-twitter-bootstrap": "0.3.0"
     },
     "require-dev": {
         "zendframework/zend-developer-tools": "dev-master"
