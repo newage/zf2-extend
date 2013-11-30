@@ -37,10 +37,10 @@ class UserForm extends Form
         ));
 
         $this->add(array(
-            'name' => 'submit',
+            'name' => 'send',
             'attributes' => array(
                 'type'  => 'submit',
-                'value' => 'Submit',
+                'value' => 'Value',
                 'id' => 'submitbutton',
             ),
         ));

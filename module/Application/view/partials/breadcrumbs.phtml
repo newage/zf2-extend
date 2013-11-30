@@ -1,0 +1,24 @@
+<ol class="breadcrumb">
+    
+<?php
+$li = '<li %s>%s</li>';
+$href = '<a href="%s">%s</a>';
+
+echo implode("\n", array_map(
+        function ($navigation) use($li, $href) {
+            /* @var $navigation \Zend\Navigation\Page\Mvc */
+            $active = null;
+            if (!$navigation->isActive()) {
+                $content = sprintf($href, $navigation->getHref(), $navigation->getLabel());
+            } else {
+                $active = 'class="active"';
+                $content = $navigation->getLabel();
+            }
+            
+            return sprintf($li, $active, $content);
+        },
+        $this->pages)
+    );
+?>
+    
+</ol>

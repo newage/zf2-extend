@@ -22,16 +22,3 @@ body {
   height: 60px;
   background-color: #f5f5f5;
 }
-
-
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
-
-.container {
-  width: auto;
-  padding: 0 15px;
-}
-.container .credit {
-  margin: 20px 0;
-}
