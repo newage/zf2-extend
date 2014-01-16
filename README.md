@@ -46,6 +46,12 @@ Run install file
 ./vendor/bin/doctrine-module orm:schema-tool:create
 ```
 
+###Update the database
+Only use on a developer instance.
+```
+./vendor/bin/doctrine-module orm:schema-tool:update
+```
+
 ###Apply fixtures
 ```
 ./vendor/bin/doctrine-module data-fixture:import

@@ -1,4 +1,5 @@
 <?php
+
 namespace User\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -39,7 +40,7 @@ class User
     protected $salt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Role")
+     * @ORM\OneToOne(targetEntity="Role")
      * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      */
     protected $role;
@@ -64,6 +65,16 @@ class User
      */
     protected $status;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Avatar", mappedBy="user")
+     **/
+    private $avatar;
+    
+    public function __construct()
+    {
+        $this->avatar = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     public function getId()
     {
         return $this->id;

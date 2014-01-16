@@ -105,6 +105,9 @@ class IndexController extends EntityController
     public function createAction()
     {
         $model = $this->getUserModel();
+        $em = $model->getMapper()->getEntityManager();
+        $users = $em->getRepository('User\Entity\User')->findAll();
+        var_dump($users->getAvatar()->getName());
         $form = $model->getRegistrationForm();
         
         $request = $this->getRequest();
@@ -113,7 +116,7 @@ class IndexController extends EntityController
             
             if ($form->isValid()) {
                 $model->create();
-                $this->flashMessenger()->addSuccessMessage('User Saved');
+                $this->flashMessenger()->addSuccessMessage('User Created');
                 return $this->redirect()->toRoute('user/create');
             }
         }
