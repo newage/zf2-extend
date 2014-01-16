@@ -10,16 +10,16 @@ echo $this->navigation('navigation')
 </div>
 
 <?php
-$form->prepare();
+    $form->prepare();
 
-// Set the method attribute for the form
-$form->setAttribute('method', 'post');
-$form->setAttribute('class', 'form-horizontal');
+    // Set the method attribute for the form
+    $form->setAttribute('method', 'post');
+    $form->setAttribute('class', 'form-horizontal');
 
-// Get the form label plugin
-$formLabel = $this->plugin('formLabel');
+    // Get the form label plugin
+    $formLabel = $this->plugin('formLabel');
 
-echo $this->form()->openTag($form);
+    echo $this->form()->openTag($form);
 ?>
 
 <div class="form-group">
@@ -66,14 +66,15 @@ echo $this->form()->openTag($form);
 
 <div class="form-group">
 	<div class="col-sm-offset-2 col-sm-10">
-    <?php
-    /* @var $element \Zend\Form\Element\Button */
-    $element = $form->get('send');
-    $element->setAttributes(array(
-        'class' => 'btn btn-primary'
-    ));
-    echo $this->formElement($element);
-    ?>
+        <?php
+        /* @var $element \Zend\Form\Element\Button */
+        $element = $form->get('send');
+        $element->setAttributes(array(
+            'class' => 'btn btn-primary'
+        ));
+        echo $this->formElement($element);
+        ?>
+    </div>
 </div>
 
 <?php echo $this->form()->closeTag() ?>

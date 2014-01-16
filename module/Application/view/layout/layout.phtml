@@ -1,4 +1,4 @@
-<?php echo $this->partial('partials/header')?>
+<?php echo $this->partial('partials/header'); ?>
 <body>
 	<div id="wrap">
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -15,14 +15,14 @@
 				</div>
 				<div class="collapse navbar-collapse">
                     <?php
-                    
-echo $this->navigation('navigation')
-                        ->menu()
-                        ->renderMenu(null, array(
-                        'ulClass' => 'nav navbar-nav',
-                        'minDepth' => 0,
-                        'maxDepth' => 0
-                    ));
+                        echo $this->navigation('navigation')
+                            ->menu()
+                            ->renderMenu(null, array(
+                                'ulClass' => 'nav navbar-nav',
+                                'minDepth' => 0,
+                                'maxDepth' => 0
+                            )
+                        );
                     ?>
                     <?php echo $this->partial('partials/login.phtml'); ?>
                 </div>
@@ -30,9 +30,8 @@ echo $this->navigation('navigation')
 		</nav>
 		<div class="container">
             <?php echo $this->partial('partials/messenger'); ?>
-            
             <?php echo $this->content; ?>
         </div>
 		<!-- /container -->
 	</div>
-<?php echo $this->partial('partials/footer')?>
+<?php echo $this->partial('partials/footer'); ?>
