@@ -1,10 +1,10 @@
 body {
-    padding-top: 60px;
-    padding-bottom: 40px;
+	padding-top: 60px;
+	padding-bottom: 40px;
 }
 
 .zf-green {
-    color: #68b604;
+	color: #68b604;
 }
 
 /*.btn-success {
@@ -29,24 +29,24 @@ body {
 .btn-success:active, .btn-success.active {
   background-color: #57a900;
 }*/
-
 div.container a.brand {
-    background: url("../img/zf2-logo.png") no-repeat scroll 0 10px transparent;
-    margin-left: 0;
-    padding: 8px 20px 12px 40px;
+	background: url("../img/zf2-logo.png") no-repeat scroll 0 10px
+		transparent;
+	margin-left: 0;
+	padding: 8px 20px 12px 40px;
 }
 
 .bs-callout {
-    margin: 20px 0;
-    padding: 20px;
-    border-left: 3px solid #eee;
+	margin: 20px 0;
+	padding: 20px;
+	border-left: 3px solid #eee;
 }
 
 .bs-callout ul {
-    list-style-type: none;
+	list-style-type: none;
 }
 
 .bs-callout-danger {
-    background-color: #fdf7f7;
-    border-color: #eed3d7;
+	background-color: #fdf7f7;
+	border-color: #eed3d7;
 }

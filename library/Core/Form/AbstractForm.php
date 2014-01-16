@@ -1,5 +1,4 @@
 <?php
-
 namespace Core\Form;
 
 use Zend\Form\Form;
@@ -14,28 +13,28 @@ use Core\Form\InputFilterInterface;
  */
 abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface, InputFilterInterface
 {
-    
+
     /**
      * Input filters
-     * 
-     * @var type 
+     *
+     * @var type
      */
     protected $inputFilter;
-    
+
     /**
      * Service locator object
-     * 
-     * @var \Zend\ServiceManager\ServiceLocatorInterface 
+     *
+     * @var \Zend\ServiceManager\ServiceLocatorInterface
      */
     protected $serviceLocator;
-    
+
     /**
      * Mapper object
-     * 
+     *
      * @var AbstractMapper
      */
     protected $mapper;
-       
+
     /**
      * Constructor
      */
@@ -44,10 +43,10 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
         parent::__construct('post');
         $this->init();
     }
-    
+
     /**
      * Get service locatol
-     * 
+     *
      * @return \Zend\ServiceManager\ServiceLocatorInterface
      */
     public function getServiceLocator()
@@ -57,8 +56,8 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
 
     /**
      * Set service locator
-     * 
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     *
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator            
      * @return \Core\Mapper\AbstractMapper
      */
     public function setServiceLocator(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
@@ -66,22 +65,26 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
         $this->serviceLocator = $serviceLocator;
         return $this;
     }
-    
+
     /**
      * Get mapper
+     * 
      * @return AbstractMapper
      */
     public function getMapper()
     {
-        if (!$this->mapper) {
-            /** @TODO need exception */
+        if (! $this->mapper) {
+        /**
+         * @TODO need exception
+         */
         }
         return $this->mapper;
     }
 
     /**
      * Set mapper
-     * @param \Core\Mapper\AbstractMapper $mapper
+     * 
+     * @param \Core\Mapper\AbstractMapper $mapper            
      * @return \Core\Form\AbstractForm
      */
     public function setMapper(AbstractMapper $mapper)
@@ -89,12 +92,12 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
         $this->mapper = $mapper;
         return $this;
     }
-    
+
     /**
      * Bind object if exist field with 'id' key
-     * 
-     * @param array|\ArrayAccess|Traversable $data
-     * @return Form|FormInterface
+     *
+     * @param array|\ArrayAccess|Traversable $data            
+     * @return Form FormInterface
      */
     public function setData($data)
     {
@@ -102,9 +105,9 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
             $data = ArrayUtils::iteratorToArray($data);
         }
         if (isset($data['id'])) {
-            $this->bind($this->getMapper()->find($data['id']));
+            $this->bind($this->getMapper()
+                ->find($data['id']));
         }
         return parent::setData($data);
     }
-
 }

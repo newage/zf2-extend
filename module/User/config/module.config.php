@@ -1,150 +1,154 @@
 <?php
-
 return array(
     'data-fixture' => array(
-        'User_fixture' => __DIR__ . '/../src/Fixture',
+        'User_fixture' => __DIR__ . '/../src/Fixture'
     ),
     'doctrine' => array(
         'driver' => array(
             'application_entities' => array(
-                'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/Entity'),
+                'paths' => array(
+                    __DIR__ . '/../src/Entity'
+                )
             ),
             'orm_default' => array(
                 'drivers' => array(
                     'User\Entity' => 'application_entities'
                 )
-            ),
+            )
         ),
         'configuration' => array(
-            'orm_default' => array(
-//                'metadata_cache' => 'zend.static.local',
-//                'query_cache'    => 'zend.static.local',
-//                'result_cache'   => 'zend.static.local',
-            ),
-        ),
+            'orm_default' => array()
+            // 'metadata_cache' => 'zend.static.local',
+            // 'query_cache' => 'zend.static.local',
+            // 'result_cache' => 'zend.static.local',
+            
+        )
     ),
     'router' => array(
         'routes' => array(
             'user' => array(
-                'type'    => 'Literal',
+                'type' => 'Literal',
                 'options' => array(
-                    'route'    => '/user',
+                    'route' => '/user',
                     'defaults' => array(
                         '__NAMESPACE__' => 'User\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
-                    ),
+                        'controller' => 'Index',
+                        'action' => 'index'
+                    )
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
                     'default' => array(
-                        'type'    => 'Segment',
+                        'type' => 'Segment',
                         'options' => array(
-                            'route'    => '/[:controller[/:action]]',
+                            'route' => '/[:controller[/:action]]',
                             'constraints' => array(
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*'
                             ),
-                            'defaults' => array(
-                            ),
-                        ),
+                            'defaults' => array()
+                        )
                     ),
                     'create' => array(
-                        'type'    => 'Segment',
+                        'type' => 'Segment',
                         'options' => array(
-                            'route'    => '/registration',
+                            'route' => '/registration',
                             'defaults' => array(
-                                'controller'    => 'Index',
-                                'action'        => 'create',
-                            ),
-                        ),
+                                'controller' => 'Index',
+                                'action' => 'create'
+                            )
+                        )
                     ),
                     'update' => array(
-                        'type'    => 'Segment',
+                        'type' => 'Segment',
                         'options' => array(
-                            'route'    => '/update/:id',
+                            'route' => '/update/:id',
                             'defaults' => array(
                                 '__NAMESPACE__' => 'User\Controller',
-                                'controller'    => 'Index',
-                                'action'        => 'update'
+                                'controller' => 'Index',
+                                'action' => 'update'
                             ),
                             'constraints' => array(
                                 'id' => '[0-9]+'
                             )
-                        ),
-                    ),
-                ),
+                        )
+                    )
+                )
             ),
             'user.login' => array(
-                'type'    => 'Literal',
+                'type' => 'Literal',
                 'options' => array(
-                    'route'    => '/login',
+                    'route' => '/login',
                     'defaults' => array(
                         '__NAMESPACE__' => 'User\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'login',
-                    ),
-                ),
+                        'controller' => 'Index',
+                        'action' => 'login'
+                    )
+                )
             ),
             'user.logout' => array(
-                'type'    => 'Literal',
+                'type' => 'Literal',
                 'options' => array(
-                    'route'    => '/logout',
+                    'route' => '/logout',
                     'defaults' => array(
                         '__NAMESPACE__' => 'User\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'logout',
-                    ),
-                ),
-            ),
-        ),
+                        'controller' => 'Index',
+                        'action' => 'logout'
+                    )
+                )
+            )
+        )
     ),
     'controllers' => array(
         'invokables' => array(
             'User\Controller\Index' => 'User\Controller\IndexController'
-        ),
+        )
     ),
     'service_manager' => array(
         'invokables' => array(
             'RoleMapper' => 'User\Mapper\RoleMapper',
             'RoleForm' => 'User\Form\RoleForm',
             'UserMapper' => 'User\Mapper\UserMapper',
-            'UserForm' => 'User\Form\UserForm'
+            'RegistrationForm' => 'User\Form\RegistrationForm',
+            'LoginForm' => 'User\Form\LoginForm'
         ),
         'factories' => array(
-            'doctrine.cache.zend.static.local' => function ($sm) {
+            'doctrine.cache.zend.static.local' => function ($sm)
+            {
                 return new \DoctrineModule\Cache\ZendStorageCache($sm->get('cache.static.local'));
             },
-            'UserModel' => function($sm) {
+            'UserModel' => function ($sm)
+            {
                 $model = new \User\Model\UserModel();
                 $model->setServiceLocator($sm);
-                $model->setForm($sm->get('UserForm'));
+                $model->setForm($sm->get('RegistrationForm'));
                 $model->setMapper($sm->get('UserMapper'));
                 return $model;
             },
-            'RoleModel' => function($sm) {
+            'RoleModel' => function ($sm)
+            {
                 $model = new \User\Model\RoleModel();
                 $model->setServiceLocator($sm);
                 $model->setForm($sm->get('RoleForm'));
                 $model->setMapper($sm->get('RoleMapper'));
                 return $model;
             }
-        ),
+        )
     ),
-//    'view_helpers' => array(
-//        'invokables' => array(
-//            'bootstrapForm' => 'Application\View\Helper\NavLinkHelper'
-//        )
-//    ),
+    // 'view_helpers' => array(
+    // 'invokables' => array(
+    // 'bootstrapForm' => 'Application\View\Helper\NavLinkHelper'
+    // )
+    // ),
     'view_manager' => array(
         'template_map' => array(
-            'user/index/index' => __DIR__ . '/../view/user/index/index.phtml',
+            'user/index/index' => __DIR__ . '/../view/user/index/index.phtml'
         ),
         'template_path_stack' => array(
-            __DIR__ . '/../view',
-        ),
-    ),
+            __DIR__ . '/../view'
+        )
+    )
 );
 

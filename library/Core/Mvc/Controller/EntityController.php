@@ -11,8 +11,9 @@ use Doctrine\ORM\EntityManager;
  */
 abstract class EntityController extends AbstractActionController
 {
-    
+
     /**
+     *
      * @var EntityManager
      */
     protected $entityManager;
@@ -20,7 +21,7 @@ abstract class EntityController extends AbstractActionController
     /**
      * Sets the EntityManager
      *
-     * @param EntityManager $em
+     * @param EntityManager $em            
      * @access protected
      * @return PostController
      */
@@ -42,7 +43,8 @@ abstract class EntityController extends AbstractActionController
     protected function getEntityManager()
     {
         if (null === $this->entityManager) {
-            $this->setEntityManager($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+            $this->setEntityManager($this->getServiceLocator()
+                ->get('Doctrine\ORM\EntityManager'));
         }
         return $this->entityManager;
     }

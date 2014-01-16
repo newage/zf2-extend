@@ -6,7 +6,7 @@ echo $this->navigation('navigation')
 ?>
 
 <div class="page-header">
-	<h1>Create new user</h1>
+	<h1>Login user</h1>
 </div>
 
 <?php
@@ -45,29 +45,8 @@ echo $this->form()->openTag($form);
 
 <div class="form-group">
     <?php
-    /* @var $element \Zend\Form\Element\Text */
+    /* @var $element \Zend\Form\Element\Password */
     $element = $form->get('password');
-    $element->setLabelAttributes(array(
-        'class' => 'col-sm-2 control-label'
-    ));
-    $element->setAttributes(array(
-        'class' => 'form-control'
-    ));
-    echo $this->formLabel($element);
-    echo '<div class="col-sm-10">';
-    echo $this->formPassword($element);
-    echo $this->formElementErrors()
-        ->setMessageOpenFormat('<div class="bs-callout bs-callout-danger">')
-        ->setMessageCloseString('</div>')
-        ->render($element);
-    echo '</div>';
-    ?>
-</div>
-
-<div class="form-group">
-    <?php
-    /* @var $element \Zend\Form\Element\Text */
-    $element = $form->get('passwordVerify');
     $element->setLabelAttributes(array(
         'class' => 'col-sm-2 control-label'
     ));
@@ -91,20 +70,10 @@ echo $this->form()->openTag($form);
     /* @var $element \Zend\Form\Element\Button */
     $element = $form->get('send');
     $element->setAttributes(array(
-        'class' => 'btn btn-primary',
-        'value' => 'Registration'
+        'class' => 'btn btn-primary'
     ));
     echo $this->formElement($element);
     ?>
-    <?php
-    $element = new \Zend\Form\Element\Button('my-button');
-    $element->setLabel('Reset');
-    $element->setAttributes(array(
-        'class' => 'btn btn-default'
-    ));
-    echo $this->formButton($element);
-    ?>
-    </div>
 </div>
 
 <?php echo $this->form()->closeTag() ?>

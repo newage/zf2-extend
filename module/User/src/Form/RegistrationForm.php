@@ -1,5 +1,4 @@
 <?php
-
 namespace User\Form;
 
 use Core\Form\AbstractDoctrineForm as Form;
@@ -11,53 +10,61 @@ use Zend\InputFilter\InputFilter;
  *
  * @author V.Leontiev
  */
-class UserForm extends Form
+class RegistrationForm extends Form
 {
-    
+
     public function init()
     {
         $this->setAttribute('method', 'post');
-
+        
         $this->add(array(
             'name' => 'email',
-            'type'  => 'text',
-            'options' => array('label' => 'Email'),
+            'type' => 'text',
+            'options' => array(
+                'label' => 'Email'
+            )
         ));
-
+        
         $this->add(array(
             'name' => 'password',
-            'type'  => 'password',
-            'options' => array('label' => 'Password'),
+            'type' => 'password',
+            'options' => array(
+                'label' => 'Password'
+            )
         ));
         
         $this->add(array(
             'name' => 'passwordVerify',
-            'type'  => 'password',
-            'options' => array('label' => 'Password Verify'),
+            'type' => 'password',
+            'options' => array(
+                'label' => 'Password Verify'
+            )
         ));
-
+        
         $this->add(array(
             'name' => 'send',
             'attributes' => array(
-                'type'  => 'submit',
+                'type' => 'submit',
                 'value' => 'Value',
-                'id' => 'submitbutton',
-            ),
+                'id' => 'submitbutton'
+            )
         ));
     }
-    
+
     public function getInputFilter()
     {
-        if (!$this->inputFilter) {
+        if (! $this->inputFilter) {
             $entityManager = $this->getEntityManager();
-            $inputFilter   = new InputFilter();
-            $factory       = new InputFactory();
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
             
             $inputFilter->add($factory->createInput(array(
                 'name' => 'id',
                 'required' => false,
                 'filters' => array(
-                    array('name' => 'Int'),
+                    array(
+                        'name' => 'Int'
+                    )
                 )
             )));
             
@@ -65,7 +72,9 @@ class UserForm extends Form
                 'name' => 'role',
                 'required' => false,
                 'filters' => array(
-                    array('name' => 'Int'),
+                    array(
+                        'name' => 'Int'
+                    )
                 )
             )));
             
@@ -74,7 +83,7 @@ class UserForm extends Form
                 'required' => true,
                 'validators' => array(
                     array(
-                        'name' => 'EmailAddress',
+                        'name' => 'EmailAddress'
                     ),
                     array(
                         'name' => 'DoctrineModule\Validator\NoObjectExists',
@@ -94,16 +103,18 @@ class UserForm extends Form
                 'required' => true,
                 'validators' => array(
                     array(
-                        'name'    => 'StringLength',
+                        'name' => 'StringLength',
                         'options' => array(
                             'encoding' => 'UTF-8',
-                            'min'      => 3,
-                        ),
-                    ),
+                            'min' => 3
+                        )
+                    )
                 ),
-                'filters'   => array(
-                    array('name' => 'StringTrim'),
-                ),
+                'filters' => array(
+                    array(
+                        'name' => 'StringTrim'
+                    )
+                )
             )));
             
             $inputFilter->add($factory->createInput(array(
@@ -111,23 +122,25 @@ class UserForm extends Form
                 'required' => true,
                 'validators' => array(
                     array(
-                        'name'    => 'StringLength',
+                        'name' => 'StringLength',
                         'options' => array(
                             'encoding' => 'UTF-8',
-                            'min'      => 3,
-                        ),
+                            'min' => 3
+                        )
                     ),
                     array(
-                        'name'    => 'Identical',
+                        'name' => 'Identical',
                         'options' => array(
                             'token' => 'password',
                             'message' => 'Passwords not match !'
-                        ),
-                    ),
+                        )
+                    )
                 ),
-                'filters'   => array(
-                    array('name' => 'StringTrim'),
-                ),
+                'filters' => array(
+                    array(
+                        'name' => 'StringTrim'
+                    )
+                )
             )));
             
             $this->inputFilter = $inputFilter;

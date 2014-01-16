@@ -1,28 +1,27 @@
 <?php
-
 return array(
     'navigation' => array(
         'default' => array(
-             array(
+            array(
                 'label' => 'User',
                 'route' => 'user',
                 'pages' => array(
                     array(
                         'label' => 'Registration',
-                        'route' => 'user/create',
+                        'route' => 'user/create'
                     ),
                     array(
                         'label' => 'Login',
-                        'route' => 'user.login',
+                        'route' => 'user.login'
                     )
-                 )
-             ),
-         ),
-     ),
-     'service_manager' => array(
-         'factories' => array(
-             'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
-         ),
-     ),
+                )
+            )
+        )
+    ),
+    'service_manager' => array(
+        'factories' => array(
+            'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory'
+        )
+    )
 );
 

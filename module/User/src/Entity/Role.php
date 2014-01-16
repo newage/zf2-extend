@@ -1,5 +1,4 @@
 <?php
-
 namespace User\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,23 +9,24 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Role
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     protected $id;
-    
+
     /**
      * @ORM\Column(type="string")
      */
     protected $name;
-    
+
     /**
      * @ORM\Column(type="integer", name="parent_id")
      */
     protected $parentId;
-    
+
     public function getId()
     {
         return $this->id;
@@ -53,6 +53,4 @@ class Role
         $this->parentId = $parentId;
         return $this;
     }
-
-
 }

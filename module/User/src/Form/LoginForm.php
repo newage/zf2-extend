@@ -6,11 +6,11 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilter;
 
 /**
- * Registration form for user
+ * Login form for user
  *
  * @author V.Leontiev
  */
-class RoleForm extends Form
+class LoginForm extends Form
 {
 
     public function init()
@@ -18,18 +18,26 @@ class RoleForm extends Form
         $this->setAttribute('method', 'post');
         
         $this->add(array(
-            'name' => 'name',
+            'name' => 'email',
             'type' => 'text',
             'options' => array(
-                'label' => 'Name'
+                'label' => 'Email'
             )
         ));
         
         $this->add(array(
-            'name' => 'submit',
+            'name' => 'password',
+            'type' => 'password',
+            'options' => array(
+                'label' => 'Password'
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'send',
             'attributes' => array(
                 'type' => 'submit',
-                'value' => 'Submit',
+                'value' => 'Log in',
                 'id' => 'submitbutton'
             )
         ));
@@ -42,27 +50,17 @@ class RoleForm extends Form
             $factory = new InputFactory();
             
             $inputFilter->add($factory->createInput(array(
-                'name' => 'id',
-                'required' => false,
-                'filters' => array(
+                'name' => 'email',
+                'required' => true,
+                'validators' => array(
                     array(
-                        'name' => 'Int'
+                        'name' => 'EmailAddress'
                     )
                 )
             )));
             
             $inputFilter->add($factory->createInput(array(
-                'name' => 'parent_id',
-                'required' => false,
-                'filters' => array(
-                    array(
-                        'name' => 'Int'
-                    )
-                )
-            )));
-            
-            $inputFilter->add($factory->createInput(array(
-                'name' => 'name',
+                'name' => 'password',
                 'required' => true,
                 'validators' => array(
                     array(
@@ -71,6 +69,11 @@ class RoleForm extends Form
                             'encoding' => 'UTF-8',
                             'min' => 3
                         )
+                    )
+                ),
+                'filters' => array(
+                    array(
+                        'name' => 'StringTrim'
                     )
                 )
             )));
