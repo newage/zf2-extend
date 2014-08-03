@@ -6,8 +6,10 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
         'DoctrineDataFixtureModule',
+        'ZfcBase',
+        'ZfcUser',
+        'ZfcUserDoctrineORM',
         'Application',
-        'User'
     ),
     
     'module_listener_options' => array(

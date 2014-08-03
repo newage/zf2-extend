@@ -1,6 +1,8 @@
 <div class="btn-group navbar-btn navbar-right">
-	<a href="<?php echo $this->url('user.login') ?>"
-		class="btn btn-default">Login</a> <a
-		href="<?php echo $this->url('user/create') ?>" class="btn btn-default">Registration</a>
+	<a href="<?php
+        echo $this->url('zfcuser/login')
+    ?>" class="btn btn-default"><?php echo $this->translate('Login') ?></a> <a href="<?php
+        echo $this->url('zfcuser/register')
+    ?>" class="btn btn-default"><?php echo $this->translate('Registration') ?></a>
 </div>
 
