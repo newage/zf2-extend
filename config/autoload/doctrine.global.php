@@ -9,9 +9,9 @@ return array(
                 'params' => array(
                     'host' => 'localhost',
                     'port' => '3306',
-                    'user' => 'root',
+                    'user' => 'dbuser',
                     'password' => '123456',
-                    'dbname' => 'zend_db'
+                    'dbname' => 'dbname'
                 )
             )
         )
