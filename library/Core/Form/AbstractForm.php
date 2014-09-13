@@ -4,7 +4,6 @@ namespace Core\Form;
 use Zend\Form\Form;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Core\Mapper\AbstractMapper;
-use Core\Form\InputFilterInterface;
 
 /**
  * Initialize serviceManager
@@ -17,7 +16,7 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
     /**
      * Input filters
      *
-     * @var type
+     * @var InputFilterInterface
      */
     protected $inputFilter;
 
@@ -34,15 +33,6 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
      * @var AbstractMapper
      */
     protected $mapper;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct('post');
-        $this->init();
-    }
 
     /**
      * Get service locatol

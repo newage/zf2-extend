@@ -1,4 +1,6 @@
 <?php
+use Zend\ServiceManager\ServiceManager;
+
 return array(
     'data-fixture' => array(
         'User_fixture' => __DIR__ . '/../src/Fixture'
@@ -104,20 +106,17 @@ return array(
             'LoginForm' => 'User\Form\LoginForm'
         ),
         'factories' => array(
-            'doctrine.cache.zend.static.local' => function ($sm)
-            {
+            'doctrine.cache.zend.static.local' => function (ServiceManager $sm) {
                 return new \DoctrineModule\Cache\ZendStorageCache($sm->get('cache.static.local'));
             },
-            'UserModel' => function ($sm)
-            {
+            'UserModel' => function (ServiceManager $sm) {
                 $model = new \User\Model\UserModel();
                 $model->setServiceLocator($sm);
                 $model->setForm($sm->get('RegistrationForm'));
                 $model->setMapper($sm->get('UserMapper'));
                 return $model;
             },
-            'RoleModel' => function ($sm)
-            {
+            'RoleModel' => function (ServiceManager $sm) {
                 $model = new \User\Model\RoleModel();
                 $model->setServiceLocator($sm);
                 $model->setForm($sm->get('RoleForm'));
@@ -133,11 +132,10 @@ return array(
     // ),
     'view_manager' => array(
         'template_map' => array(
-            'user/index/index' => __DIR__ . '/../view/user/index/index.phtml'
+            'template_map' => include __DIR__  .'/../template_map.php',
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view'
         )
     )
 );
-

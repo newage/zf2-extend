@@ -17,19 +17,27 @@
                     <?php
                         echo $this->navigation('navigation')
                             ->menu()
-                            ->renderMenu(null, array(
-                                'ulClass' => 'nav navbar-nav',
-                                'minDepth' => 0,
-                                'maxDepth' => 0
-                            )
-                        );
+                            ->renderMenu(
+                                null,
+                                [
+                                    'ulClass' => 'nav navbar-nav',
+                                    'minDepth' => 0,
+                                    'maxDepth' => 0
+                                ]
+                            );
                     ?>
                     <?php echo $this->partial('partials/login.phtml'); ?>
                 </div>
 			</div>
 		</nav>
 		<div class="container">
-            <?php echo $this->partial('partials/messenger'); ?>
+            <?php
+            echo $this->navigation()
+                ->breadcrumbs()
+                ->setPartial('partials/breadcrumbs.phtml')
+                ->render();
+            ?>
+            <?php echo $this->partial('partials/messenger.phtml'); ?>
             <?php echo $this->content; ?>
         </div>
 		<!-- /container -->

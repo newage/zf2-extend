@@ -44,6 +44,10 @@ class IndexController extends EntityController
         ));
     }
 
+    /**
+     * Authentication
+     * @return \Zend\Http\Response|ViewModel
+     */
     public function loginAction()
     {
         $model = $this->getUserModel();
@@ -59,10 +63,12 @@ class IndexController extends EntityController
                 return $this->redirect()->toRoute('login');
             }
         }
-        
-        return new ViewModel(array(
+        $view = new ViewModel();
+        $view->setTemplate('user/index/login');
+        $view->setVariables(array(
             'form' => $form
         ));
+        return $view;
     }
 
     /**
@@ -133,8 +139,7 @@ class IndexController extends EntityController
     public function getUserModel()
     {
         if (! $this->userModel) {
-            $this->setUserModel($this->getServiceLocator()
-                ->get('UserModel'));
+            $this->setUserModel($this->getServiceLocator()->get('UserModel'));
         }
         return $this->userModel;
     }

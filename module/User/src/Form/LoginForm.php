@@ -2,37 +2,34 @@
 namespace User\Form;
 
 use Core\Form\AbstractDoctrineForm as Form;
-use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilter;
+use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
 
 /**
  * Login form for user
- *
  * @author V.Leontiev
  */
 class LoginForm extends Form
 {
 
-    public function init()
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
-        $this->setAttribute('method', 'post');
+        parent::__construct('login');
+
+        $this->setAttribute('method', 'post')
+            ->setHydrator(new ClassMethodsHydrator())
+            ->setInputFilter(new InputFilter());
         
         $this->add(array(
-            'name' => 'email',
-            'type' => 'text',
+            'type' => 'User\Form\IdentifierFieldset',
             'options' => array(
-                'label' => 'Email'
+                'use_as_base_fieldset' => true
             )
         ));
-        
-        $this->add(array(
-            'name' => 'password',
-            'type' => 'password',
-            'options' => array(
-                'label' => 'Password'
-            )
-        ));
-        
+
         $this->add(array(
             'name' => 'send',
             'attributes' => array(
@@ -41,46 +38,5 @@ class LoginForm extends Form
                 'id' => 'submitbutton'
             )
         ));
-    }
-
-    public function getInputFilter()
-    {
-        if (! $this->inputFilter) {
-            $inputFilter = new InputFilter();
-            $factory = new InputFactory();
-            
-            $inputFilter->add($factory->createInput(array(
-                'name' => 'email',
-                'required' => true,
-                'validators' => array(
-                    array(
-                        'name' => 'EmailAddress'
-                    )
-                )
-            )));
-            
-            $inputFilter->add($factory->createInput(array(
-                'name' => 'password',
-                'required' => true,
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 3
-                        )
-                    )
-                ),
-                'filters' => array(
-                    array(
-                        'name' => 'StringTrim'
-                    )
-                )
-            )));
-            
-            $this->inputFilter = $inputFilter;
-        }
-        
-        return $this->inputFilter;
     }
 }
