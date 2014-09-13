@@ -8,20 +8,19 @@
     ],
     "homepage": "http://framework.zend.com/",
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.5",
         "zendframework/zendframework": "2.3.*",
         "doctrine/doctrine-module": "0.*",
         "doctrine/doctrine-orm-module": "0.*",
         "hounddog/doctrine-data-fixture-module": "0.*",
-        "zendframework/zftool": "dev-master",
         "components/jquery": "1.10.*",
         "components/bootstrap": "3.*",
         "components/bootstrap-default": "3.*",
-        "components/font-awesome": "4.*",
-        "zf-commons/zfc-user-doctrine-orm": "dev-master"
+        "components/font-awesome": "4.*"
     },
     "require-dev": {
         "zendframework/zend-developer-tools": "dev-master",
+        "zendframework/zftool": "dev-master",
         "phpunit/phpunit": "3.7.*"
     }
 }

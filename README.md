@@ -30,7 +30,7 @@ Run install file
         allow from all
     </Directory>
 
-        SetEnv APPLICATION_ENV development
+    SetEnv APPLICATION_ENV development
 </VirtualHost>
 ```
 
@@ -44,6 +44,11 @@ Run install file
 ###Generate the database
 ```
 ./vendor/bin/doctrine-module orm:schema-tool:create
+```
+
+###Update the database
+```
+./vendor/bin/doctrine-module orm:schema-tool:update
 ```
 
 ###Apply fixtures
