@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 /**
  * Description of AbstractDoctrineForm
  *
- * @author vadim
+ * @author V.Leontiev
  */
 abstract class AbstractDoctrineForm extends AbstractForm implements EntityDoctrineManagerInterface
 {
@@ -26,9 +26,8 @@ abstract class AbstractDoctrineForm extends AbstractForm implements EntityDoctri
      */
     public function getEntityManager()
     {
-        if (! $this->entityManager) {
-            $this->setEntityManager($this->getServiceLocator()
-                ->get('Doctrine\ORM\EntityManager'));
+        if (!$this->entityManager) {
+            $this->setEntityManager($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
         }
         return $this->entityManager;
     }

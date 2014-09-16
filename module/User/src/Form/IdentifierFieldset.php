@@ -35,7 +35,7 @@ class IdentifierFieldset extends Fieldset implements InputFilterProviderInterfac
         ));
 
         $this->add(array(
-            'name' => 'credential',
+            'name' => 'password',
             'type' => 'password',
             'options' => array(
                 'label' => 'Password'
@@ -68,7 +68,7 @@ class IdentifierFieldset extends Fieldset implements InputFilterProviderInterfac
                     )
                 )
             ),
-            'credential' => array(
+            'password' => array(
                 'required' => true,
                 'validators' => array(
                     array(

@@ -13,7 +13,6 @@ class User
     const SECRET_KEY = 'secret key for user';
 
     const STATUS_ENABLE = 'ENABLE';
-
     const STATUS_DISABLE = 'DISABLE';
 
     /**
@@ -26,7 +25,7 @@ class User
     /**
      * @ORM\Column(type="string", unique=true)
      */
-    protected $email;
+    protected $identifier;
 
     /**
      * @ORM\Column(type="string")
@@ -55,9 +54,9 @@ class User
     protected $updatedAt;
 
     /**
-     * @ORM\Column(type="string", name="pasword_reset_hash", nullable=true)
+     * @ORM\Column(type="string", name="password_hash", nullable=true)
      */
-    protected $passwordResetHash;
+    protected $passwordHash;
 
     /**
      * @ORM\Column(type="string")
@@ -69,9 +68,9 @@ class User
         return $this->id;
     }
 
-    public function getEmail()
+    public function getIdentifier()
     {
-        return $this->email;
+        return $this->identifier;
     }
 
     public function getPassword()
@@ -99,9 +98,9 @@ class User
         return $this->updatedAt;
     }
 
-    public function getPasswordResetHash()
+    public function getPasswordHash()
     {
-        return $this->passwordResetHash;
+        return $this->passwordHash;
     }
 
     public function getStatus()
@@ -109,9 +108,9 @@ class User
         return $this->status;
     }
 
-    public function setEmail($email)
+    public function setIdentifier($identifier)
     {
-        $this->email = $email;
+        $this->identifier = $identifier;
         return $this;
     }
 
@@ -145,9 +144,9 @@ class User
         return $this;
     }
 
-    public function setPasswordResetHash()
+    public function setPasswordHash()
     {
-        $this->passwordResetHash = md5(time());
+        $this->passwordHash = md5(time() . uniqid());
         return $this;
     }
 

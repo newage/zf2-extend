@@ -55,49 +55,4 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
         $this->serviceLocator = $serviceLocator;
         return $this;
     }
-
-    /**
-     * Get mapper
-     * 
-     * @return AbstractMapper
-     */
-    public function getMapper()
-    {
-        if (! $this->mapper) {
-        /**
-         * @TODO need exception
-         */
-        }
-        return $this->mapper;
-    }
-
-    /**
-     * Set mapper
-     * 
-     * @param \Core\Mapper\AbstractMapper $mapper            
-     * @return \Core\Form\AbstractForm
-     */
-    public function setMapper(AbstractMapper $mapper)
-    {
-        $this->mapper = $mapper;
-        return $this;
-    }
-
-    /**
-     * Bind object if exist field with 'id' key
-     *
-     * @param array|\ArrayAccess|Traversable $data            
-     * @return Form FormInterface
-     */
-    public function setData($data)
-    {
-        if ($data instanceof Traversable) {
-            $data = ArrayUtils::iteratorToArray($data);
-        }
-        if (isset($data['id'])) {
-            $this->bind($this->getMapper()
-                ->find($data['id']));
-        }
-        return parent::setData($data);
-    }
 }

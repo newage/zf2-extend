@@ -14,45 +14,37 @@ class UserModel extends AbstractModel
 {
 
     /**
+     * Get form for update user data
      *
-     *
-     * @TODO Move set filters
-     * 
-     * @return type
+     * @param int $identifier
+     * @return \User\Form\LoginForm
      */
-    public function getUpdateForm()
+    public function getUpdateForm($identifier)
     {
-        $factory = new \Zend\InputFilter\Factory();
-        $form = $this->getRegistrationForm();
-        $inputFilter = $form->getInputFilter();
-        $inputFilter->remove('email');
-        $inputFilter->add($factory->createInput(array(
-            'name' => 'email',
-            'required' => true,
-            'validators' => array(
-                array(
-                    'name' => 'EmailAddress'
-                )
-            )
-        )));
-        $form->setInputFilter($inputFilter);
+        /* @var $form \User\Form\RegistrationForm */
+        $form = $this->getServiceLocator()->get('RegistrationForm');
+        $form->bind($this->getMapper()->find($identifier));
         return $form;
     }
 
+    /**
+     * @return \Core\Form\AbstractForm
+     */
     public function getRegistrationForm()
     {
-        $form = $this->getForm();
-        $form->setHydrator(new Hydrator\ClassMethods());
-        $form->setMapper($this->getMapper());
+        /* @var $form \User\Form\RegistrationForm */
+        $form = $this->getServiceLocator()->get('RegistrationForm');
         $form->bind(new User());
         return $form;
     }
 
+    /**
+     * @return \User\Form\LoginForm
+     */
     public function getLoginForm()
     {
+        /* @var $form \User\Form\LoginForm */
         $form = $this->getServiceLocator()->get('LoginForm');
-        $form->setHydrator(new Hydrator\ClassMethods());
-        $form->setMapper($this->getMapper());
         $form->bind(new User());
         return $form;
     }
@@ -64,6 +56,7 @@ class UserModel extends AbstractModel
         
         /* @var $entity \User\Entity\User */
         $entity = $this->getForm()->getObject();
+        var_dump($entity); die;
         $mapper = $this->getMapper();
         
         $entity->setSalt(md5(time()));

@@ -1,6 +1,8 @@
 <?php
 namespace User\Controller;
 
+use User\Entity\User;
+use User\Form\LoginForm;
 use Zend\View\Model\ViewModel;
 use Core\Mvc\Controller\EntityController;
 use User\Mapper\UserMapper;
@@ -50,9 +52,22 @@ class IndexController extends EntityController
      */
     public function loginAction()
     {
+//        $form = new LoginForm();
+//        $form->bind(new User());
+//
+//        $request = $this->getRequest();
+//        if ($request->isPost()) {
+//            $form->setData($request->getPost());
+//
+//            if ($form->isValid()) {
+//                var_dump($form->getData()); die;
+//            }
+//        }
+//        die('ok');
+
         $model = $this->getUserModel();
         $form = $model->getLoginForm();
-        
+
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
@@ -79,10 +94,10 @@ class IndexController extends EntityController
     public function updateAction()
     {
         $model = $this->getUserModel();
-        $form = $model->getUpdateForm();
-        $form->setData(array(
-            'id' => $this->params('id')
-        ));
+        $form = $model->getUpdateForm($this->params('id'));
+//        $form->setData(array(
+//            'id' => $this->params('id')
+//        ));
         
         $request = $this->getRequest();
         if ($request->isPost()) {
