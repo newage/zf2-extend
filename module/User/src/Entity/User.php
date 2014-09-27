@@ -18,9 +18,9 @@ class User
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="id")
      */
-    protected $id;
+    protected $primary;
 
     /**
      * @ORM\Column(type="string", unique=true)
@@ -65,7 +65,7 @@ class User
 
     public function getId()
     {
-        return $this->id;
+        return $this->primary;
     }
 
     public function getIdentifier()

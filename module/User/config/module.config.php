@@ -42,23 +42,9 @@ return array(
             'LoginForm' => 'User\Form\LoginForm'
         ),
         'factories' => array(
-            'doctrine.cache.zend.static.local' => function (ServiceManager $sm) {
-                return new \DoctrineModule\Cache\ZendStorageCache($sm->get('cache.static.local'));
-            },
-            'UserModel' => function (ServiceManager $sm) {
-                $model = new \User\Model\UserModel();
-                $model->setServiceLocator($sm);
-                $model->setForm($sm->get('RegistrationForm'));
-                $model->setMapper($sm->get('UserMapper'));
-                return $model;
-            },
-            'RoleModel' => function (ServiceManager $sm) {
-                $model = new \User\Model\RoleModel();
-                $model->setServiceLocator($sm);
-                $model->setForm($sm->get('RoleForm'));
-                $model->setMapper($sm->get('RoleMapper'));
-                return $model;
-            }
+            'doctrine.cache.zend.static.local' => 'User\Factory\DoctrineCacheFactory',
+            'UserModel' => 'User\Factory\UserModelFactory',
+            'RoleModel' => 'User\Factory\RoleModelFactory'
         )
     ),
     // 'view_helpers' => array(
