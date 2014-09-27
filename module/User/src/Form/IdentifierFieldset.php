@@ -86,7 +86,7 @@ class IdentifierFieldset extends Fieldset implements InputFilterProviderInterfac
                 )
             ),
             'identical' => array(
-                'required' => false,
+                'required' => true,
                 'validators' => array(
                     array(
                         'name' => 'StringLength',
