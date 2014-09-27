@@ -1,5 +1,4 @@
 <?php
-
 namespace Core\Form;
 
 /**
@@ -8,5 +7,6 @@ namespace Core\Form;
  */
 interface InputFilterInterface
 {
+
     public function getInputFilter();
 }

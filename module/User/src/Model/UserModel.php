@@ -1,5 +1,4 @@
 <?php
-
 namespace User\Model;
 
 use Core\Model\AbstractModel;
@@ -15,42 +14,41 @@ class UserModel extends AbstractModel
 {
 
     /**
-     * 
-     * @TODO Move set filters
-     * @return type
+     * Get form for update user data
+     *
+     * @param int $identifier
+     * @return \User\Form\LoginForm
      */
-    public function getUpdateUserForm()
+    public function getUpdateForm($identifier)
     {
-        $factory = new \Zend\InputFilter\Factory();
-        $form = $this->getUserForm();
-        $inputFilter = $form->getInputFilter();
-        $inputFilter->remove('email');
-        $inputFilter->add(
-            $factory->createInput(
-                array(
-                    'name' => 'email',
-                    'required' => true,
-                    'validators' => array(
-                        array(
-                            'name' => 'EmailAddress',
-                        ),
-                    )
-                )
-            )
-        );
-        $form->setInputFilter($inputFilter);
+        /* @var $form \User\Form\RegistrationForm */
+        $form = $this->getServiceLocator()->get('RegistrationForm');
+        $form->bind($this->getMapper()->find($identifier));
         return $form;
     }
-    
-    public function getUserForm()
+
+    /**
+     * @return \Core\Form\AbstractForm
+     */
+    public function getRegistrationForm()
     {
-        $form = $this->getForm();
-        $form->setHydrator(new Hydrator\ClassMethods());
-        $form->setMapper($this->getMapper());
-        $form->bind(new User);
+        /* @var $form \User\Form\RegistrationForm */
+        $form = $this->getServiceLocator()->get('RegistrationForm');
+        $form->bind(new User());
         return $form;
     }
-    
+
+    /**
+     * @return \User\Form\LoginForm
+     */
+    public function getLoginForm()
+    {
+        /* @var $form \User\Form\LoginForm */
+        $form = $this->getServiceLocator()->get('LoginForm');
+        $form->bind(new User());
+        return $form;
+    }
+
     public function create()
     {
         /* @var $roleModel \User\Model\RoleModel */
@@ -58,17 +56,20 @@ class UserModel extends AbstractModel
         
         /* @var $entity \User\Entity\User */
         $entity = $this->getForm()->getObject();
+        var_dump($entity); die;
         $mapper = $this->getMapper();
         
         $entity->setSalt(md5(time()));
         $entity->setPassword(md5($entity->getPassword() . $entity->getSalt() . User::SECRET_KEY));
         
-        $role = $roleModel->getMapper()->findOne(array('name' => 'user'));
+        $role = $roleModel->getMapper()->findOne(array(
+            'name' => 'user'
+        ));
         $entity->setRole($role);
         
         $mapper->create($entity);
     }
-    
+
     public function update()
     {
         $roleId = $this->getForm()->getValue('role_id');
@@ -79,7 +80,7 @@ class UserModel extends AbstractModel
         if ($roleId) {
             /* @var $roleModel \User\Model\RoleModel */
             $roleModel = $this->getServiceLocator()->get('RoleModel');
-        
+            
             $role = $roleModel->getMapper()->find($roleId);
             $entity->setRole($role);
         }

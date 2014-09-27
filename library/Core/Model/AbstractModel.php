@@ -1,10 +1,10 @@
 <?php
-
 namespace Core\Model;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Core\Form\AbstractForm;
 use Core\Mapper\AbstractMapper;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Model with business logic for user entity/form/mapper
@@ -13,27 +13,31 @@ use Core\Mapper\AbstractMapper;
  */
 abstract class AbstractModel implements ServiceLocatorAwareInterface
 {
+
     /**
      * Service locator object
-     * @var \Zend\ServiceManager\ServiceLocatorInterface 
+     * 
+     * @var \Zend\ServiceManager\ServiceLocatorInterface
      */
     protected $serviceLocator;
-    
+
     /**
      * Form object
+     * 
      * @var AbstractForm
      */
     protected $form;
-    
+
     /**
      * Mapper object
+     * 
      * @var AbstractMapper
      */
     protected $mapper;
-    
+
     /**
      * Get service locatol
-     * 
+     *
      * @return \Zend\ServiceManager\ServiceLocatorInterface
      */
     public function getServiceLocator()
@@ -43,20 +47,20 @@ abstract class AbstractModel implements ServiceLocatorAwareInterface
 
     /**
      * Set service locator
-     * 
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     *
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator            
      * @return \Core\Mapper\AbstractMapper
      */
-    public function setServiceLocator(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
         return $this;
     }
-    
+
     /**
      * Set current form
-     * 
-     * @param AbstractForm $form
+     *
+     * @param AbstractForm $form            
      * @return AbstractModel
      */
     public function setForm(AbstractForm $form)
@@ -64,19 +68,20 @@ abstract class AbstractModel implements ServiceLocatorAwareInterface
         $this->form = $form;
         return $this;
     }
-    
+
     /**
      * Get current form
+     * 
      * @return AbstractForm
      */
     public function getForm()
     {
         return $this->form;
     }
-    
+
     /**
      * Get mapper
-     * 
+     *
      * @return AbstractMapper
      */
     public function getMapper()
@@ -86,8 +91,8 @@ abstract class AbstractModel implements ServiceLocatorAwareInterface
 
     /**
      * Set mapper
-     * 
-     * @param AbstractMapper $userMapper
+     *
+     * @param AbstractMapper $userMapper            
      * @return AbstractModel
      */
     public function setMapper(AbstractMapper $mapper)

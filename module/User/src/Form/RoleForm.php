@@ -1,5 +1,4 @@
 <?php
-
 namespace User\Form;
 
 use Core\Form\AbstractDoctrineForm as Form;
@@ -13,38 +12,42 @@ use Zend\InputFilter\InputFilter;
  */
 class RoleForm extends Form
 {
-    
+
     public function init()
     {
         $this->setAttribute('method', 'post');
-
+        
         $this->add(array(
             'name' => 'name',
-            'type'  => 'text',
-            'options' => array('label' => 'Name'),
+            'type' => 'text',
+            'options' => array(
+                'label' => 'Name'
+            )
         ));
-
+        
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
-                'type'  => 'submit',
+                'type' => 'submit',
                 'value' => 'Submit',
-                'id' => 'submitbutton',
-            ),
+                'id' => 'submitbutton'
+            )
         ));
     }
-    
+
     public function getInputFilter()
     {
-        if (!$this->inputFilter) {
-            $inputFilter   = new InputFilter();
-            $factory       = new InputFactory();
+        if (! $this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
             
             $inputFilter->add($factory->createInput(array(
                 'name' => 'id',
                 'required' => false,
                 'filters' => array(
-                    array('name' => 'Int'),
+                    array(
+                        'name' => 'Int'
+                    )
                 )
             )));
             
@@ -52,7 +55,9 @@ class RoleForm extends Form
                 'name' => 'parent_id',
                 'required' => false,
                 'filters' => array(
-                    array('name' => 'Int'),
+                    array(
+                        'name' => 'Int'
+                    )
                 )
             )));
             
@@ -61,12 +66,12 @@ class RoleForm extends Form
                 'required' => true,
                 'validators' => array(
                     array(
-                        'name'    => 'StringLength',
+                        'name' => 'StringLength',
                         'options' => array(
                             'encoding' => 'UTF-8',
-                            'min'      => 3,
-                        ),
-                    ),
+                            'min' => 3
+                        )
+                    )
                 )
             )));
             

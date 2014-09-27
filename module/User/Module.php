@@ -1,29 +1,39 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
 
 namespace User;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
+/**
+ * Class Module
+ * @package User
+ */
 class Module
 {
-    public function onBootstrap(MvcEvent $e)
+
+    /**
+     * Bootstrap
+     * @param MvcEvent $event
+     */
+    public function onBootstrap(MvcEvent $event)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager = $event->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
     }
 
+    /**
+     * Get config
+     * @return array
+     */
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        $config = array_merge(
+            include __DIR__ . '/config/module.config.php',
+            include __DIR__ . '/config/router.config.php'
+        );
+        return $config;
     }
 
     public function getAutoloaderConfig()
@@ -32,9 +42,9 @@ class Module
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/',
-                    'Core' => __DIR__ . '/../../library/Core',
-                ),
-            ),
+                    'Core' => __DIR__ . '/../../library/Core'
+                )
+            )
         );
     }
 }

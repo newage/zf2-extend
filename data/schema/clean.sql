@@ -16,7 +16,7 @@ CREATE TABLE  `sessions` (
 
 CREATE TABLE  `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(100) NOT NULL,
+  `identifier` varchar(100) NOT NULL,
   `password` varchar(32) NOT NULL,
   `salt` varchar(32) NOT NULL,
   `role_id` int(11) UNSIGNED NOT NULL,
@@ -24,10 +24,10 @@ CREATE TABLE  `users` (
   `updated_at` datetime NOT NULL,
   `last_logon_at` datetime DEFAULT NULL,
   `user_detail_id` int(11) UNSIGNED NOT NULL,
-  `password_reset_hash` varchar(32) DEFAULT NULL,
+  `password_hash` varchar(32) DEFAULT NULL,
   `status` enum('ENABLE', 'DISABLE') NOT NULL DEFAULT 'DISABLE',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email` (`email` ASC),
+  UNIQUE INDEX `identifier` (`identifier` ASC),
   INDEX `status` (`status` ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

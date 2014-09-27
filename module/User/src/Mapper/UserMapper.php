@@ -1,5 +1,4 @@
 <?php
-
 namespace User\Mapper;
 
 use Core\Mapper\AbstractDoctrineMapper;
@@ -12,40 +11,42 @@ use User\Entity\User;
  */
 class UserMapper extends AbstractDoctrineMapper
 {
-    
+
     /**
      * Find one row
-     * 
-     * @param type $id
+     *
+     * @param type $id            
      * @return User
      */
     public function find($id)
     {
         $em = $this->getEntityManager();
-        return $em->getRepository('User\Entity\User')->find((int)$id);
+        return $em->getRepository('User\Entity\User')->find((int) $id);
     }
-    
+
     public function findBy($params)
     {
-//        $em = $this->getEntityManager();
-//        return $em->getRepository('User\Entity\User')->find((int)$id);
+        // $em = $this->getEntityManager();
+        // return $em->getRepository('User\Entity\User')->find((int)$id);
     }
 
     public function findOne($params)
     {
-//        $em = $this->getEntityManager();
-//        return $em->getRepository('User\Entity\User')->find((int)$id);
+        // $em = $this->getEntityManager();
+        // return $em->getRepository('User\Entity\User')->find((int)$id);
     }
-    
+
     /**
      * Disable user account
-     * 
-     * @param int $id
+     *
+     * @param int $id            
      * @return User
      */
     public function delete($id)
     {
-        $entity = $this->getEntityManager()->getRepository('User\Entity\User')->find($id);
+        $entity = $this->getEntityManager()
+            ->getRepository('User\Entity\User')
+            ->find($id);
         $entity->setStatus(User::STATUS_DISABLE);
         
         $this->persist($entity);
@@ -54,8 +55,8 @@ class UserMapper extends AbstractDoctrineMapper
 
     /**
      * Create new user
-     * 
-     * @param User $entity
+     *
+     * @param User $entity            
      * @return User
      */
     public function create($entity)
@@ -70,16 +71,15 @@ class UserMapper extends AbstractDoctrineMapper
 
     /**
      * Udaet user
-     * 
-     * @param User $entity
+     *
+     * @param User $entity            
      * @return User
      */
     public function update($entity)
     {
         $entity->setUpdatedAt();
-                
+        
         $this->persist($entity);
         return $entity;
     }
-
 }

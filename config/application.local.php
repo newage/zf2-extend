@@ -6,21 +6,20 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
         'DoctrineDataFixtureModule',
-        'ZfcTwitterBootstrap',
         'Application',
         'User'
     ),
-
+    
     'module_listener_options' => array(
         'module_paths' => array(
             './module',
-            './vendor',
+            './vendor'
         ),
-
+        
         'config_glob_paths' => array(
-            'config/autoload/{,*.}{global,local}.php',
+            'config/autoload/{,*.}{global,local}.php'
         ),
-
-        'config_cache_enabled' => false,
-    ),
+        
+        'config_cache_enabled' => false
+    )
 );

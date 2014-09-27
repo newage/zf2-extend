@@ -1,5 +1,4 @@
 <?php
-
 namespace Core\Mapper;
 
 use Core\Mapper\MapperInterface;
@@ -15,14 +14,14 @@ abstract class AbstractMapper implements MapperInterface, ServiceLocatorAwareInt
 
     /**
      * Service locator object
-     * 
+     *
      * @var \Zend\ServiceManager\ServiceLocatorInterface
      */
     protected $serviceLocator;
 
     /**
      * Get service locatol
-     * 
+     *
      * @return \Zend\ServiceManager\ServiceLocatorInterface
      */
     public function getServiceLocator()
@@ -32,8 +31,8 @@ abstract class AbstractMapper implements MapperInterface, ServiceLocatorAwareInt
 
     /**
      * Set service locator
-     * 
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     *
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator            
      * @return \Core\Mapper\AbstractMapper
      */
     public function setServiceLocator(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
@@ -41,18 +40,18 @@ abstract class AbstractMapper implements MapperInterface, ServiceLocatorAwareInt
         $this->serviceLocator = $serviceLocator;
         return $this;
     }
-    
+
     /**
      * Execute action for entity
-     * 
-     * @param entity $entity
+     *
+     * @param entity $entity            
      * @return entity
      */
     protected function persist($entity)
     {
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
-
+        
         return $entity;
     }
 }

@@ -4,7 +4,7 @@ return array(
     'users' => array(
         array(
             'id' => 1,
-            'email' => 'admin@example.com',
+            'identifier' => 'admin@example.com',
             'password' => '8db933e12bac8dc5420c935b971a3c58',
             'salt' => '17818fe018509ba8f72f2599b7657ed5',
             'created_at' => '2011-07-01 14:06:28',
@@ -15,7 +15,7 @@ return array(
         ),
         array(
             'id' => 2,
-            'email' => 'user@example.com',
+            'identifier' => 'user@example.com',
             'password' => '8db933e12bac8dc5420c935b971a3c58',
             'salt' => '17818fe018509ba8f72f2599b7657ed5',
             'created_at' => '2011-07-01 14:06:28',
