@@ -1,8 +1,8 @@
-if $mariadb_values == undef { $mariadb_values = hiera('mariadb', false) }
-if $php_values == undef { $php_values = hiera('php', false) }
-if $hhvm_values == undef { $hhvm_values = hiera('hhvm', false) }
-if $apache_values == undef { $apache_values = hiera('apache', false) }
-if $nginx_values == undef { $nginx_values = hiera('nginx', false) }
+if $mariadb_values == undef { $mariadb_values = hiera_hash('mariadb', false) }
+if $php_values == undef { $php_values = hiera_hash('php', false) }
+if $hhvm_values == undef { $hhvm_values = hiera_hash('hhvm', false) }
+if $apache_values == undef { $apache_values = hiera_hash('apache', false) }
+if $nginx_values == undef { $nginx_values = hiera_hash('nginx', false) }
 
 include puphpet::params
 
@@ -89,10 +89,16 @@ if hash_key_equals($mariadb_values, 'install', 1) {
       package_name => $puphpet::params::mariadb_package_client_name
     }
 
-    if is_hash($mariadb_values['databases'])
-      and count($mariadb_values['databases']) > 0
-    {
-      create_resources(mariadb_db, $mariadb_values['databases'])
+    if count($mariadb_values['databases']) > 0 {
+      each( $mariadb_values['databases'] ) |$key, $database| {
+        $database_merged = delete(merge($database, {
+          'dbname' => $database['name'],
+        }), 'name')
+
+        create_resources( puphpet::mysql::db, {
+          "${database['user']}@${database['name']}" => $database_merged
+        })
+      }
     }
 
     if $mariadb_php_installed and $mariadb_php_package == 'php' {
@@ -104,8 +110,8 @@ if hash_key_equals($mariadb_values, 'install', 1) {
         $mariadb_php_module = 'mysqlnd'
       }
 
-      if ! defined(Php::Module[$mariadb_php_module]) {
-        php::module { $mariadb_php_module:
+      if ! defined(Puphpet::Php::Module[$mariadb_php_module]) {
+        puphpet::php::module { $mariadb_php_module:
           service_autorestart => $mariadb_webserver_restart,
         }
       }
@@ -126,26 +132,6 @@ if hash_key_equals($mariadb_values, 'install', 1) {
       owner       => 'www-data',
       php_package => $mariadb_php_package
     }
-  }
-}
-
-define mariadb_db (
-  $user,
-  $password,
-  $host,
-  $grant    = [],
-  $sql_file = false
-) {
-  if $name == '' or $password == '' or $host == '' {
-    fail( 'MariaDB requires that name, password and host be set. Please check your settings!' )
-  }
-
-  mysql::db { $name:
-    user     => $user,
-    password => $password,
-    host     => $host,
-    grant    => $grant,
-    sql      => $sql_file,
   }
 }
 

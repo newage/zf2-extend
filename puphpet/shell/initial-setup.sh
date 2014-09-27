@@ -7,7 +7,7 @@ VAGRANT_CORE_FOLDER=$(echo "$1")
 OS=$(/bin/bash "${VAGRANT_CORE_FOLDER}/shell/os-detect.sh" ID)
 CODENAME=$(/bin/bash "${VAGRANT_CORE_FOLDER}/shell/os-detect.sh" CODENAME)
 
-cat "${VAGRANT_CORE_FOLDER}/shell/self-promotion.txt"
+cat "${VAGRANT_CORE_FOLDER}/shell/ascii-art/self-promotion.txt"
 printf "\n"
 echo ""
 
@@ -38,7 +38,7 @@ if [ "${OS}" == 'debian' ] || [ "${OS}" == 'ubuntu' ]; then
         echo 'Finished installing basic curl packages'
     fi
 
-    echo 'Installing build-essential package'
+    echo 'Installing build-essential packages'
     apt-get -y install build-essential >/dev/null
     echo 'Finished installing build-essential packages'
 elif [[ "${OS}" == 'centos' ]]; then

@@ -1,24 +1,23 @@
 ---
 vagrantfile-local:
     vm:
-        box: puphpet/debian75-x64
-        box_url: puphpet/debian75-x64
-        hostname: null
+        box: puphpet/ubuntu1404-x64
+        box_url: puphpet/ubuntu1404-x64
+        hostname: ''
         memory: '512'
         cpus: '1'
         chosen_provider: virtualbox
         network:
             private_network: 192.168.56.101
             forwarded_port:
-                8w0dQckVw2Ud:
+                Fx1kReTGL2ca:
                     host: '8080'
                     guest: '80'
+        post_up_message: ''
         provider:
             virtualbox:
                 modifyvm:
                     natdnshostresolver1: on
-                setextradata:
-                    VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root: 1
             vmware:
                 numvcpus: 1
             parallels:
@@ -33,7 +32,7 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            ZDsuhmGCuGsG:
+            l0qKFcQeHoH1:
                 source: ./
                 target: /var/www
                 sync_type: default
@@ -45,7 +44,9 @@ vagrantfile-local:
                     exclude:
                         - .vagrant/
                     auto: 'true'
-        usable_port_range: 2200..2250
+        usable_port_range:
+            start: 10200
+            stop: 10500
     ssh:
         host: null
         port: null
@@ -78,7 +79,7 @@ apache:
     modules:
         - rewrite
     vhosts:
-        67S0ycMKfY7D:
+        WChBNZHMOp2K:
             servername: zf2-extend
             docroot: /var/www/public
             port: '80'
@@ -97,7 +98,6 @@ apache:
             ssl_chain: ''
             ssl_certs_dir: ''
     mod_pagespeed: 0
-    mod_spdy: 0
 nginx:
     install: '0'
     settings:
@@ -105,12 +105,13 @@ nginx:
         proxy_buffer_size: 128k
         proxy_buffers: '4 256k'
     vhosts:
-        8N62WuDbbv77:
+        OJ8j4n2gJ04A:
             server_name: awesome.dev
             server_aliases:
                 - www.awesome.dev
             www_root: /var/www/awesome.dev
             listen_port: '80'
+            location: .php$
             index_files:
                 - index.html
                 - index.htm
@@ -122,7 +123,7 @@ nginx:
             ssl_key: ''
 php:
     install: '1'
-    version: '55'
+    version: '56'
     composer: '1'
     composer_home: ''
     modules:
@@ -136,6 +137,7 @@ php:
             - mbstring
             - mcrypt
             - mysql
+            - dbg
         pear: {  }
         pecl:
             - pecl_http
@@ -153,8 +155,8 @@ hhvm:
     settings:
         host: 127.0.0.1
         port: '9000'
-    modules:
-        pear: {  }
+    ini: {  }
+    timezone: null
 xdebug:
     install: '0'
     settings:
@@ -172,17 +174,22 @@ drush:
 ruby:
     install: '1'
     versions:
-        LqSRsBlv4dTV:
+        lRYw4XO7U6nD:
             version: ''
 nodejs:
-    install: '0'
-    npm_packages: {  }
+    install: '1'
+    npm_packages:
+        - bower
+python:
+    install: '1'
+    packages: {  }
+    versions: {  }
 mysql:
     install: '1'
     root_password: '123456'
     adminer: 0
     databases:
-        VWbWnB8WpAWr:
+        A0AYqty2ihDc:
             grant:
                 - ALL
             name: dbname
@@ -227,6 +234,7 @@ mailcatcher:
         http_ip: 0.0.0.0
         http_port: '1080'
         mailcatcher_path: /usr/local/rvm/wrappers/default
+        from_email_method: inline
 beanstalkd:
     install: '0'
     settings:

@@ -1,7 +1,7 @@
-if $mysql_values == undef { $mysql_values = hiera('mysql', false) }
-if $php_values == undef { $php_values = hiera('php', false) }
-if $apache_values == undef { $apache_values = hiera('apache', false) }
-if $nginx_values == undef { $nginx_values = hiera('nginx', false) }
+if $mysql_values == undef { $mysql_values = hiera_hash('mysql', false) }
+if $php_values == undef { $php_values = hiera_hash('php', false) }
+if $apache_values == undef { $apache_values = hiera_hash('apache', false) }
+if $nginx_values == undef { $nginx_values = hiera_hash('nginx', false) }
 
 include puphpet::params
 
@@ -54,8 +54,16 @@ if hash_key_equals($mysql_values, 'install', 1) {
       require      => $mysql_server_require
     }
 
-    if is_hash($mysql_values['databases']) and count($mysql_values['databases']) > 0 {
-      create_resources(mysql_db, $mysql_values['databases'])
+    if count($mysql_values['databases']) > 0 {
+      each( $mysql_values['databases'] ) |$key, $database| {
+        $database_merged = delete(merge($database, {
+          'dbname' => $database['name'],
+        }), 'name')
+
+        create_resources( puphpet::mysql::db, {
+          "${database['user']}@${database['name']}" => $database_merged
+        })
+      }
     }
 
     if $mysql_php_installed and $mysql_php_package == 'php' {
@@ -67,8 +75,8 @@ if hash_key_equals($mysql_values, 'install', 1) {
         $mysql_php_module = 'mysqlnd'
       }
 
-      if ! defined(Php::Module[$mysql_php_module]) {
-        php::module { $mysql_php_module:
+      if ! defined(Puphpet::Php::Module[$mysql_php_module]) {
+        puphpet::php::module { $mysql_php_module:
           service_autorestart => $mysql_webserver_restart,
         }
       }
@@ -89,26 +97,6 @@ if hash_key_equals($mysql_values, 'install', 1) {
       owner       => 'www-data',
       php_package => $mysql_php_package
     }
-  }
-}
-
-define mysql_db (
-  $user,
-  $password,
-  $host,
-  $grant    = [],
-  $sql_file = false
-) {
-  if $name == '' or $password == '' or $host == '' {
-    fail( 'MySQL DB requires that name, password and host be set. Please check your settings!' )
-  }
-
-  mysql::db { $name:
-    user     => $user,
-    password => $password,
-    host     => $host,
-    grant    => $grant,
-    sql      => $sql_file,
   }
 }
 

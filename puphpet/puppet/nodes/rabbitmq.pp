@@ -1,7 +1,7 @@
-if $rabbitmq_values == undef { $rabbitmq_values = hiera('rabbitmq', false) }
-if $php_values == undef { $php_values = hiera('php', false) }
-if $apache_values == undef { $apache_values = hiera('apache', false) }
-if $nginx_values == undef { $nginx_values = hiera('nginx', false) }
+if $rabbitmq_values == undef { $rabbitmq_values = hiera_hash('rabbitmq', false) }
+if $php_values == undef { $php_values = hiera_hash('php', false) }
+if $apache_values == undef { $apache_values = hiera_hash('apache', false) }
+if $nginx_values == undef { $nginx_values = hiera_hash('nginx', false) }
 
 include puphpet::params
 
@@ -24,12 +24,11 @@ if hash_key_equals($rabbitmq_values, 'install', 1) {
   create_resources('class', { 'rabbitmq' => $rabbitmq_values['settings'] })
 
   if hash_key_equals($php_values, 'install', 1)
-    and ! defined(Php::Pecl::Module['amqp'])
+    and ! defined(Puphpet::Php::Pecl['amqp'])
   {
-    php::pecl::module { 'amqp':
-      use_package         => false,
+    puphpet::php::pecl { 'amqp':
       service_autorestart => $rabbitmq_webserver_restart,
-      require             => Class['rabbitmq']
+      require             => Package['rabbitmq-server']
     }
   }
 

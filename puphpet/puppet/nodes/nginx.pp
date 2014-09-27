@@ -1,6 +1,7 @@
-if $nginx_values == undef { $nginx_values = hiera('nginx', false) }
-if $php_values == undef { $php_values = hiera('php', false) }
-if $hhvm_values == undef { $hhvm_values = hiera('hhvm', false) }
+if $yaml_values == undef { $yaml_values = loadyaml('/vagrant/puphpet/config.yaml') }
+if $nginx_values == undef { $nginx_values = $yaml_values['nginx'] }
+if $php_values == undef { $php_values = hiera_hash('php', false) }
+if $hhvm_values == undef { $hhvm_values = hiera_hash('hhvm', false) }
 
 include puphpet::params
 
@@ -49,7 +50,7 @@ if hash_key_equals($nginx_values, 'install', 1) {
   } elsif hash_key_equals($php_values, 'install', 1) {
     $fcgi_string = '127.0.0.1:9000'
   } else {
-    $fcgi_string = ''
+    $fcgi_string = false
   }
 
   if $::osfamily == 'redhat' {
@@ -63,21 +64,43 @@ if hash_key_equals($nginx_values, 'install', 1) {
     }
   }
 
+  if hash_key_equals($hhvm_values, 'install', 1)
+    or hash_key_equals($php_values, 'install', 1)
+  {
+    $default_vhost = {
+      'server_name'    => '_',
+      'server_aliases' => [],
+      'www_root'       => '/var/www/html',
+      'listen_port'    => 80,
+      'location'       => '\.php$',
+      'index_files'    => ['index', 'index.html', 'index.htm', 'index.php'],
+      'envvars'        => [],
+      'ssl'            => '0',
+      'ssl_cert'       => '',
+      'ssl_key'        => '',
+      'engine'         => 'php',
+    }
+  } else {
+    $default_vhost = {
+      'server_name'    => '_',
+      'server_aliases' => [],
+      'www_root'       => '/var/www/html',
+      'listen_port'    => 80,
+      'location'       => '/',
+      'index_files'    => ['index', 'index.html', 'index.htm'],
+      'envvars'        => [],
+      'ssl'            => '0',
+      'ssl_cert'       => '',
+      'ssl_key'        => '',
+      'engine'         => false,
+    }
+  }
+
   class { 'nginx': }
 
   if hash_key_equals($nginx_values['settings'], 'default_vhost', 1) {
     $nginx_vhosts = merge($nginx_values['vhosts'], {
-      'default' => {
-        'server_name'    => '_',
-        'server_aliases' => [],
-        'www_root'       => '/var/www/html',
-        'listen_port'    => 80,
-        'index_files'    => ['index', 'index.html', 'index.htm', 'index.php'],
-        'envvars'        => [],
-        'ssl'            => '0',
-        'ssl_cert'       => '',
-        'ssl_key'        => '',
-      },
+      'default' => $default_vhost,
     })
 
     if ! defined(File[$puphpet::params::nginx_default_conf_location]) {
@@ -136,6 +159,7 @@ define nginx_vhost (
   $server_aliases   = [],
   $www_root,
   $listen_port,
+  $location,
   $index_files,
   $envvars          = [],
   $ssl              = false,
@@ -155,15 +179,15 @@ define nginx_vhost (
   }
 
   if $engine == 'php' {
-    $try_files               = "${try_files_prepend} index.php"
-    $fastcgi_split_path_info = '^(.+\.php)(/.+)$'
+    $try_files               = "${try_files_prepend} /index.php\$is_args\$args"
+    $fastcgi_split_path_info = '^(.+\.php)(/.*)$'
     $fastcgi_index           = 'index.php'
     $fastcgi_param           = concat([
-      'SCRIPT_FILENAME $document_root$fastcgi_script_name'
+      'SCRIPT_FILENAME $request_filename'
     ], $envvars)
-    $fastcgi_pass_hash       = {'fastcgi_pass' => $fcgi_string}
+    $fastcgi_pass_hash       = value_true($fcgi_string) ? { true => {'fastcgi_pass' => $fcgi_string}, default => {} }
   } else {
-    $try_files               = "${try_files_prepend} index.html"
+    $try_files               = "${try_files_prepend} /index.html"
     $fastcgi_split_path_info = '^(.+\.html)(/.+)$'
     $fastcgi_index           = 'index.html'
     $fastcgi_param           = $envvars
@@ -189,7 +213,7 @@ define nginx_vhost (
     www_root         => $www_root,
     listen_port      => $listen_port,
     index_files      => $index_files,
-    try_files        => ['$uri', '$uri/', "/${try_files}?\$args"],
+    try_files        => ['$uri', '$uri/', "${try_files}"],
     ssl              => $ssl_set,
     ssl_cert         => $ssl_cert_set,
     ssl_key          => $ssl_key_set,
@@ -203,9 +227,8 @@ define nginx_vhost (
     nginx::resource::location { "${server_name}-php":
       ensure              => present,
       vhost               => $server_name,
-      location            => '~ \.php$',
+      location            => "~ ${location}",
       proxy               => undef,
-      try_files           => ['$uri', '$uri/', "/${try_files}?\$args"],
       ssl                 => $ssl_set,
       www_root            => $www_root,
       location_cfg_append => $location_cfg_append,

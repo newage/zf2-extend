@@ -1,8 +1,8 @@
-if $sqlite_values == undef { $sqlite_values = hiera('sqlite', false) }
-if $php_values == undef { $php_values = hiera('php', false) }
-if $apache_values == undef { $apache_values = hiera('apache', false) }
-if $nginx_values == undef { $nginx_values = hiera('nginx', false) }
-if $mailcatcher_values == undef { $mailcatcher_values = hiera('mailcatcher', false) }
+if $sqlite_values == undef { $sqlite_values = hiera_hash('sqlite', false) }
+if $php_values == undef { $php_values = hiera_hash('php', false) }
+if $apache_values == undef { $apache_values = hiera_hash('apache', false) }
+if $nginx_values == undef { $nginx_values = hiera_hash('nginx', false) }
+if $mailcatcher_values == undef { $mailcatcher_values = hiera_hash('mailcatcher', false) }
 
 include puphpet::params
 
@@ -30,9 +30,9 @@ if hash_key_equals($sqlite_values, 'install', 1) {
 
   if $sqlite_php_installed
     and $sqlite_php_package == 'php'
-    and ! defined(Php::Module['sqlite'])
+    and ! defined(Puphpet::Php::Pecl['sqlite'])
   {
-    php::module { 'sqlite':
+    puphpet::php::pecl { 'sqlite':
       service_autorestart => true,
     }
   }

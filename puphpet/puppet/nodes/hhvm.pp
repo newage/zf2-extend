@@ -1,6 +1,6 @@
-if $hhvm_values == undef { $hhvm_values = hiera('hhvm', false) }
-if $apache_values == undef { $apache_values = hiera('apache', false) }
-if $nginx_values == undef { $nginx_values = hiera('nginx', false) }
+if $hhvm_values == undef { $hhvm_values = hiera_hash('hhvm', false) }
+if $apache_values == undef { $apache_values = hiera_hash('apache', false) }
+if $nginx_values == undef { $nginx_values = hiera_hash('nginx', false) }
 
 include puphpet::params
 include puphpet::supervisord
@@ -53,25 +53,37 @@ if hash_key_equals($hhvm_values, 'install', 1) {
     require => Package['hhvm']
   }
 
+  if count($hhvm_values['ini']) > 0 {
+    $hhvm_inis = merge({
+      'date.timezone' => $hhvm_values['timezone'],
+    }, $hhvm_values['ini'])
+
+    $hhvm_ini = '/etc/hhvm/php.ini'
+
+    each( $hhvm_inis ) |$key, $value| {
+      exec { "hhvm-php.ini@${key}/${value}":
+        command => "perl -p -i -e 's#${key} = .*#${key} = ${value}#gi' ${hhvm_ini}",
+        onlyif  => "test -f ${hhvm_ini}",
+        unless  => "grep -x '${key} = ${value}' ${hhvm_ini}",
+        path    => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
+        require => Package['hhvm'],
+        notify  => Supervisord::Supervisorctl['restart_hhvm'],
+      }
+    }
+
+    supervisord::supervisorctl { 'restart_hhvm':
+      command     => 'restart',
+      process     => 'hhvm',
+      refreshonly => true,
+    }
+  }
+
   if hash_key_equals($hhvm_values, 'composer', 1)
     and ! defined(Class['puphpet::php::composer'])
   {
     class { 'puphpet::php::composer':
       php_package   => 'hhvm',
       composer_home => $hhvm_values['composer_home'],
-    }
-  }
-
-  if count($hhvm_values['modules']['pear']) > 0 {
-    hhvm_pear_mod { $hhvm_values['modules']['pear']:; }
-  }
-}
-
-define hhvm_pear_mod {
-  if ! defined(Puphpet::Php::Pear[$name]) {
-    puphpet::php::pear { $name:
-      service_name        => $hhvm_webserver,
-      service_autorestart => $hhvm_webserver_restart,
     }
   }
 }

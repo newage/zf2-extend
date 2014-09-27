@@ -1,6 +1,6 @@
-if $postgresql_values == undef { $postgresql_values = hiera('postgresql', false) }
-if $php_values == undef { $php_values = hiera('php', false) }
-if $hhvm_values == undef { $hhvm_values = hiera('hhvm', false) }
+if $postgresql_values == undef { $postgresql_values = hiera_hash('postgresql', false) }
+if $php_values == undef { $php_values = hiera_hash('php', false) }
+if $hhvm_values == undef { $hhvm_values = hiera_hash('hhvm', false) }
 
 include puphpet::params
 
@@ -39,17 +39,23 @@ if hash_key_equals($postgresql_values, 'install', 1) {
       require           => Group[$postgresql_values['settings']['user_group']]
     }
 
-    if is_hash($postgresql_values['databases'])
-      and count($postgresql_values['databases']) > 0
-    {
-      create_resources(postgresql_db, $postgresql_values['databases'])
+    if count($postgresql_values['databases']) > 0 {
+      each( $postgresql_values['databases'] ) |$key, $database| {
+        $database_merged = delete(merge($database, {
+          'dbname' => $database['name'],
+        }), 'name')
+
+        create_resources( postgresql_db, {
+          "${database['user']}@${database['name']}" => $database_merged
+        })
+      }
     }
 
     if $postgresql_php_installed
       and $postgresql_php_package == 'php'
-      and ! defined(Php::Module['pgsql'])
+      and ! defined(Puphpet::Php::Module['pgsql'])
     {
-      php::module { 'pgsql':
+      puphpet::php::module { 'pgsql':
         service_autorestart => $postgresql_webserver_restart,
       }
     }
@@ -73,32 +79,66 @@ if hash_key_equals($postgresql_values, 'install', 1) {
 }
 
 define postgresql_db (
+  $dbname,
   $user,
   $password,
-  $grant,
-  $sql_file = false
+  $encoding   = $postgresql::server::encoding,
+  $locale     = $postgresql::server::locale,
+  $grant      = 'ALL',
+  $tablespace = undef,
+  $template   = 'template0',
+  $istemplate = false,
+  $owner      = undef,
+  $sql_file   = false
 ) {
-  if $name == '' or $user == '' or $password == '' or $grant == '' {
+  if ! value_true($dbname) or ! value_true($user)
+    or ! value_true($password)
+  {
     fail( 'PostgreSQL DB requires that name, user, password and grant be set. Please check your settings!' )
   }
 
-  postgresql::server::db { $name:
-    user     => $user,
-    password => $password,
-    grant    => $grant
+  if ! defined(Postgresql::Server::Database[$dbname]) {
+    postgresql::server::database { $dbname:
+      encoding   => $encoding,
+      tablespace => $tablespace,
+      template   => $template,
+      locale     => $locale,
+      istemplate => $istemplate,
+      owner      => $owner,
+    }
+  }
+
+  if ! defined(Postgresql::Server::Role[$user]) {
+    postgresql::server::role { $user:
+      password_hash => postgresql_password($user, $password),
+    }
+  }
+
+  $grant_string = "GRANT ${user} - ${grant} - ${dbname}"
+
+  if ! defined(Postgresql::Server::Database_grant[$grant_string]) {
+    postgresql::server::database_grant { $grant_string:
+      privilege => $grant,
+      db        => $dbname,
+      role      => $user,
+    }
+  }
+
+  if($tablespace != undef and defined(Postgresql::Server::Tablespace[$tablespace])) {
+    Postgresql::Server::Tablespace[$tablespace] -> Postgresql::Server::Database[$dbname]
   }
 
   if $sql_file {
-    $table = "${name}.*"
+    $table = "${dbname}.*"
 
-    exec{ "${name}-import":
-      command     => "sudo -u postgres psql ${name} < ${sql_file}",
+    exec{ "${dbname}-import":
+      command     => "sudo -u postgres psql ${dbname} < ${sql_file}",
       logoutput   => true,
-      refreshonly => $refresh,
-      require     => Postgresql::Server::Db[$name],
-      onlyif      => "test -f ${sql_file}"
+      refreshonly => true,
+      require     => Postgresql::Server::Database_grant[$grant_string],
+      onlyif      => "test -f ${sql_file}",
+      subscribe   => Postgresql::Server::Database[$dbname],
     }
   }
 }
-
 
