@@ -2,3 +2,5 @@
 /composer*
 !/composer.json
 /components/*
+.vagrant
+.idea
