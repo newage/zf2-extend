@@ -1,0 +1,3 @@
+[submodule "puphpet"]
+	path = puphpet
+	url = git@github.com:newage/zf2-extend-puphpet.git

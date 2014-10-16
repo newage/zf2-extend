@@ -1,5 +1,4 @@
 <?php
-use Zend\ServiceManager\ServiceManager;
 
 return array(
     'data-fixture' => array(
@@ -10,13 +9,11 @@ return array(
             'application_entities' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(
-                    __DIR__ . '/../src/Entity'
-                )
+                'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity')
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'User\Entity' => 'application_entities'
+                    __NAMESPACE__ . '\Entity' => 'application_entities'
                 )
             )
         ),
