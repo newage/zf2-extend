@@ -15,13 +15,13 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'create' => array(
+                    'registration' => array(
                         'type' => 'Segment',
                         'options' => array(
                             'route' => '/registration',
                             'defaults' => array(
                                 'controller' => 'Index',
-                                'action' => 'create'
+                                'action' => 'registration'
                             )
                         )
                     ),

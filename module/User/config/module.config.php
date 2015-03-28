@@ -31,10 +31,8 @@ return [
     ],
     'service_manager' => [
         'invokables' => [
-            'RoleModel' => 'User\Model\RoleModel',
             'RoleMapper' => 'User\Mapper\RoleMapper',
             'UserMapper' => 'User\Mapper\UserMapper',
-            'UserModel' => 'User\Model\UserModel',
             'RegistrationForm' => 'User\Form\RegistrationForm',
             'LoginForm' => 'User\Form\LoginForm',
             'LoginService' => 'User\Service\LoginService',
@@ -42,6 +40,8 @@ return [
         ],
         'factories' => [
             'doctrine.cache.zend.static.local' => 'User\Factory\DoctrineCacheFactory',
+            'RoleModel' => 'User\Factory\RoleModelFactory',
+            'UserModel' => 'User\Factory\UserModelFactory'
         ]
     ],
     'view_manager' => [

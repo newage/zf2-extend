@@ -15,12 +15,11 @@ class RoleModel extends AbstractModel
 {
 
     /**
-     * @param $mapper
      * @return Role
      */
-    public function getDefaultRole(RoleMapper $mapper)
+    public function getDefaultRole()
     {
-        $role = $mapper->findOne(array(
+        $role = $this->getMapper()->findOne(array(
             'name' => 'user'
         ));
         return $role;

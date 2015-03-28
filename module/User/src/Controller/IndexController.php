@@ -36,15 +36,16 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
-        $em = $this->getEntityManager();
-        
-        $users = $em->getRepository('User\Entity\User')->findBy(array(), array(
-            'id' => 'ASC'
-        ));
-        
-        return new ViewModel(array(
+        /* @var $model \User\Model\UserModel */
+        $model = $this->getServiceLocator()->get('UserModel');
+        $users = $model->getUsers();
+
+        $view = new ViewModel();
+        $view->setTemplate('user/index/index');
+        $view->setVariables([
             'users' => $users
-        ));
+        ]);
+        return $view;
     }
 
     /**
@@ -70,9 +71,9 @@ class IndexController extends AbstractActionController
         }
         $view = new ViewModel();
         $view->setTemplate('user/index/login');
-        $view->setVariables(array(
+        $view->setVariables([
             'form' => $form
-        ));
+        ]);
         return $view;
     }
 
@@ -81,7 +82,7 @@ class IndexController extends AbstractActionController
      *
      * @return \Zend\View\Model\ViewModel
      */
-    public function createAction()
+    public function registrationAction()
     {
         /* @var $service \User\Service\RegistrationService */
         $service = $this->getServiceLocator()->get('RegistrationService');
@@ -95,7 +96,7 @@ class IndexController extends AbstractActionController
             if ($form->isValid()) {
                 $service->registration();
                 $this->flashMessenger()->addSuccessMessage('User registered');
-                return $this->redirect()->toRoute('user/create');
+                return $this->redirect()->toRoute('user/registration');
             }
         }
         

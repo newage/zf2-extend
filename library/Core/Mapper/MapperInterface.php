@@ -19,10 +19,12 @@ interface MapperInterface
     /**
      * Find rows
      *
-     * @param array $params            
+     * @param array $params
+     * @param array $order
+     * @param int $limit
      * @return array of entity
      */
-    public function findBy($params);
+    public function findBy(array $params, array $order = null, $limit = null);
 
     /**
      * Find row
@@ -30,13 +32,13 @@ interface MapperInterface
      * @param array $params            
      * @return entity
      */
-    public function findOne($params);
+    public function findOne(array $params);
 
     /**
      * Create new row
      *
-     * @param entity $entity            
-     * @return entity
+     * @param object $entity
+     * @return bool|int
      */
     public function create($entity);
 

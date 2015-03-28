@@ -30,7 +30,7 @@ class IdentifierFieldset extends Fieldset implements InputFilterProviderInterfac
             'name' => 'identifier',
             'type' => 'text',
             'options' => array(
-                'label' => 'Login'
+                'label' => 'Email'
             )
         ));
 

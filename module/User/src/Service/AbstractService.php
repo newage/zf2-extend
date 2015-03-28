@@ -2,7 +2,6 @@
 
 namespace User\Service;
 
-use Core\Mapper\AbstractMapper;
 use Core\Service\Exception\RuntimeException;
 use Zend\Form\Form;
 use Zend\ServiceManager\ServiceManager;
@@ -40,23 +39,6 @@ abstract class AbstractService implements ServiceManagerAwareInterface
             throw new RuntimeException('Service manager was not setup to service');
         }
         return $this->serviceManager;
-    }
-
-    /**
-     * Get mapper
-     * @param string $name
-     * @return null|AbstractMapper
-     * @throws RuntimeException
-     */
-    public function getMapper($name)
-    {
-        if ($this->getServiceManager()->has($name)) {
-            $mapper = $this->getServiceManager()->get($name);
-            if ($mapper instanceof AbstractMapper) {
-                return $mapper;
-            }
-        }
-        return null;
     }
 
     /**

@@ -3,7 +3,6 @@ namespace Core\Mapper;
 
 use Core\Entity\EntityDoctrineManagerInterface;
 use Doctrine\ORM\EntityManager;
-use User\Entity\EntityInterface;
 
 /**
  * Abstract mapper for doctrine

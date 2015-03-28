@@ -1,7 +1,7 @@
 <?php
 namespace User\Mapper;
 
-use Core\Mapper\doctrineMapper;
+use Core\Mapper\DoctrineMapper;
 use User\Entity\User;
 
 /**
@@ -17,20 +17,35 @@ class UserMapper extends DoctrineMapper
      */
     public function find($id)
     {
-        $em = $this->getEntityManager();
-        return $em->getRepository('User\Entity\User')->find((int) $id);
+        return $this->getEntityManager()->getRepository('User\Entity\User')->find($id);
     }
 
-    public function findBy($params)
+    /**
+     * Find rows by params
+     *
+     * @param array $params
+     * @param array $order
+     * @param null $limit
+     * @return array|void
+     */
+    public function findBy(array $params, array $order = null, $limit = null)
+    {
+        $this->getEntityManager()->getRepository('User\Entity\User')->findBy($params, $order, $limit);
+    }
+
+    public function findOne(array $params)
     {
         // $em = $this->getEntityManager();
         // return $em->getRepository('User\Entity\User')->find((int)$id);
     }
 
-    public function findOne($params)
+    /**
+     * Get all registered users
+     * @return array|void
+     */
+    public function getUsers()
     {
-        // $em = $this->getEntityManager();
-        // return $em->getRepository('User\Entity\User')->find((int)$id);
+        return $this->getEntityManager()->getRepository('User\Entity\User')->findAll();
     }
 
     /**

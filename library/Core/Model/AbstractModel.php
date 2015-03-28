@@ -1,25 +1,17 @@
 <?php
 namespace Core\Model;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\Form\Form;
 use Core\Form\AbstractForm;
 use Core\Mapper\AbstractMapper;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Model with business logic for user entity/form/mapper
  *
  * @author V.Leontiev
  */
-abstract class AbstractModel implements ServiceLocatorAwareInterface
+abstract class AbstractModel
 {
-
-    /**
-     * Service locator object
-     * 
-     * @var \Zend\ServiceManager\ServiceLocatorInterface
-     */
-    protected $serviceLocator;
 
     /**
      * Form object
@@ -36,34 +28,12 @@ abstract class AbstractModel implements ServiceLocatorAwareInterface
     protected $mapper;
 
     /**
-     * Get service locatol
-     *
-     * @return \Zend\ServiceManager\ServiceLocatorInterface
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
-
-    /**
-     * Set service locator
-     *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator            
-     * @return \Core\Mapper\AbstractMapper
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-        return $this;
-    }
-
-    /**
      * Set current form
      *
-     * @param AbstractForm $form            
+     * @param Form $form
      * @return AbstractModel
      */
-    public function setForm(AbstractForm $form)
+    public function setForm(Form $form)
     {
         $this->form = $form;
         return $this;
@@ -84,7 +54,7 @@ abstract class AbstractModel implements ServiceLocatorAwareInterface
      *
      * @return AbstractMapper
      */
-    public function getMapper()
+    protected function getMapper()
     {
         return $this->mapper;
     }
@@ -92,7 +62,7 @@ abstract class AbstractModel implements ServiceLocatorAwareInterface
     /**
      * Set mapper
      *
-     * @param AbstractMapper $userMapper            
+     * @param AbstractMapper $mapper
      * @return AbstractModel
      */
     public function setMapper(AbstractMapper $mapper)
