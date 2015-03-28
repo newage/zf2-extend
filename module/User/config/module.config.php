@@ -34,11 +34,6 @@ return [
             /* Mappers */
             'RoleMapper' => 'User\Mapper\RoleMapper',
             'UserMapper' => 'User\Mapper\UserMapper',
-            /* Forms */
-            'RegistrationForm' => 'User\Form\RegistrationForm',
-            'LoginForm' => 'User\Form\LoginForm',
-            /* Services */
-            'LoginService' => 'User\Service\LoginService',
             /* Events */
             'SendEmailEvent' => 'User\Event\SendEmail',
         ],
@@ -46,7 +41,8 @@ return [
             'doctrine.cache.zend.static.local' => 'User\Factory\DoctrineCacheFactory',
             'RoleModel' => 'User\Factory\RoleModelFactory',
             'UserModel' => 'User\Factory\UserModelFactory',
-            'RegistrationService' => 'User\Factory\RegistrationServiceFactory'
+            'RegistrationService' => 'User\Factory\RegistrationServiceFactory',
+            'LoginService' => 'User\Factory\LoginServiceFactory',
         ]
     ],
     'view_manager' => [

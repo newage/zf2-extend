@@ -64,7 +64,7 @@ class IndexController extends AbstractActionController
             $form->setData($request->getPost());
             
             if ($form->isValid()) {
-                $service->action();
+                $service->login();
                 $this->flashMessenger()->addSuccessMessage('User logged');
                 return $this->redirect()->toRoute('login');
             }

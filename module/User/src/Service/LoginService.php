@@ -14,20 +14,13 @@ use Core\Form\AbstractDoctrineForm as Form;
 class LoginService extends AbstractService
 {
 
-    public function getForm()
-    {
-        return parent::getForm('LoginForm');
-    }
-
     /**
      * Start action
      *
      * @return bool
      */
-    public function action()
+    public function login()
     {
         // TODO: Implement action() method.
     }
-
-
 }

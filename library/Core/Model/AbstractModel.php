@@ -14,40 +14,11 @@ abstract class AbstractModel
 {
 
     /**
-     * Form object
-     * 
-     * @var AbstractForm
-     */
-    protected $form;
-
-    /**
      * Mapper object
      * 
      * @var AbstractMapper
      */
     protected $mapper;
-
-    /**
-     * Set current form
-     *
-     * @param Form $form
-     * @return AbstractModel
-     */
-    public function setForm(Form $form)
-    {
-        $this->form = $form;
-        return $this;
-    }
-
-    /**
-     * Get current form
-     * 
-     * @return AbstractForm
-     */
-    public function getForm()
-    {
-        return $this->form;
-    }
 
     /**
      * Get mapper

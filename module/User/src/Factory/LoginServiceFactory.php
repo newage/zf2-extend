@@ -3,17 +3,18 @@
 namespace User\Factory;
 
 use User\Entity\User;
-use User\Form\RegistrationForm;
-use User\Service\RegistrationService;
+use User\Form\LoginForm;
+use User\Service\LoginService;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Initialize and setup RegistrationService
+ * Initialize and setup LoginService
  * @package User\Factory
  */
-class RegistrationServiceFactory implements FactoryInterface
+class LoginServiceFactory implements FactoryInterface
 {
+
     /**
      * Create service
      *
@@ -22,18 +23,12 @@ class RegistrationServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $service = new RegistrationService();
+        $service = new LoginService();
         $service->setServiceLocator($serviceLocator);
 
-        $form = new RegistrationForm();
+        $form = new LoginForm();
         $form->bind(new User());
         $service->setForm($form);
-
-        /* Send registration email */
-        $service->getEventManager()->attach(
-            'registration',
-            [$serviceLocator->get('SendEmailEvent'), 'registration']
-        );
 
         return $service;
     }
