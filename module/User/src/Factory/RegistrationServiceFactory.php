@@ -2,6 +2,7 @@
 
 namespace User\Factory;
 
+use User\Entity\User;
 use User\Service\RegistrationService;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -21,7 +22,12 @@ class RegistrationServiceFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $service = new RegistrationService();
-        $service->setServiceManager($serviceLocator);
+        $service->setServiceLocator($serviceLocator);
+
+        /* @var $form \User\Form\RegistrationForm */
+        $form = $service->getService('RegistrationForm');
+        $form->bind(new User());
+        $service->setForm($form);
 
         /* Send registration email */
         $service->getEventManager()->attach(

@@ -56,7 +56,7 @@ class IndexController extends AbstractActionController
     {
         /* @var $service \User\Service\LoginService */
         $service = $this->getServiceLocator()->get('LoginService');
-        $form = $service->getCurrentForm();
+        $form = $service->getForm();
 
         /* @var $request \Zend\Http\PhpEnvironment\Request */
         $request = $this->getRequest();
@@ -86,7 +86,7 @@ class IndexController extends AbstractActionController
     {
         /* @var $service \User\Service\RegistrationService */
         $service = $this->getServiceLocator()->get('RegistrationService');
-        $form = $service->getCurrentForm();
+        $form = $service->getForm();
 
         /* @var $request \Zend\Http\PhpEnvironment\Request */
         $request = $this->getRequest();

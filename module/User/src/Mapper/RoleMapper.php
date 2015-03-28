@@ -6,8 +6,6 @@ use User\Entity\Role;
 
 /**
  * Mapper for role entity
- *
- * @author V.Leontiev
  */
 class RoleMapper extends DoctrineMapper
 {
@@ -62,7 +60,7 @@ class RoleMapper extends DoctrineMapper
     }
 
     /**
-     * Udate role
+     * Update role
      *
      * @param Role $entity            
      * @return Role

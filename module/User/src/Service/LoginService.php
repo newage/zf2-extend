@@ -14,7 +14,7 @@ use Core\Form\AbstractDoctrineForm as Form;
 class LoginService extends AbstractService
 {
 
-    public function getCurrentForm()
+    public function getForm()
     {
         return parent::getForm('LoginForm');
     }

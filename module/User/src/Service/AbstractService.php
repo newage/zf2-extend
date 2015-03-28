@@ -7,20 +7,21 @@ use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Form\Form;
-use Zend\ServiceManager\ServiceManager;
-use Zend\ServiceManager\ServiceManagerAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
 
 /**
  * Class AbstractService
  * @package User\Service
  */
-abstract class AbstractService implements ServiceManagerAwareInterface, EventManagerAwareInterface
+class AbstractService implements ServiceLocatorAwareInterface, EventManagerAwareInterface
 {
 
     /**
-     * @var ServiceManager
+     * @var ServiceLocatorInterface
      */
-    protected $serviceManager;
+    protected $serviceLocator;
 
     /**
      * @var EventManager
@@ -28,25 +29,32 @@ abstract class AbstractService implements ServiceManagerAwareInterface, EventMan
     protected $eventManager;
 
     /**
-     * Set service manager
-     * @param ServiceManager $serviceManager
+     * @var Form
      */
-    public function setServiceManager(ServiceManager $serviceManager)
+    protected $form;
+
+    /**
+     * Set service locator
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
-        $this->serviceManager = $serviceManager;
+        $this->serviceLocator = $serviceLocator;
     }
+
 
     /**
      * Get service manager
-     * @return ServiceManager
+     * @return ServiceLocatorInterface
      * @throws RuntimeException
      */
-    public function getServiceManager()
+    public function getServiceLocator()
     {
-        if (!$this->serviceManager instanceof ServiceManager) {
-            throw new RuntimeException('Service manager was not setup to service');
+        if (!$this->serviceLocator instanceof ServiceLocatorInterface) {
+            throw new RuntimeException('Service locator was not setup to service');
         }
-        return $this->serviceManager;
+        return $this->serviceLocator;
     }
 
     /**
@@ -55,15 +63,13 @@ abstract class AbstractService implements ServiceManagerAwareInterface, EventMan
      * @return array|null|object
      * @throws RuntimeException
      */
-    public function getForm($name)
+    public function getService($name)
     {
-        if ($this->getServiceManager()->has($name)) {
-            $mapper = $this->getServiceManager()->get($name);
-            if ($mapper instanceof Form) {
-                return $mapper;
-            }
+        if ($this->getServiceLocator()->has($name)) {
+            return $this->getServiceLocator()->get($name);
+        } else {
+            throw new RuntimeException('Service was not register: ' . $name);
         }
-        return null;
     }
 
     /**
@@ -96,8 +102,23 @@ abstract class AbstractService implements ServiceManagerAwareInterface, EventMan
     }
 
     /**
+     * @param Form $form
+     */
+    public function setForm(Form $form)
+    {
+        $this->form = $form;
+    }
+
+    /**
      * Get current form
      * @return Form
      */
-    abstract public function getCurrentForm();
+    public function getForm()
+    {
+        if (!$this->form instanceof Form) {
+            throw new RuntimeException('Service do not have form: ' . __CLASS__);
+        } else {
+            return $this->form;
+        }
+    }
 }
