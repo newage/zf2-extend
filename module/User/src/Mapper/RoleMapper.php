@@ -1,7 +1,8 @@
 <?php
 namespace User\Mapper;
 
-use Core\Mapper\AbstractDoctrineMapper;
+use Core\Mapper\doctrineMapper;
+use Core\Mapper\Exception\InvalidArgumentException;
 use User\Entity\Role;
 
 /**
@@ -9,29 +10,32 @@ use User\Entity\Role;
  *
  * @author V.Leontiev
  */
-class RoleMapper extends AbstractDoctrineMapper
+class RoleMapper extends doctrineMapper
 {
 
     /**
      * Find one row
-     *
-     * @param type $id            
+     * @param int $id
      * @return Role
      */
     public function find($id)
     {
         $em = $this->getEntityManager();
-        return $em->getRepository('User\Entity\Role')->find((int) $id);
+        return $em->getRepository('User\Entity\Role')->find($id);
     }
 
     public function findBy($params)
-    {}
+    {
+        return null;
+    }
 
+    /**
+     * Find one entity by parameters
+     * @param array $params
+     * @return Role
+     */
     public function findOne($params)
     {
-        if (! is_array($params)) {
-            throw new \Zend\Stdlib\Exception\InvalidArgumentException('Params in not array');
-        }
         $em = $this->getEntityManager();
         return $em->getRepository('User\Entity\Role')->findOneBy($params);
     }
@@ -44,7 +48,7 @@ class RoleMapper extends AbstractDoctrineMapper
      */
     public function delete($id)
     {
-        return $entity;
+        return null;
     }
 
     /**
@@ -55,7 +59,7 @@ class RoleMapper extends AbstractDoctrineMapper
      */
     public function create($entity)
     {
-        return $entity;
+        return null;
     }
 
     /**
@@ -66,6 +70,6 @@ class RoleMapper extends AbstractDoctrineMapper
      */
     public function update($entity)
     {
-        return $entity;
+        return null;
     }
 }

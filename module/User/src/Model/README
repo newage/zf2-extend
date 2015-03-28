@@ -1,0 +1,3 @@
+Model implements business logic.
+Model can call methods from own Mapper.
+Model can call data from form. Form data is Entity

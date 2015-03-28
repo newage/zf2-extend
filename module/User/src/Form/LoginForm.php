@@ -1,9 +1,9 @@
 <?php
 namespace User\Form;
 
-use Core\Form\AbstractDoctrineForm as Form;
+use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
-use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
 /**
  * Login form for user
@@ -20,7 +20,7 @@ class LoginForm extends Form
         parent::__construct('login');
 
         $this->setAttribute('method', 'post')
-            ->setHydrator(new ClassMethodsHydrator())
+            ->setHydrator(new ClassMethods())
             ->setInputFilter(new InputFilter());
         
         $this->add(array(

@@ -9,7 +9,7 @@ return array(
                 'params' => array(
                     'host' => 'localhost',
                     'port' => '3306',
-                    'user' => 'dbuser',
+                    'user' => 'root',
                     'password' => '123456',
                     'dbname' => 'dbname'
                 )

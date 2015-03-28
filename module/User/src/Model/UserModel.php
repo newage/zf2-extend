@@ -2,7 +2,10 @@
 namespace User\Model;
 
 use Core\Model\AbstractModel;
+use User\Entity\Role;
 use User\Entity\User;
+use User\Mapper\UserMapper;
+use Zend\Form\Form;
 use Zend\Stdlib\Hydrator;
 
 /**
@@ -14,60 +17,19 @@ class UserModel extends AbstractModel
 {
 
     /**
-     * Get form for update user data
-     *
-     * @param int $identifier
-     * @return \User\Form\LoginForm
+     * Encode password for user and insert new user to DB
+     * @param UserMapper $mapper
+     * @param User $entityUser
+     * @param Role $entityRole
+     * @return User
      */
-    public function getUpdateForm($identifier)
+    public function create(UserMapper $mapper, User $entityUser, Role $entityRole)
     {
-        /* @var $form \User\Form\RegistrationForm */
-        $form = $this->getServiceLocator()->get('RegistrationForm');
-        $form->bind($this->getMapper()->find($identifier));
-        return $form;
-    }
+        $entityUser->setSalt(md5(time()));
+        $entityUser->setPassword(md5($entityUser->getPassword() . $entityUser->getSalt() . User::SECRET_KEY));
+        $entityUser->setRole($entityRole);
 
-    /**
-     * @return \Core\Form\AbstractForm
-     */
-    public function getRegistrationForm()
-    {
-        /* @var $form \User\Form\RegistrationForm */
-        $form = $this->getServiceLocator()->get('RegistrationForm');
-        $form->bind(new User());
-        return $form;
-    }
-
-    /**
-     * @return \User\Form\LoginForm
-     */
-    public function getLoginForm()
-    {
-        /* @var $form \User\Form\LoginForm */
-        $form = $this->getServiceLocator()->get('LoginForm');
-        $form->bind(new User());
-        return $form;
-    }
-
-    public function create()
-    {
-        /* @var $roleModel \User\Model\RoleModel */
-        $roleModel = $this->getServiceLocator()->get('RoleModel');
-        
-        /* @var $entity \User\Entity\User */
-        $entity = $this->getForm()->getObject();
-        var_dump($entity); die;
-        $mapper = $this->getMapper();
-        
-        $entity->setSalt(md5(time()));
-        $entity->setPassword(md5($entity->getPassword() . $entity->getSalt() . User::SECRET_KEY));
-        
-        $role = $roleModel->getMapper()->findOne(array(
-            'name' => 'user'
-        ));
-        $entity->setRole($role);
-        
-        $mapper->create($entity);
+        return $mapper->create($entityUser);
     }
 
     public function update()

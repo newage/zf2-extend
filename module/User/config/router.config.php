@@ -15,7 +15,7 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'registration' => array(
+                    'create' => array(
                         'type' => 'Segment',
                         'options' => array(
                             'route' => '/registration',

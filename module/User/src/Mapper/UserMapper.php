@@ -1,21 +1,18 @@
 <?php
 namespace User\Mapper;
 
-use Core\Mapper\AbstractDoctrineMapper;
+use Core\Mapper\doctrineMapper;
 use User\Entity\User;
 
 /**
- * Description of User
- *
- * @author V.Leontiev
+ * Work with DB table users
  */
-class UserMapper extends AbstractDoctrineMapper
+class UserMapper extends DoctrineMapper
 {
 
     /**
      * Find one row
-     *
-     * @param type $id            
+     * @param int $id
      * @return User
      */
     public function find($id)
@@ -44,6 +41,7 @@ class UserMapper extends AbstractDoctrineMapper
      */
     public function delete($id)
     {
+        /* @var $entity \User\Entity\User */
         $entity = $this->getEntityManager()
             ->getRepository('User\Entity\User')
             ->find($id);

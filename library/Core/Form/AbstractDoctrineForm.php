@@ -36,7 +36,7 @@ abstract class AbstractDoctrineForm extends AbstractForm implements EntityDoctri
      * Set entity manager
      *
      * @param \Doctrine\ORM\EntityManager $entityManager            
-     * @return \Core\Mapper\AbstractDoctrineMapper
+     * @return \Core\Mapper\doctrineMapper
      */
     public function setEntityManager(EntityManager $entityManager)
     {

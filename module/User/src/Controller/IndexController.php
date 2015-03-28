@@ -1,8 +1,8 @@
 <?php
 namespace User\Controller;
 
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Core\Mvc\Controller\EntityController;
 use User\Mapper\UserMapper;
 use User\Form\RegistrationForm;
 use User\Model\UserModel;
@@ -12,7 +12,7 @@ use User\Model\UserModel;
  *
  * @author vadim
  */
-class IndexController extends EntityController
+class IndexController extends AbstractActionController
 {
 
     /**
@@ -53,16 +53,18 @@ class IndexController extends EntityController
      */
     public function loginAction()
     {
-        $model = $this->getUserModel();
-        $form = $model->getLoginForm();
+        /* @var $service \User\Service\LoginService */
+        $service = $this->getServiceLocator()->get('LoginService');
+        $form = $service->getCurrentForm();
 
+        /* @var $request \Zend\Http\PhpEnvironment\Request */
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
             
             if ($form->isValid()) {
-                $model->create();
-                $this->flashMessenger()->addSuccessMessage('User Logined');
+                $service->action();
+                $this->flashMessenger()->addSuccessMessage('User logged');
                 return $this->redirect()->toRoute('login');
             }
         }
@@ -75,54 +77,24 @@ class IndexController extends EntityController
     }
 
     /**
-     * Update user
-     *
-     * @return \Zend\View\Model\ViewModel
-     */
-    public function updateAction()
-    {
-        $model = $this->getUserModel();
-        $form = $model->getUpdateForm($this->params('id'));
-//        $form->setData(array(
-//            'id' => $this->params('id')
-//        ));
-        
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $form->setData($request->getPost());
-            
-            if ($form->isValid()) {
-                $model->update();
-                
-                $this->flashMessenger()->addSuccessMessage('User Updated');
-                return $this->redirect()->toRoute('user/update');
-            }
-        } else {
-            $form = $this->getUserModel()->getForm();
-        }
-        
-        return new ViewModel(array(
-            'form' => $form
-        ));
-    }
-
-    /**
      * Registration new user
      *
      * @return \Zend\View\Model\ViewModel
      */
     public function createAction()
     {
-        $model = $this->getUserModel();
-        $form = $model->getRegistrationForm();
-        
+        /* @var $service \User\Service\RegistrationService */
+        $service = $this->getServiceLocator()->get('RegistrationService');
+        $form = $service->getCurrentForm();
+
+        /* @var $request \Zend\Http\PhpEnvironment\Request */
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
             
             if ($form->isValid()) {
-                $model->create();
-                $this->flashMessenger()->addSuccessMessage('User Saved');
+                $service->registration();
+                $this->flashMessenger()->addSuccessMessage('User registered');
                 return $this->redirect()->toRoute('user/create');
             }
         }
@@ -133,23 +105,7 @@ class IndexController extends EntityController
     }
 
     public function logoutAction()
-    {}
-
-    /**
-     *
-     * @return UserModel
-     */
-    public function getUserModel()
     {
-        if (! $this->userModel) {
-            $this->setUserModel($this->getServiceLocator()->get('UserModel'));
-        }
-        return $this->userModel;
-    }
-
-    public function setUserModel(UserModel $model)
-    {
-        $this->userModel = $model;
-        return $this;
+        return new ViewModel();
     }
 }

@@ -3,6 +3,7 @@ namespace User\Model;
 
 use Core\Model\AbstractModel;
 use User\Entity\Role;
+use User\Mapper\RoleMapper;
 use Zend\Stdlib\Hydrator;
 
 /**
@@ -13,12 +14,15 @@ use Zend\Stdlib\Hydrator;
 class RoleModel extends AbstractModel
 {
 
-    public function getRoleForm()
+    /**
+     * @param $mapper
+     * @return Role
+     */
+    public function getDefaultRole(RoleMapper $mapper)
     {
-        $form = $this->getForm();
-        $form->setHydrator(new Hydrator\ClassMethods());
-        $form->setMapper($this->getMapper());
-        $form->bind(new Role());
-        return $form;
+        $role = $mapper->findOne(array(
+            'name' => 'user'
+        ));
+        return $role;
     }
 }

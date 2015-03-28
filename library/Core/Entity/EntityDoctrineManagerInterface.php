@@ -20,7 +20,7 @@ interface EntityDoctrineManagerInterface
      * Set entity manager
      *
      * @param \Doctrine\ORM\EntityManager $entityManager            
-     * @return \Core\Mapper\AbstractDoctrineMapper
+     * @return \Core\Mapper\doctrineMapper
      */
     public function setEntityManager(\Doctrine\ORM\EntityManager $entityManager);
 }

@@ -10,7 +10,7 @@ use Core\Mapper\AbstractMapper;
  *
  * @author V.Leontiev
  */
-abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface, InputFilterInterface
+abstract class AbstractForm extends Form implements InputFilterInterface
 {
 
     /**
@@ -47,7 +47,7 @@ abstract class AbstractForm extends Form implements ServiceLocatorAwareInterface
     /**
      * Set service locator
      *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator            
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
      * @return \Core\Mapper\AbstractMapper
      */
     public function setServiceLocator(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
