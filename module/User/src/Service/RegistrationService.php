@@ -44,6 +44,12 @@ class RegistrationService extends AbstractService
         $userModel = $this->getServiceManager()->get('UserModel');
         /* @var $userEntity \User\Entity\User */
         $userEntity = $this->getCurrentForm()->getObject();
-        return $userModel->create($userEntity, $roleEntity);
+        $userModel->create($userEntity, $roleEntity);
+
+        $this->getEventManager()->trigger(
+            __METHOD__,
+            $this,
+            ['email' => $userEntity->getIdentifier()]
+        );
     }
 }

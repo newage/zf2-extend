@@ -1,8 +1,7 @@
 <?php
 namespace User\Mapper;
 
-use Core\Mapper\doctrineMapper;
-use Core\Mapper\Exception\InvalidArgumentException;
+use Core\Mapper\DoctrineMapper;
 use User\Entity\Role;
 
 /**
@@ -10,7 +9,7 @@ use User\Entity\Role;
  *
  * @author V.Leontiev
  */
-class RoleMapper extends doctrineMapper
+class RoleMapper extends DoctrineMapper
 {
 
     /**
@@ -24,7 +23,7 @@ class RoleMapper extends doctrineMapper
         return $em->getRepository('User\Entity\Role')->find($id);
     }
 
-    public function findBy($params)
+    public function findBy(array $params, array $order = null, $limit = null)
     {
         return null;
     }
@@ -34,7 +33,7 @@ class RoleMapper extends doctrineMapper
      * @param array $params
      * @return Role
      */
-    public function findOne($params)
+    public function findOne(array $params)
     {
         $em = $this->getEntityManager();
         return $em->getRepository('User\Entity\Role')->findOneBy($params);

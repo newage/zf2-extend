@@ -31,17 +31,22 @@ return [
     ],
     'service_manager' => [
         'invokables' => [
+            /* Mappers */
             'RoleMapper' => 'User\Mapper\RoleMapper',
             'UserMapper' => 'User\Mapper\UserMapper',
+            /* Forms */
             'RegistrationForm' => 'User\Form\RegistrationForm',
             'LoginForm' => 'User\Form\LoginForm',
+            /* Services */
             'LoginService' => 'User\Service\LoginService',
-            'RegistrationService' => 'User\Service\RegistrationService'
+            /* Events */
+            'SendEmailEvent' => 'User\Event\SendEmail',
         ],
         'factories' => [
             'doctrine.cache.zend.static.local' => 'User\Factory\DoctrineCacheFactory',
             'RoleModel' => 'User\Factory\RoleModelFactory',
-            'UserModel' => 'User\Factory\UserModelFactory'
+            'UserModel' => 'User\Factory\UserModelFactory',
+            'RegistrationService' => 'User\Factory\RegistrationServiceFactory'
         ]
     ],
     'view_manager' => [

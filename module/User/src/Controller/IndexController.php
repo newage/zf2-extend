@@ -105,6 +105,10 @@ class IndexController extends AbstractActionController
         ));
     }
 
+    /**
+     * Logout user
+     * @return ViewModel
+     */
     public function logoutAction()
     {
         return new ViewModel();

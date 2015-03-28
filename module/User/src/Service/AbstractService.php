@@ -3,6 +3,9 @@
 namespace User\Service;
 
 use Core\Service\Exception\RuntimeException;
+use Zend\EventManager\EventManager;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerInterface;
 use Zend\Form\Form;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
@@ -11,13 +14,18 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
  * Class AbstractService
  * @package User\Service
  */
-abstract class AbstractService implements ServiceManagerAwareInterface
+abstract class AbstractService implements ServiceManagerAwareInterface, EventManagerAwareInterface
 {
 
     /**
      * @var ServiceManager
      */
     protected $serviceManager;
+
+    /**
+     * @var EventManager
+     */
+    protected $eventManager;
 
     /**
      * Set service manager
@@ -56,6 +64,35 @@ abstract class AbstractService implements ServiceManagerAwareInterface
             }
         }
         return null;
+    }
+
+    /**
+     * Inject an EventManager instance
+     *
+     * @param  EventManagerInterface $eventManager
+     * @return void
+     */
+    public function setEventManager(EventManagerInterface $eventManager)
+    {
+        $eventManager->setIdentifiers([
+            __CLASS__,
+            get_called_class(),
+        ]);
+        $this->eventManager = $eventManager;
+    }
+
+    /**
+     * Retrieve the event manager
+     * Lazy-loads an EventManager instance if none registered.
+     *
+     * @return EventManagerInterface
+     */
+    public function getEventManager()
+    {
+        if (null === $this->eventManager) {
+            $this->setEventManager(new EventManager());
+        }
+        return $this->eventManager;
     }
 
     /**
