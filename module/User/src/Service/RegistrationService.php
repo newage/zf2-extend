@@ -3,6 +3,7 @@
 namespace User\Service;
 
 use Core\Service\AbstractService;
+use User\Entity\User;
 
 /**
  * Class RegistrationService
@@ -13,6 +14,7 @@ class RegistrationService extends AbstractService
 
     /**
      * Create user in database
+     * @return User
      */
     public function registration()
     {
