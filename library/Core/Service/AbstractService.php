@@ -1,6 +1,6 @@
 <?php
 
-namespace User\Service;
+namespace Core\Service;
 
 use Core\Service\Exception\RuntimeException;
 use Zend\EventManager\EventManager;

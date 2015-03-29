@@ -2,6 +2,8 @@
 
 namespace User\Service;
 
+use Core\Service\AbstractService;
+
 /**
  * Class RegistrationService
  * @package User\Service
