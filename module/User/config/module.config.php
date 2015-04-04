@@ -39,6 +39,7 @@ return [
         ],
         'factories' => [
             'doctrine.cache.zend.static.local' => 'User\Factory\DoctrineCacheFactory',
+            'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
             'RoleModel' => 'User\Factory\RoleModelFactory',
             'UserModel' => 'User\Factory\UserModelFactory',
             'RegistrationService' => 'User\Factory\RegistrationServiceFactory',
@@ -46,11 +47,6 @@ return [
         ]
     ],
     'view_manager' => [
-        'template_map' => [
-            'template_map' => include __DIR__  .'/../template_map.php'
-        ],
-        'template_path_stack' => [
-            __DIR__ . '/../view'
-        ]
+        'template_map' =>  require __DIR__  .'/../template_map.php'
     ]
 ];

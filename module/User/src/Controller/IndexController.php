@@ -100,9 +100,12 @@ class IndexController extends AbstractActionController
             }
         }
         
-        return new ViewModel(array(
+        $view = new ViewModel();
+        $view->setVariables([
             'form' => $form
-        ));
+        ]);
+        $view->setTemplate('user/index/registration');
+        return $view;
     }
 
     /**
