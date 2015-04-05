@@ -64,6 +64,6 @@ Mapper - Provide methods for work with DB.
 
 Model - Implement all business logic. Work with mapper.
 
-Service - Can works with any models and form. 
+Service - Create relations between any models and form. 
 
 Controller - Call service and add data to view.

@@ -42,4 +42,3 @@ class LoginService extends AbstractService
         return $authService->authenticate();
     }
 }
-

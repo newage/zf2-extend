@@ -1,14 +1,14 @@
 <?php
-return array(
-    'caches' => array(
-        'cache.static.local' => array(
+return [
+    'caches' => [
+        'cache.static.local' => [
             'adapter' => 'apc',
-            'plugins' => array(
-                'exception_handler' => array(
+            'plugins' => [
+                'exception_handler' => [
                     'throw_exceptions' => false
-                ),
+                ],
                 'serializer'
-            )
-        )
-    )
-);
+            ]
+        ]
+    ]
+];

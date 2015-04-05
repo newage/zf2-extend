@@ -25,6 +25,7 @@
         "behat/behat": "3.0.*",
         "squizlabs/php_codesniffer": "1.5.*",
         "phpmd/phpmd": "2.1.*",
-        "theseer/phpdox": "0.*"
+        "theseer/phpdox": "0.*",
+        "phing/phing": "2.*"
     }
 }
