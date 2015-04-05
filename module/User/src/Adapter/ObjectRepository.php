@@ -18,15 +18,17 @@ class ObjectRepository extends BaseObjectRepository
     {
         $this->setup();
         $options  = $this->options;
+
         $identity = $options
             ->getObjectRepository()
             ->findOneBy(array(
-                $options->getIdentityProperty() => $this->identity
+                $options->getIdentityProperty() => $this->identity,
+                'isEnable' => 1
             ));
 
         if (!$identity) {
             $this->authenticationResultInfo['code'] = AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND;
-            $this->authenticationResultInfo['messages'][] = 'A record with the supplied identity could not be found.';
+            $this->authenticationResultInfo['messages'][] = 'A record not be found or disable';
 
             return $this->createAuthenticationResult();
         }

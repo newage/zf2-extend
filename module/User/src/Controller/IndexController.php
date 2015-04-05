@@ -121,6 +121,9 @@ class IndexController extends AbstractActionController
      */
     public function logoutAction()
     {
-        return new ViewModel();
+        /* @var $authService \Zend\Authentication\AuthenticationService */
+        $authService = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
+        $authService->clearIdentity();
+        return $this->redirect()->toRoute('home');
     }
 }

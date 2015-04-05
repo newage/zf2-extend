@@ -15,7 +15,7 @@ class UserModel extends AbstractModel
 {
 
     /**
-     * Encode password for user and insert new user to DB
+     * Make hash, enable user, set role and insert user to DB
      * @param User $entityUser
      * @param Role $entityRole
      * @return User
@@ -29,6 +29,7 @@ class UserModel extends AbstractModel
         $passwordHash = password_hash($entityUser->getPassword(), PASSWORD_BCRYPT, $options);
         $entityUser->setPassword($passwordHash);
         $entityUser->setRole($entityRole);
+        $entityUser->setEnable();
 
         return $this->getMapper()->create($entityUser);
     }
