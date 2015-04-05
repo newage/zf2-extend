@@ -10,8 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
 
-    const SECRET_KEY = 'secret key for user';
-
     const STATUS_ENABLE = 'ENABLE';
     const STATUS_DISABLE = 'DISABLE';
 
@@ -33,11 +31,6 @@ class User
     protected $password;
 
     /**
-     * @ORM\Column(type="string")
-     */
-    protected $salt;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Role")
      * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      */
@@ -54,14 +47,19 @@ class User
     protected $updatedAt;
 
     /**
-     * @ORM\Column(type="string", name="password_hash", nullable=true)
+     * @ORM\Column(type="string", name="restore_hash", nullable=true)
      */
-    protected $passwordHash;
+    protected $restoreHash;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="datetime", name="restore_hash_updated_at", nullable=true)
      */
-    protected $status;
+    protected $restoreHashUpdatedAt;
+
+    /**
+     * @ORM\Column(type="string", name="is_active")
+     */
+    protected $isActive;
 
     public function getId()
     {
@@ -76,11 +74,6 @@ class User
     public function getPassword()
     {
         return $this->password;
-    }
-
-    public function getSalt()
-    {
-        return $this->salt;
     }
 
     public function getRole()
@@ -98,14 +91,14 @@ class User
         return $this->updatedAt;
     }
 
-    public function getPasswordHash()
+    public function getRestoreHash()
     {
-        return $this->passwordHash;
+        return $this->restoreHash;
     }
 
-    public function getStatus()
+    public function getIsActive()
     {
-        return $this->status;
+        return $this->isActive;
     }
 
     public function setIdentifier($identifier)
@@ -117,12 +110,6 @@ class User
     public function setPassword($password)
     {
         $this->password = $password;
-        return $this;
-    }
-
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
         return $this;
     }
 
@@ -144,15 +131,31 @@ class User
         return $this;
     }
 
-    public function setPasswordHash()
+    public function setRestoreHash()
     {
-        $this->passwordHash = md5(time() . uniqid());
+        $this->restoreHash = md5(time() . uniqid());
         return $this;
     }
 
-    public function setStatus($status)
+    public function setIsActive($isActive)
     {
-        $this->status = $status;
+        $this->isActive = $isActive;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRestoreHashUpdatedAt()
+    {
+        return $this->restoreHashUpdatedAt;
+    }
+
+    /**
+     * @param mixed $restoreHashUpdatedAt
+     */
+    public function setRestoreHashUpdatedAt($restoreHashUpdatedAt)
+    {
+        $this->restoreHashUpdatedAt = $restoreHashUpdatedAt;
     }
 }

@@ -60,19 +60,26 @@ class IndexController extends AbstractActionController
 
         /* @var $request \Zend\Http\PhpEnvironment\Request */
         $request = $this->getRequest();
+        $errors = [];
         if ($request->isPost()) {
             $form->setData($request->getPost());
-            
+
             if ($form->isValid()) {
-                $service->login();
-                $this->flashMessenger()->addSuccessMessage('User logged');
-                return $this->redirect()->toRoute('login');
+                $authResult = $service->login();
+
+                if ($authResult->isValid()) {
+                    $this->flashMessenger()->addSuccessMessage('User logged in');
+                    return $this->redirect()->toRoute('home');
+                } else {
+                    $errors = $authResult->getMessages();
+                }
             }
         }
         $view = new ViewModel();
         $view->setTemplate('user/index/login');
         $view->setVariables([
-            'form' => $form
+            'form' => $form,
+            'errors' => $errors
         ]);
         return $view;
     }
@@ -96,7 +103,7 @@ class IndexController extends AbstractActionController
             if ($form->isValid()) {
                 $service->registration();
                 $this->flashMessenger()->addSuccessMessage('User registered');
-                return $this->redirect()->toRoute('user/registration');
+                return $this->redirect()->toRoute('login');
             }
         }
         

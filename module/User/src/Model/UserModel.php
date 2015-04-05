@@ -22,8 +22,12 @@ class UserModel extends AbstractModel
      */
     public function create(User $entityUser, Role $entityRole)
     {
-        $entityUser->setSalt(md5(time()));
-        $entityUser->setPassword(md5($entityUser->getPassword() . $entityUser->getSalt() . User::SECRET_KEY));
+        $options = [
+            'cost' => 10,
+            'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+        ];
+        $passwordHash = password_hash($entityUser->getPassword(), PASSWORD_BCRYPT, $options);
+        $entityUser->setPassword($passwordHash);
         $entityUser->setRole($entityRole);
 
         return $this->getMapper()->create($entityUser);

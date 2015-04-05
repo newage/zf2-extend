@@ -9,8 +9,15 @@
     $this->form->setAttribute('class', 'form-horizontal');
     // Get the form label plugin
     $formLabel = $this->plugin('formLabel');
-
+    /* @var $form \User\Form\LoginForm */
+    $form = $this->form;
     echo $this->form()->openTag($this->form);
+
+    echo '<div class="alert alert-dismissable alert-danger">';
+    foreach ($this->errors as $error) {
+        echo $error . '<br/>';
+    }
+    echo '</div>';
 ?>
 
 <div class="form-group">

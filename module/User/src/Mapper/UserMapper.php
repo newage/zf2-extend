@@ -60,7 +60,7 @@ class UserMapper extends DoctrineMapper
         $entity = $this->getEntityManager()
             ->getRepository('User\Entity\User')
             ->find($id);
-        $entity->setStatus(User::STATUS_DISABLE);
+        $entity->setIsActive(User::STATUS_DISABLE);
         
         $this->persist($entity);
         return $entity;
@@ -74,7 +74,7 @@ class UserMapper extends DoctrineMapper
      */
     public function create($entity)
     {
-        $entity->setStatus(User::STATUS_ENABLE);
+        $entity->setIsActive(User::STATUS_ENABLE);
         $entity->setCreatedAt();
         $entity->setUpdatedAt();
         
