@@ -34,6 +34,13 @@ Run install file
 </VirtualHost>
 ```
 
+###Vagrant setup
+```
+$ git submodule init
+$ git submodule update
+$ vagrant up
+```
+
 ##Doctrine
 
 ###Validate mappings
