@@ -12,12 +12,16 @@ return [
                         'route' => 'login',
                     ],
                     [
+                        'label' => 'Registration',
+                        'route' => 'registration'
+                    ],
+                    [
                         'label' => 'User',
                         'route' => 'user',
                         'pages' => [
                             [
-                                'label' => 'Registration',
-                                'route' => 'user/registration'
+                                'label' => 'Update',
+                                'route' => 'user/update'
                             ]
                         ]
                     ]
