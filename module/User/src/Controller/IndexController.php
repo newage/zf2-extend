@@ -1,7 +1,7 @@
 <?php
 namespace User\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Core\Mvc\Controller\AbstractExtendController;
 use Zend\View\Model\ViewModel;
 use User\Mapper\UserMapper;
 use User\Form\RegistrationForm;
@@ -9,10 +9,9 @@ use User\Model\UserModel;
 
 /**
  * Description of Index
- *
  * @author vadim
  */
-class IndexController extends AbstractActionController
+class IndexController extends AbstractExtendController
 {
 
     /**
@@ -60,7 +59,6 @@ class IndexController extends AbstractActionController
 
         /* @var $request \Zend\Http\PhpEnvironment\Request */
         $request = $this->getRequest();
-        $errors = [];
         if ($request->isPost()) {
             $form->setData($request->getPost());
 
@@ -71,15 +69,14 @@ class IndexController extends AbstractActionController
                     $this->flashMessenger()->addSuccessMessage('User logged in');
                     return $this->redirect()->toRoute('home');
                 } else {
-                    $errors = $authResult->getMessages();
+                    $this->messenger()->addErrorMessage('A user account not be found or disable');
                 }
             }
         }
         $view = new ViewModel();
         $view->setTemplate('user/index/login');
         $view->setVariables([
-            'form' => $form,
-            'errors' => $errors
+            'form' => $form
         ]);
         return $view;
     }

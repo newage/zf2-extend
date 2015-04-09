@@ -12,14 +12,6 @@
     /* @var $form \User\Form\LoginForm */
     $form = $this->form;
     echo $this->form()->openTag($this->form);
-
-    if (count($this->errors) > 0) {
-        echo '<div class="alert alert-dismissable alert-danger">';
-        foreach ($this->errors as $error) {
-            echo $error . '<br/>';
-        }
-        echo '</div>';
-    }
 ?>
 
 <div class="form-group">

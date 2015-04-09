@@ -10,5 +10,15 @@ return [
                 'serializer'
             ]
         ]
+    ],
+    'controller_plugins' => [
+        'invokables' => [
+            'messenger' => 'Core\Mvc\Controller\Plugin\Messenger'
+        ]
+    ],
+    'view_helpers' => [
+        'factories' => [
+            'messenger' => 'Core\View\Helper\Factory\MessengerFactory'
+        ]
     ]
 ];
