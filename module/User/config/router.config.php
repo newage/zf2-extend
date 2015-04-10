@@ -1,68 +1,69 @@
 <?php
 
-return array(
-    'router' => array(
-        'routes' => array(
-            'user' => array(
+return [
+    'router' => [
+        'routes' => [
+            'user' => [
                 'type' => 'Literal',
-                'options' => array(
+                'options' => [
                     'route' => '/user',
-                    'defaults' => array(
+                    'defaults' => [
                         '__NAMESPACE__' => 'User\Controller',
                         'controller' => 'Index',
                         'action' => 'index'
-                    )
-                ),
+                    ]
+                ],
                 'may_terminate' => true,
-                'child_routes' => array(
-                    'registration' => array(
+                'child_routes' => [
+                    'update' => [
                         'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/registration',
-                            'defaults' => array(
-                                'controller' => 'Index',
-                                'action' => 'registration'
-                            )
-                        )
-                    ),
-                    'update' => array(
-                        'type' => 'Segment',
-                        'options' => array(
+                        'options' => [
                             'route' => '/update/:id',
-                            'defaults' => array(
+                            'defaults' => [
                                 '__NAMESPACE__' => 'User\Controller',
                                 'controller' => 'Index',
                                 'action' => 'update'
-                            ),
-                            'constraints' => array(
+                            ],
+                            'constraints' => [
                                 'id' => '[0-9]+'
-                            )
-                        )
-                    )
-                )
-            ),
-            'login' => array(
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'registration' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/registration',
+                    'defaults' => [
+                        '__NAMESPACE__' => 'User\Controller',
+                        'controller' => 'Index',
+                        'action' => 'registration'
+                    ]
+                ]
+            ],
+            'login' => [
                 'type' => 'Literal',
-                'options' => array(
+                'options' => [
                     'route' => '/login',
-                    'defaults' => array(
+                    'defaults' => [
                         '__NAMESPACE__' => 'User\Controller',
                         'controller' => 'Index',
                         'action' => 'login'
-                    )
-                )
-            ),
-            'logout' => array(
+                    ]
+                ]
+            ],
+            'logout' => [
                 'type' => 'Literal',
-                'options' => array(
+                'options' => [
                     'route' => '/logout',
-                    'defaults' => array(
+                    'defaults' => [
                         '__NAMESPACE__' => 'User\Controller',
                         'controller' => 'Index',
                         'action' => 'logout'
-                    )
-                )
-            )
-        )
-    )
-);
+                    ]
+                ]
+            ]
+        ]
+    ]
+];

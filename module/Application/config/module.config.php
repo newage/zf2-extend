@@ -87,8 +87,7 @@ return array(
             'error/index' => __DIR__ . '/../view/error/index.phtml'
         ),
         'template_path_stack' => array(
-            __DIR__ . '/../view',
-            'zfcuser' => __DIR__ . '/../view'
+            __DIR__ . '/../view'
         )
     ),
     // Placeholder for console routes

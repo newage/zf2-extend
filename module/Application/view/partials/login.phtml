@@ -1,8 +1,16 @@
 <div class="btn-group navbar-btn navbar-right">
-	<a href="<?php
-        echo $this->url('login')
-    ?>" class="btn btn-default"><?php echo $this->translate('Login') ?></a> <a href="<?php
-        echo $this->url('user/registration')
-    ?>" class="btn btn-default"><?php echo $this->translate('Registration') ?></a>
+    <?php if (!$this->identity()) : ?>
+        <a href="<?=
+            $this->url('login')
+        ?>" class="btn btn-default"><?= $this->translate('Login') ?></a> <a href="<?=
+            $this->url('registration')
+        ?>" class="btn btn-default"><?= $this->translate('Registration') ?></a>
+    <?php else : ?>
+        <a href="<?=
+            $this->url('user')
+        ?>" class="btn btn-success"><?= $this->identity()->getIdentifier() ?></a> <a href="<?=
+            $this->url('logout')
+        ?>" class="btn btn-default"><?= $this->translate('Logout') ?></a>
+    <?php endif; ?>
 </div>
 

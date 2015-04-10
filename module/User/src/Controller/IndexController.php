@@ -1,7 +1,7 @@
 <?php
 namespace User\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Core\Mvc\Controller\AbstractExtendController;
 use Zend\View\Model\ViewModel;
 use User\Mapper\UserMapper;
 use User\Form\RegistrationForm;
@@ -9,10 +9,9 @@ use User\Model\UserModel;
 
 /**
  * Description of Index
- *
  * @author vadim
  */
-class IndexController extends AbstractActionController
+class IndexController extends AbstractExtendController
 {
 
     /**
@@ -62,11 +61,16 @@ class IndexController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
-            
+
             if ($form->isValid()) {
-                $service->login();
-                $this->flashMessenger()->addSuccessMessage('User logged');
-                return $this->redirect()->toRoute('login');
+                $authResult = $service->login();
+
+                if ($authResult->isValid()) {
+                    $this->flashMessenger()->addSuccessMessage('User logged in');
+                    return $this->redirect()->toRoute('home');
+                } else {
+                    $this->messenger()->addErrorMessage('A user account not be found or disable');
+                }
             }
         }
         $view = new ViewModel();
@@ -96,13 +100,16 @@ class IndexController extends AbstractActionController
             if ($form->isValid()) {
                 $service->registration();
                 $this->flashMessenger()->addSuccessMessage('User registered');
-                return $this->redirect()->toRoute('user/registration');
+                return $this->redirect()->toRoute('login');
             }
         }
         
-        return new ViewModel(array(
+        $view = new ViewModel();
+        $view->setVariables([
             'form' => $form
-        ));
+        ]);
+        $view->setTemplate('user/index/registration');
+        return $view;
     }
 
     /**
@@ -111,6 +118,9 @@ class IndexController extends AbstractActionController
      */
     public function logoutAction()
     {
-        return new ViewModel();
+        /* @var $authService \Zend\Authentication\AuthenticationService */
+        $authService = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
+        $authService->clearIdentity();
+        return $this->redirect()->toRoute('home');
     }
 }

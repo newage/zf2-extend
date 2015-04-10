@@ -4,7 +4,7 @@
 $li = '<li %s>%s</li>';
 $href = '<a href="%s">%s</a>';
 
-echo implode("\n", array_map(function ($navigation) use($li, $href)
+echo implode('', array_map(function ($navigation) use($li, $href)
 {
     /* @var $navigation \Zend\Navigation\Page\Mvc */
     $active = null;

@@ -9,7 +9,8 @@
     $this->form->setAttribute('class', 'form-horizontal');
     // Get the form label plugin
     $formLabel = $this->plugin('formLabel');
-
+    /* @var $form \User\Form\LoginForm */
+    $form = $this->form;
     echo $this->form()->openTag($this->form);
 ?>
 
