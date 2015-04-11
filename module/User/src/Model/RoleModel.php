@@ -3,7 +3,6 @@ namespace User\Model;
 
 use Core\Model\AbstractModel;
 use User\Entity\Role;
-use User\Mapper\RoleMapper;
 use Zend\Stdlib\Hydrator;
 
 /**

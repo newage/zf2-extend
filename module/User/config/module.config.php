@@ -56,6 +56,7 @@ return [
             'UserModel' => 'User\Factory\UserModelFactory',
             'RegistrationService' => 'User\Factory\RegistrationServiceFactory',
             'LoginService' => 'User\Factory\LoginServiceFactory',
+            'ForgotService' => 'User\Factory\ForgotServiceFactory',
         ]
     ],
     'view_manager' => [

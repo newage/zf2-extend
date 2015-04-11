@@ -15,10 +15,15 @@ class UserModel extends AbstractModel
 {
 
     /**
+     * @var int
+     */
+    protected $identity = null;
+
+    /**
      * Make hash, enable user, set role and insert user to DB
-     * @param User $entityUser
-     * @param Role $entityRole
-     * @return User
+     * @param \User\Entity\User $entityUser
+     * @param \User\Entity\Role $entityRole
+     * @return \User\Entity\User
      */
     public function create(User $entityUser, Role $entityRole)
     {
@@ -35,12 +40,54 @@ class UserModel extends AbstractModel
     }
 
     /**
+     * Create hash for user for restore password
+     * @param \User\Entity\User $entityUser
+     * @return \User\Entity\User
+     */
+    public function createHash(User $entityUser)
+    {
+        /* @var $entityUser \User\Entity\User */
+        $entityUser = $this->getMapper()->getUserByEmail($entityUser->getIdentifier());
+        $entityUser->setRestoreHash(md5(microtime() . uniqid()));
+        $entityUser->setRestoreHashCreatedAt();
+
+        return $this->getMapper()->update($entityUser);
+    }
+
+    /**
      * Get registered users
      * @return array|void
      */
     public function getUsers()
     {
         return $this->getMapper()->getUsers();
+    }
+
+    /**
+     * Get current user
+     * @return User
+     */
+    public function getCurrentUser()
+    {
+
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdentity()
+    {
+        return $this->identity;
+    }
+
+    /**
+     * @param int $identity
+     * @return $this
+     */
+    public function setIdentity($identity)
+    {
+        $this->identity = $identity;
+        return $this;
     }
 
     /**

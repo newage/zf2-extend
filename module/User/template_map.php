@@ -5,4 +5,6 @@ return array(
     'user/index/login'        => __DIR__ . '/view/user/index/login.phtml',
     'user/index/registration' => __DIR__ . '/view/user/index/registration.phtml',
     'user/index/update'       => __DIR__ . '/view/user/index/update.phtml',
+    'user/index/forgot'       => __DIR__ . '/view/user/index/forgot.phtml',
+    'user/index/restore'      => __DIR__ . '/view/user/index/restore.phtml',
 );

@@ -4,7 +4,7 @@ namespace User\Controller;
 use Core\Mvc\Controller\AbstractExtendController;
 use Zend\View\Model\ViewModel;
 use User\Mapper\UserMapper;
-use User\Form\RegistrationForm;
+use User\Form\UserForm;
 use User\Model\UserModel;
 
 /**
@@ -15,7 +15,7 @@ class IndexController extends AbstractExtendController
 {
 
     /**
-     * @var RegistrationForm
+     * @var UserForm
      */
     protected $userForm;
 
@@ -122,5 +122,65 @@ class IndexController extends AbstractExtendController
         $authService = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
         $authService->clearIdentity();
         return $this->redirect()->toRoute('home');
+    }
+
+    /**
+     * Show forgot form with email
+     * @return ViewModel
+     */
+    public function forgotAction()
+    {
+        /* @var $service \User\Service\ForgotService */
+        $service = $this->getServiceLocator()->get('ForgotService');
+        $form = $service->getForm();
+
+        /* @var $request \Zend\Http\PhpEnvironment\Request */
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                $service->forgot();
+                $this->flashMessenger()->addSuccessMessage('Instructions sent to your email');
+                return $this->redirect()->toRoute('login');
+            }
+        }
+
+        $view = new ViewModel();
+        $view->setVariables([
+            'form' => $form
+        ]);
+        $view->setTemplate('user/index/forgot');
+        return $view;
+    }
+
+    /**
+     * Show restore form with password field
+     * @return ViewModel
+     */
+    public function restoreAction()
+    {
+        /* @var $service \User\Service\ForgotService */
+        $service = $this->getServiceLocator()->get('RestoreService');
+        $form = $service->getForm();
+
+        /* @var $request \Zend\Http\PhpEnvironment\Request */
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                $service->restore();
+                $this->flashMessenger()->addSuccessMessage('Your password was restored');
+                return $this->redirect()->toRoute('login');
+            }
+        }
+
+        $view = new ViewModel();
+        $view->setVariables([
+            'form' => $form
+        ]);
+        $view->setTemplate('user/index/restore');
+        return $view;
     }
 }

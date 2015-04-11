@@ -2,36 +2,36 @@
 
 namespace User\Factory;
 
+
 use User\Entity\User;
 use User\Form\UserForm;
-use User\Service\RegistrationService;
+use User\Service\ForgotService;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Initialize and setup RegistrationService
+ * Create forgot service
  * @package User\Factory
  */
-class RegistrationServiceFactory implements FactoryInterface
+class ForgotServiceFactory implements FactoryInterface
 {
     /**
      * Create service
-     *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return ForgotService
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $service = new RegistrationService();
+        $service = new ForgotService();
         $service->setServiceLocator($serviceLocator);
 
-        $form = new UserForm('registration');
+        $form = new UserForm('forgot');
         $form->bind(new User());
         $service->setForm($form);
 
-        /* Send registration email */
+        /* Send email with instructions for restore password */
         $service->getEventManager()->attach(
-            'registration',
+            'forgot',
             [$serviceLocator->get('SendEmailEvent'), 'registration']
         );
 

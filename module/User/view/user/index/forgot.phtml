@@ -1,17 +1,17 @@
 <div class="page-header">
-	<h1><?php echo $this->translate('Login user') ?></h1>
+    <h1><?php echo $this->translate('Restore password') ?></h1>
 </div>
 
 <?php
-    $this->form->prepare();
+$this->form->prepare();
 
-    // Set the method attribute for the form
-    $this->form->setAttribute('class', 'form-horizontal');
-    // Get the form label plugin
-    $formLabel = $this->plugin('formLabel');
-    /* @var $form \User\Form\UserForm */
-    $form = $this->form;
-    echo $this->form()->openTag($this->form);
+// Set the method attribute for the form
+$this->form->setAttribute('class', 'form-horizontal');
+// Get the form label plugin
+$formLabel = $this->plugin('formLabel');
+/* @var $form \User\Form\UserForm */
+$form = $this->form;
+echo $this->form()->openTag($this->form);
 ?>
 
 <div class="form-group">
@@ -38,28 +38,7 @@
 </div>
 
 <div class="form-group">
-    <?php
-    /* @var $credential \Zend\Form\Element\Password */
-    $credential = $identity->get('password');
-    $credential->setLabelAttributes([
-        'class' => 'col-sm-2 control-label'
-    ]);
-    $credential->setAttributes([
-        'class' => 'form-control'
-    ]);
-    echo $this->formLabel($credential);
-    echo '<div class="col-sm-10">';
-    echo $this->formPassword($credential);
-    echo $this->formElementErrors()
-        ->setMessageOpenFormat('<div class="bs-callout bs-callout-danger">')
-        ->setMessageCloseString('</div>')
-        ->render($credential);
-    echo '</div>';
-    ?>
-</div>
-
-<div class="form-group">
-	<div class="col-sm-offset-2 col-sm-10">
+    <div class="col-sm-offset-2 col-sm-10">
         <?php
         /* @var $element \Zend\Form\Element\Button */
         $element = $this->form->get('send');

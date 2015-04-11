@@ -1,13 +1,14 @@
 <?php
 namespace User\Entity;
 
+use Core\Entity\EntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class User
+class User implements EntityInterface
 {
 
     /**
@@ -49,9 +50,9 @@ class User
     protected $restoreHash;
 
     /**
-     * @ORM\Column(type="datetime", name="restore_hash_updated_at", nullable=true)
+     * @ORM\Column(type="datetime", name="restore_hash_created_at", nullable=true)
      */
-    protected $restoreHashUpdatedAt;
+    protected $restoreHashCreatedAt;
 
     /**
      * @ORM\Column(type="integer", name="is_enable")
@@ -59,17 +60,37 @@ class User
     protected $isEnable;
 
     /**
-     * @return mixed
+     * Get identifier for entity
+     * @return int
      */
     public function getId()
+    {
+        return $this->getPrimary();
+    }
+
+    /**
+     * Set identifier for entity
+     * @param $primary
+     * @return $this
+     */
+    public function setId($primary)
+    {
+        return $this->setPrimary($primary);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrimary()
     {
         return $this->primary;
     }
 
     /**
      * @param mixed $primary
+     * @return $this
      */
-    public function setId($primary)
+    public function setPrimary($primary)
     {
         $this->primary = $primary;
     }
@@ -197,16 +218,16 @@ class User
     /**
      * @return string
      */
-    public function getRestoreHashUpdatedAt()
+    public function getRestoreHashCreatedAt()
     {
-        return $this->restoreHashUpdatedAt;
+        return $this->restoreHashCreatedAt;
     }
 
     /**
      *
      */
-    public function setRestoreHashUpdatedAt()
+    public function setRestoreHashCreatedAt()
     {
-        $this->restoreHashUpdatedAt = new \DateTime("now");;
+        $this->restoreHashCreatedAt = new \DateTime("now");;
     }
 }

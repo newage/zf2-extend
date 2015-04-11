@@ -63,6 +63,34 @@ return [
                         'action' => 'logout'
                     ]
                 ]
+            ],
+            'forgot' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/forgot',
+                    'defaults' => [
+                        '__NAMESPACE__' => 'User\Controller',
+                        'controller' => 'Index',
+                        'action' => 'forgot'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'restore' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/:hash',
+                            'defaults' => [
+                                '__NAMESPACE__' => 'User\Controller',
+                                'controller' => 'Index',
+                                'action' => 'restore'
+                            ],
+                            'constraints' => [
+                                'hash' => '.{32,32}'
+                            ]
+                        ]
+                    ]
+                ]
             ]
         ]
     ]

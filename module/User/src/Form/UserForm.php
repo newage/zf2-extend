@@ -2,6 +2,7 @@
 namespace User\Form;
 
 use Core\Form\AbstractDoctrineForm as Form;
+use User\Entity\User;
 use Zend\InputFilter\InputFilter;
 use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
 
@@ -10,34 +11,37 @@ use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
  *
  * @author V.Leontiev
  */
-class RegistrationForm extends Form
+class UserForm extends Form
 {
 
     /**
      * Constructor
+     * @param string $formName
      */
-    public function __construct()
+    public function __construct($formName = 'user')
     {
-        parent::__construct('registration');
+        parent::__construct($formName);
 
         $this->setAttribute('method', 'post')
             ->setHydrator(new ClassMethodsHydrator())
-            ->setInputFilter(new InputFilter());
+            ->setInputFilter(new InputFilter())
+            ->bind(new User());
 
-        $this->add(array(
+        /* Use field set for example */
+        $this->add([
             'type' => 'User\Form\IdentifierFieldset',
-            'options' => array(
+            'options' => [
                 'use_as_base_fieldset' => true
-            )
-        ));
+            ]
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name' => 'send',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'submit',
                 'value' => 'Registration',
                 'id' => 'submitbutton'
-            )
-        ));
+            ]
+        ]);
     }
 }
