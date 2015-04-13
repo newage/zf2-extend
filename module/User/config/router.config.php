@@ -32,7 +32,7 @@ return [
                 ]
             ],
             'registration' => [
-                'type' => 'Segment',
+                'type' => 'Literal',
                 'options' => [
                     'route' => '/registration',
                     'defaults' => [
@@ -61,6 +61,31 @@ return [
                         '__NAMESPACE__' => 'User\Controller',
                         'controller' => 'Index',
                         'action' => 'logout'
+                    ]
+                ]
+            ],
+            'forgot' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/forgot',
+                    'defaults' => [
+                        '__NAMESPACE__' => 'User\Controller',
+                        'controller' => 'Index',
+                        'action' => 'forgot'
+                    ]
+                ]
+            ],
+            'restore' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/restore/:hash',
+                    'defaults' => [
+                        '__NAMESPACE__' => 'User\Controller',
+                        'controller' => 'Index',
+                        'action' => 'restore'
+                    ],
+                    'constraints' => [
+                        'hash' => '[\w\d]{40}'
                     ]
                 ]
             ]

@@ -2,29 +2,31 @@
 
 namespace User\Form;
 
+use Core\Form\AbstractDoctrineForm;
 use User\Entity\User;
-use Zend\Form\Fieldset;
+use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterProviderInterface;
 use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
 
 /**
- * Class EmailField
- * Get email and password fields and filters
+ * Class AbstractUserForm
  * @package User\Form
- * @author V.Leontiev
  */
-class IdentifierFieldset extends Fieldset implements InputFilterProviderInterface
+abstract class AbstractUserForm extends AbstractDoctrineForm implements InputFilterProviderInterface
 {
 
     /**
      * Constructor
+     * @param string $name
      */
-    public function __construct()
+    public function __construct($name = 'user')
     {
-        parent::__construct('identity');
+        parent::__construct($name);
 
-        $this->setHydrator(new ClassMethodsHydrator())
-            ->setObject(new User());
+        $this->setAttribute('method', 'post')
+            ->setHydrator(new ClassMethodsHydrator())
+            ->setInputFilter(new InputFilter())
+            ->bind(new User());
 
         $this->add([
             'name' => 'identifier',

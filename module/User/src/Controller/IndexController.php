@@ -123,4 +123,67 @@ class IndexController extends AbstractExtendController
         $authService->clearIdentity();
         return $this->redirect()->toRoute('home');
     }
+
+    /**
+     * Show forgot form with email
+     * @return ViewModel
+     */
+    public function forgotAction()
+    {
+        /* @var $service \User\Service\ForgotService */
+        $service = $this->getServiceLocator()->get('ForgotService');
+        $form = $service->getForm();
+
+        /* @var $request \Zend\Http\PhpEnvironment\Request */
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                $service->forgot();
+                $this->flashMessenger()->addSuccessMessage('Instructions sent to your email');
+                return $this->redirect()->toRoute('login');
+            }
+        }
+
+        $view = new ViewModel();
+        $view->setVariables([
+            'form' => $form
+        ]);
+        $view->setTemplate('user/index/forgot');
+        return $view;
+    }
+
+    /**
+     * Show restore form with password field
+     * @return ViewModel
+     */
+    public function restoreAction()
+    {
+        /* @var $service \User\Service\RestoreService */
+        $service = $this->getServiceLocator()->get('RestoreService');
+        $form = $service->getForm();
+
+        /* @var $request \Zend\Http\PhpEnvironment\Request */
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                $service->restore();
+                $this->flashMessenger()->addSuccessMessage('Your password was change');
+                return $this->redirect()->toRoute('login');
+            } elseif ($form->get('restore_hash')->getMessages()) {
+                $this->messenger()->addErrorMessage('Hash is wrong');
+            }
+        }
+
+        $view = new ViewModel();
+        $view->setVariables([
+            'form' => $form,
+            'hash' => $this->params('hash')
+        ]);
+        $view->setTemplate('user/index/restore');
+        return $view;
+    }
 }

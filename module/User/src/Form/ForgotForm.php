@@ -4,10 +4,10 @@ namespace User\Form;
 
 
 /**
- * Class LoginForm
+ * Class ForgotForm
  * @package User\Form
  */
-class LoginForm extends AbstractUserForm
+class ForgotForm extends AbstractUserForm
 {
 
     /**
@@ -15,13 +15,13 @@ class LoginForm extends AbstractUserForm
      */
     public function __construct()
     {
-        parent::__construct('login');
+        parent::__construct('forgot');
 
         $this->add([
             'name' => 'send',
             'attributes' => [
                 'type' => 'submit',
-                'value' => 'Login',
+                'value' => 'Send instructions',
                 'id' => 'submitbutton'
             ]
         ]);

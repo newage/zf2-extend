@@ -24,6 +24,16 @@ return [
                                 'route' => 'user/update'
                             ]
                         ]
+                    ],
+                    [
+                        'label' => 'Restore password',
+                        'route' => 'forgot',
+                        'pages' => [
+                            [
+                                'label' => 'Change password',
+                                'route' => 'restore'
+                            ]
+                        ]
                     ]
                 ]
             ]

@@ -1,6 +1,7 @@
 <?php
 namespace User\Mapper;
 
+use Core\Entity\EntityInterface;
 use Core\Mapper\DoctrineMapper;
 use User\Entity\User;
 
@@ -12,32 +13,36 @@ class UserMapper extends DoctrineMapper
 
     /**
      * Find one row
-     * @param int $id
+     * @param int $identifier
      * @return User
      */
-    public function find($id)
+    public function find($identifier)
     {
-        return $this->getEntityManager()->getRepository('User\Entity\User')->find($id);
+        return $this->getEntityManager()->getRepository('User\Entity\User')->find($identifier);
     }
 
     /**
      * Find rows by params
-     *
-     * @param array $params
+     * @param array|EntityInterface $params
      * @param array $order
      * @param null $limit
      * @return array|void
      */
     public function findBy(array $params, array $order = null, $limit = null)
     {
-        $this->getEntityManager()->getRepository('User\Entity\User')->findBy($params, $order, $limit);
+        return $this->getEntityManager()->getRepository('User\Entity\User')->findBy($params, $order, $limit);
     }
 
+    /**
+     * Find row
+     * @param array|EntityInterface $params
+     * @return EntityInterface
+     */
     public function findOne(array $params)
     {
-        // $em = $this->getEntityManager();
-        // return $em->getRepository('User\Entity\User')->find((int)$id);
+        return $this->getEntityManager()->getRepository('User\Entity\User')->findOneBy($params);
     }
+
 
     /**
      * Get all registered users
@@ -49,17 +54,37 @@ class UserMapper extends DoctrineMapper
     }
 
     /**
-     * Disable user account
-     *
-     * @param int $id            
+     * Get user by email
+     * @param $email
      * @return User
      */
-    public function delete($id)
+    public function getUserByEmail($email)
+    {
+        return $this->findOne(['identifier'=> $email]);
+    }
+
+    /**
+     * Get user by restore hash
+     * @param string $hash
+     * @return User
+     */
+    public function getUserByHash($hash)
+    {
+        return $this->findOne(['restoreHash'=> $hash]);
+    }
+
+    /**
+     * Disable user account
+
+     * @param int $identifier
+     * @return User
+     */
+    public function delete($identifier)
     {
         /* @var $entity \User\Entity\User */
         $entity = $this->getEntityManager()
             ->getRepository('User\Entity\User')
-            ->find($id);
+            ->find($identifier);
         $entity->setDisable();
         
         $this->persist($entity);
@@ -68,11 +93,10 @@ class UserMapper extends DoctrineMapper
 
     /**
      * Create new user
-     *
-     * @param User $entity            
+     * @param User|EntityInterface $entity
      * @return User
      */
-    public function create($entity)
+    public function create(EntityInterface $entity)
     {
         $entity->setEnable();
         $entity->setCreatedAt();
@@ -83,12 +107,11 @@ class UserMapper extends DoctrineMapper
     }
 
     /**
-     * Udaet user
-     *
-     * @param User $entity            
+     * Update user
+     * @param User|EntityInterface $entity
      * @return User
      */
-    public function update($entity)
+    public function update(EntityInterface $entity)
     {
         $entity->setUpdatedAt();
         
