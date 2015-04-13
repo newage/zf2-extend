@@ -3,6 +3,7 @@
 namespace User\Service;
 
 use Core\Service\AbstractService;
+use User\Entity\User;
 
 /**
  * Class RestoreService
@@ -17,8 +18,7 @@ class RestoreService extends AbstractService
     public function getForm()
     {
         $form = parent::getForm();
-        $form->setValidationGroup(['identity' => ['password', 'identical']]);
-        $form->get('send')->setValue('change password');
+        $form->setValidationGroup(['restore_hash', 'password', 'identical']);
         return $form;
     }
 
@@ -27,6 +27,30 @@ class RestoreService extends AbstractService
      */
     public function restore()
     {
+        /* @var $userModel \User\Model\UserModel */
+        $userModel = $this->getServiceLocator()->get('UserModel');
+        /* @var $userEntity \User\Entity\User */
+        $userEntity = $this->getForm()->getObject();
+        $userEntity = $userModel->updatePassword($userEntity);
 
+        $this->getEventManager()->trigger(
+            __METHOD__,
+            $this,
+            $this->createEmailValues($userEntity)
+        );
+
+        return $userEntity;
+    }
+
+    /**
+     * Create email template
+     * @param User $userEntity
+     * @return array
+     */
+    protected function createEmailValues(User $userEntity)
+    {
+        return [
+            'email' => $userEntity->getIdentifier()
+        ];
     }
 }

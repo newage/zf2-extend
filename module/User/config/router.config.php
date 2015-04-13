@@ -32,7 +32,7 @@ return [
                 ]
             ],
             'registration' => [
-                'type' => 'Segment',
+                'type' => 'Literal',
                 'options' => [
                     'route' => '/registration',
                     'defaults' => [
@@ -65,7 +65,7 @@ return [
                 ]
             ],
             'forgot' => [
-                'type' => 'Segment',
+                'type' => 'Literal',
                 'options' => [
                     'route' => '/forgot',
                     'defaults' => [
@@ -73,22 +73,19 @@ return [
                         'controller' => 'Index',
                         'action' => 'forgot'
                     ]
-                ],
-                'may_terminate' => true,
-                'child_routes' => [
-                    'restore' => [
-                        'type' => 'Segment',
-                        'options' => [
-                            'route' => '/:hash',
-                            'defaults' => [
-                                '__NAMESPACE__' => 'User\Controller',
-                                'controller' => 'Index',
-                                'action' => 'restore'
-                            ],
-                            'constraints' => [
-                                'hash' => '.{32,32}'
-                            ]
-                        ]
+                ]
+            ],
+            'restore' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/restore/:hash',
+                    'defaults' => [
+                        '__NAMESPACE__' => 'User\Controller',
+                        'controller' => 'Index',
+                        'action' => 'restore'
+                    ],
+                    'constraints' => [
+                        'hash' => '[\w\d]{40}'
                     ]
                 ]
             ]

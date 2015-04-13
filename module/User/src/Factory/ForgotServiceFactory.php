@@ -2,9 +2,8 @@
 
 namespace User\Factory;
 
-
 use User\Entity\User;
-use User\Form\UserForm;
+use User\Form\ForgotForm;
 use User\Service\ForgotService;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -25,7 +24,7 @@ class ForgotServiceFactory implements FactoryInterface
         $service = new ForgotService();
         $service->setServiceLocator($serviceLocator);
 
-        $form = new UserForm('forgot');
+        $form = new ForgotForm();
         $form->bind(new User());
         $service->setForm($form);
 

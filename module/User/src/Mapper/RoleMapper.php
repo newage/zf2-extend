@@ -1,6 +1,7 @@
 <?php
 namespace User\Mapper;
 
+use Core\Entity\EntityInterface;
 use Core\Mapper\DoctrineMapper;
 use User\Entity\Role;
 
@@ -28,7 +29,7 @@ class RoleMapper extends DoctrineMapper
 
     /**
      * Find one entity by parameters
-     * @param array|EntityInterface $params
+     * @param array$params
      * @return Role
      */
     public function findOne(array $params)

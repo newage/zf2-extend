@@ -184,11 +184,11 @@ class User implements EntityInterface
     }
 
     /**
-     *
+     * @param $restoreHash
      */
-    public function setRestoreHash()
+    public function setRestoreHash($restoreHash)
     {
-        $this->restoreHash = sha1(time() . uniqid());;
+        $this->restoreHash = $restoreHash;
     }
 
     /**

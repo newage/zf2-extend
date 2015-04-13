@@ -18,8 +18,7 @@ class LoginService extends AbstractService
     public function getForm()
     {
         $form = parent::getForm();
-        $form->setValidationGroup(['identity' => ['identifier', 'password']]);
-        $form->get('send')->setValue('Log in');
+        $form->setValidationGroup(['identifier', 'password']);
         return $form;
     }
 

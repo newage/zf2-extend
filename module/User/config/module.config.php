@@ -57,6 +57,7 @@ return [
             'RegistrationService' => 'User\Factory\RegistrationServiceFactory',
             'LoginService' => 'User\Factory\LoginServiceFactory',
             'ForgotService' => 'User\Factory\ForgotServiceFactory',
+            'RestoreService' => 'User\Factory\RestoreServiceFactory',
         ]
     ],
     'view_manager' => [

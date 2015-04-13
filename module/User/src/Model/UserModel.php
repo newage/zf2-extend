@@ -27,11 +27,7 @@ class UserModel extends AbstractModel
      */
     public function create(User $entityUser, Role $entityRole)
     {
-        $options = [
-            'cost' => 10,
-            'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
-        ];
-        $passwordHash = password_hash($entityUser->getPassword(), PASSWORD_BCRYPT, $options);
+        $passwordHash = $this->makeHash($entityUser->getPassword());
         $entityUser->setPassword($passwordHash);
         $entityUser->setRole($entityRole);
         $entityUser->setEnable();
@@ -46,12 +42,41 @@ class UserModel extends AbstractModel
      */
     public function createHash(User $entityUser)
     {
-        /* @var $entityUser \User\Entity\User */
         $entityUser = $this->getMapper()->getUserByEmail($entityUser->getIdentifier());
-        $entityUser->setRestoreHash(md5(microtime() . uniqid()));
+        $entityUser->setRestoreHash(sha1(microtime() . uniqid()));
         $entityUser->setRestoreHashCreatedAt();
 
         return $this->getMapper()->update($entityUser);
+    }
+
+    /**
+     * Update password for user
+     * @param User $entityUser
+     * @return User
+     */
+    public function updatePassword(User $entityUser)
+    {
+        $passwordHash = $this->makeHash($entityUser->getPassword());
+        $entityUser = $this->getMapper()->getUserByHash($entityUser->getRestoreHash());
+        $entityUser->setPassword($passwordHash);
+        $entityUser->setRestoreHash(null);
+        $entityUser->setUpdatedAt();
+
+        return $this->getMapper()->update($entityUser);
+    }
+
+    /**
+     * Create hash for password
+     * @param string $password
+     * @return string
+     */
+    protected function makeHash($password)
+    {
+        $options = [
+            'cost' => 10,
+            'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+        ];
+        return password_hash($password, PASSWORD_BCRYPT, $options);
     }
 
     /**

@@ -8,7 +8,7 @@
     ],
     "require": {
         "php": ">=5.5",
-        "zendframework/zendframework": "2.3.*",
+        "zendframework/zendframework": "2.4.*",
         "doctrine/doctrine-module": "0.*",
         "doctrine/doctrine-orm-module": "0.*",
         "hounddog/doctrine-data-fixture-module": "0.*",

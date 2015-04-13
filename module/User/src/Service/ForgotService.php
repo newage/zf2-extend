@@ -14,13 +14,12 @@ class ForgotService extends AbstractService
 
     /**
      * Get login form and set validation group
-     * @return \User\Form\UserForm
+     * @return \User\Form\RegistrationForm
      */
     public function getForm()
     {
         $form = parent::getForm();
-        $form->setValidationGroup(['identity' => ['identifier']]);
-        $form->get('send')->setValue('Send instructions');
+        $form->setValidationGroup(['identifier']);
         return $form;
     }
 
@@ -30,12 +29,8 @@ class ForgotService extends AbstractService
      */
     public function forgot()
     {
-        /* @var $authService \Zend\Authentication\AuthenticationService */
-        $authService = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
-
         /* @var $userModel \User\Model\UserModel */
         $userModel = $this->getServiceLocator()->get('UserModel');
-        $userModel->setIdentity($authService->getIdentity());
         /* @var $userEntity \User\Entity\User */
         $userEntity = $this->getForm()->getObject();
         $userEntity = $userModel->createHash($userEntity);
@@ -43,8 +38,7 @@ class ForgotService extends AbstractService
         $this->getEventManager()->trigger(
             __METHOD__,
             $this,
-            ['email' => $userEntity->getIdentifier()]
-//            $this->createEmailValues($userEntity)
+            $this->createEmailValues($userEntity)
         );
 
         return $userEntity;
@@ -59,8 +53,7 @@ class ForgotService extends AbstractService
     {
         return [
             'email' => $userEntity->getIdentifier(),
-            'hash' => $userEntity->getRestoreHash(),
-            'finish' => $userEntity
+            'hash' => $userEntity->getRestoreHash()
         ];
     }
 }

@@ -56,11 +56,21 @@ class UserMapper extends DoctrineMapper
     /**
      * Get user by email
      * @param $email
-     * @return EntityInterface
+     * @return User
      */
     public function getUserByEmail($email)
     {
         return $this->findOne(['identifier'=> $email]);
+    }
+
+    /**
+     * Get user by restore hash
+     * @param string $hash
+     * @return User
+     */
+    public function getUserByHash($hash)
+    {
+        return $this->findOne(['restoreHash'=> $hash]);
     }
 
     /**

@@ -4,13 +4,14 @@ namespace Core\Form;
 use Zend\Form\Form;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Core\Mapper\AbstractMapper;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Initialize serviceManager
  *
  * @author V.Leontiev
  */
-abstract class AbstractForm extends Form implements InputFilterInterface
+abstract class AbstractForm extends Form implements InputFilterInterface, ServiceLocatorAwareInterface
 {
 
     /**
@@ -23,7 +24,7 @@ abstract class AbstractForm extends Form implements InputFilterInterface
     /**
      * Service locator object
      *
-     * @var \Zend\ServiceManager\ServiceLocatorInterface
+     * @var ServiceLocatorInterface
      */
     protected $serviceLocator;
 
@@ -37,7 +38,7 @@ abstract class AbstractForm extends Form implements InputFilterInterface
     /**
      * Get service locatol
      *
-     * @return \Zend\ServiceManager\ServiceLocatorInterface
+     * @return ServiceLocatorInterface
      */
     public function getServiceLocator()
     {
@@ -47,10 +48,10 @@ abstract class AbstractForm extends Form implements InputFilterInterface
     /**
      * Set service locator
      *
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * @param ServiceLocatorInterface $serviceLocator
      * @return \Core\Mapper\AbstractMapper
      */
-    public function setServiceLocator(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
         return $this;

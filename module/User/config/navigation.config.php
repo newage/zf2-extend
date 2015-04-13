@@ -27,7 +27,13 @@ return [
                     ],
                     [
                         'label' => 'Restore password',
-                        'route' => 'forgot'
+                        'route' => 'forgot',
+                        'pages' => [
+                            [
+                                'label' => 'Change password',
+                                'route' => 'restore'
+                            ]
+                        ]
                     ]
                 ]
             ]

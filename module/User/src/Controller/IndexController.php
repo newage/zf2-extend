@@ -4,7 +4,7 @@ namespace User\Controller;
 use Core\Mvc\Controller\AbstractExtendController;
 use Zend\View\Model\ViewModel;
 use User\Mapper\UserMapper;
-use User\Form\UserForm;
+use User\Form\RegistrationForm;
 use User\Model\UserModel;
 
 /**
@@ -15,7 +15,7 @@ class IndexController extends AbstractExtendController
 {
 
     /**
-     * @var UserForm
+     * @var RegistrationForm
      */
     protected $userForm;
 
@@ -160,7 +160,7 @@ class IndexController extends AbstractExtendController
      */
     public function restoreAction()
     {
-        /* @var $service \User\Service\ForgotService */
+        /* @var $service \User\Service\RestoreService */
         $service = $this->getServiceLocator()->get('RestoreService');
         $form = $service->getForm();
 
@@ -171,14 +171,17 @@ class IndexController extends AbstractExtendController
 
             if ($form->isValid()) {
                 $service->restore();
-                $this->flashMessenger()->addSuccessMessage('Your password was restored');
+                $this->flashMessenger()->addSuccessMessage('Your password was change');
                 return $this->redirect()->toRoute('login');
+            } elseif ($form->get('restore_hash')->getMessages()) {
+                $this->messenger()->addErrorMessage('Hash is wrong');
             }
         }
 
         $view = new ViewModel();
         $view->setVariables([
-            'form' => $form
+            'form' => $form,
+            'hash' => $this->params('hash')
         ]);
         $view->setTemplate('user/index/restore');
         return $view;
