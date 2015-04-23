@@ -1,8 +1,7 @@
-# behat.yml
 default:
     paths:
         features: '%behat.paths.base%/module/User/src/Features'
-        bootstrap:  '%behat.paths.features%/module/User/src/Features/Context'
+        bootstrap:  '%behat.paths.features%/Context'
     extensions:
         Behat\MinkExtension\Extension:
             base_url: http://zf2-extend
