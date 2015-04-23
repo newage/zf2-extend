@@ -1,0 +1,12 @@
+default:
+    paths:
+        features: '%behat.paths.base%/module/User/src/Features'
+        bootstrap:  '%behat.paths.features%/Context'
+    extensions:
+        Behat\MinkExtension\Extension:
+            base_url: http://zf2-extend
+            goutte: ~
+            selenium2: ~
+    context:
+        parameters:
+          browser: chrome

@@ -1,4 +1,7 @@
 {
+    "config": {
+       "bin-dir": "bin/"
+    },
     "name": "newage/zf2-extend",
     "description": "ZendFramework2 skeleton application + Doctrine + other libraries",
     "license": "MIT",
@@ -8,24 +11,28 @@
     ],
     "require": {
         "php": ">=5.5",
-        "zendframework/zendframework": "2.4.*",
-        "doctrine/doctrine-module": "0.*",
-        "doctrine/doctrine-orm-module": "0.*",
-        "hounddog/doctrine-data-fixture-module": "0.*",
-        "components/jquery": "1.10.*",
-        "components/bootstrap": "3.*",
-        "components/bootstrap-default": "3.*",
-        "components/font-awesome": "4.*"
+        "zendframework/zendframework": "2.4.*@stable",
+        "doctrine/doctrine-module": "0.*@stable",
+        "doctrine/doctrine-orm-module": "0.*@stable",
+        "hounddog/doctrine-data-fixture-module": "0.*@stable",
+        "components/jquery": "1.10.*@stable",
+        "components/bootstrap": "3.*@stable",
+        "components/bootstrap-default": "3.*@stable",
+        "components/font-awesome": "4.*@stable"
     },
     "require-dev": {
         "zendframework/zend-developer-tools": "dev-master",
         "zendframework/zftool": "dev-master",
-        "phpunit/phpunit": "3.7.*",
+        "phpunit/phpunit": "3.7.*@stable",
         "mockery/mockery": "dev-master",
-        "behat/behat": "3.0.*",
-        "squizlabs/php_codesniffer": "1.5.*",
-        "phpmd/phpmd": "2.1.*",
-        "theseer/phpdox": "0.*",
-        "phing/phing": "2.*"
+        "squizlabs/php_codesniffer": "1.5.*@stable",
+        "phpmd/phpmd": "2.1.*@stable",
+        "theseer/phpdox": "0.*@stable",
+        "phing/phing": "2.*@stable",
+        "behat/behat": "2.4.*@stable",
+        "behat/mink": "1.4.*@stable",
+        "behat/mink-extension": "*",
+        "behat/mink-goutte-driver":"*",
+        "behat/mink-selenium2-driver": "*"
     }
 }
