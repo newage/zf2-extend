@@ -1,3 +1,4 @@
+@user
 Feature: Login
   Login user use main authentication
 
