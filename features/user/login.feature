@@ -11,4 +11,4 @@ Feature: Login
     Given I am on "/login"
     When I fill in "identifier" with "test"
     And I press "Login"
-    Then I should see "The input is not a valid email address2"
+    Then I should see "The input is not a valid email address"

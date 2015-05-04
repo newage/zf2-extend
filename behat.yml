@@ -1,8 +1,6 @@
 default:
     suites:
         user:
-            paths:
-                - %paths.base%/behat/features
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
                 - BDD\Context\User\LoginContext
