@@ -40,7 +40,7 @@
             "Core\\": "library/"
         },
         "psr-4": {
-            "Behat\\": "behat/"
+            "BDD\\": "behat/"
         }
     }
 }

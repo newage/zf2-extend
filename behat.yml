@@ -5,9 +5,9 @@ default:
                 - %paths.base%/behat/features
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
-                - Behat\Context\User\FeatureContext
+                - BDD\Context\User\LoginContext
             filters:
-                tags: "@user && ~@javascript"
+                tags: "@user"
 
     extensions:
         Behat\MinkExtension:
