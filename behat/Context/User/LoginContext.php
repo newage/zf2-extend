@@ -2,26 +2,28 @@
 
 namespace BDD\Context\User;
 
+use Behat\Behat\Context\SnippetAcceptingContext;
 use Core\Behat\ExtendContext;
 
 /**
  * Features context.
  */
-class LoginContext extends ExtendContext
+class LoginContext extends ExtendContext implements SnippetAcceptingContext
 {
 
-
 //    /**
-//     * @BeforeSuite
+//     * @Given I am registering as new user
 //     */
-//    public static function thereIsNewUser()
+//    public function iAmRegisteringAsNewUser(TableNode $table)
 //    {
 //        $application = self::initZendFramework();
 //        $serviceManager = $application->getServiceManager();
 //
+//        $row = $table->getHash()[0];
+//
 //        $userEntity = new User();
-//        $userEntity->setIdentifier('behat@behat.test');
-//        $userEntity->setPassword('behat');
+//        $userEntity->setIdentifier($row['identifier']);
+//        $userEntity->setPassword($row['password']);
 //
 //        /* @var $roleModel \User\Model\RoleModel */
 //        $roleModel = $serviceManager->get('RoleModel');
@@ -30,20 +32,5 @@ class LoginContext extends ExtendContext
 //        /* @var $userModel \User\Model\UserModel */
 //        $userModel = $serviceManager->get('UserModel');
 //        $userModel->create($userEntity, $roleEntity);
-//
-//        self::$userId = $userEntity->getId();
-//    }
-//
-//    /**
-//     * @AfterSuite
-//     */
-//    public static function removeCreatedUser()
-//    {
-//        $application = self::initZendFramework();
-//        $serviceManager = $application->getServiceManager();
-//
-//        /* @var $userModel \User\Model\UserModel */
-//        $userModel = $serviceManager->get('UserModel');
-//        $userModel->delete(self::$userId);
 //    }
 }

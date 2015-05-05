@@ -25,10 +25,19 @@ abstract class ExtendContext extends RawMinkContext
     public static function initZendFramework()
     {
         if (null === self::$zendApp) {
-            $path = realpath(__DIR__ . '/../../../config/application.config.php');
+            $path = realpath(__DIR__ . '/../../../config/application.test.php');
             self::$zendApp = Application::init(require $path);
         }
         return self::$zendApp;
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityManager
+     */
+    public function getManager()
+    {
+        $application = self::initZendFramework();
+        return $application->getServiceManager()->get('Doctrine\ORM\EntityManager');
     }
 
     /**

@@ -79,7 +79,7 @@ class UserMapper extends DoctrineMapper
      * @param int $identifier
      * @return User
      */
-    public function disable($identifier)
+    public function delete($identifier)
     {
         /* @var $entity \User\Entity\User */
         $entity = $this->getEntityManager()
