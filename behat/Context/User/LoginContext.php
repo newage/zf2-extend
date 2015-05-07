@@ -3,6 +3,8 @@
 namespace BDD\Context\User;
 
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Behat\Tester\Exception\PendingException;
+use Behat\Gherkin\Node\TableNode;
 use Core\Behat\ExtendContext;
 
 /**
@@ -10,6 +12,15 @@ use Core\Behat\ExtendContext;
  */
 class LoginContext extends ExtendContext implements SnippetAcceptingContext
 {
+
+    /**
+     * @Given /^There are following roles:$/
+     */
+    public function thereAreRoles(TableNode $table)
+    {
+        throw new PendingException();
+    }
+
 
 //    /**
 //     * @Given I am registering as new user

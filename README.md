@@ -41,6 +41,12 @@ $ git submodule update
 $ vagrant up
 ```
 
+##Behat
+Run behat tests from phing
+```
+> bin/phing behat [-Dbehat.tags=tags]
+```
+
 ##Doctrine
 
 ###Validate mappings

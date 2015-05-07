@@ -1,0 +1,19 @@
+default:
+    suites:
+        user:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - BDD\Context\User\LoginContext
+                - Core\Behat\ResourceContext
+            filters:
+                tags: "@user"
+
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://zf2-extend
+            browser_name: firefox
+            sessions:
+                default:
+                    goutte: ~
+                javascript:
+                    selenium2: ~
