@@ -4,10 +4,9 @@
 
     <!-- Application configuration -->
     <property name="behat.bin"            value="${project.basedir}/bin/behat" />
-    <property name="behat.tags"           value="" />
     <property name="behat.logs.dir"       value="${project.basedir}/build/behat" />
     <property name="behat.htmlReport"     value="${behat.logs.dir}/behat.html" />
-    <property name="behat.init.overwrite" value="false" />
+    <property name="behat.init.overwrite" value="true" />
 
     <target name="behat:init" description="Setup steps for Behat build tasks.">
         <!-- Create an artefacts structure -->
@@ -24,21 +23,4 @@
 
     </target>
 
-    <target name="behat" depends="behat:init" description="Run Behat tests">
-        <!-- Prime the site prior to running the test suite -->
-        <if><equals arg1="${behat.tags}" arg2="" />
-            <then>
-                <exec command="${behat.bin} --stop-on-failure"
-                      logoutput="true"
-                      checkreturn="true"
-                      passthru="true" />
-            </then>
-            <else>
-                <exec command="${behat.bin} --stop-on-failure --tags @${behat.tags}"
-                      logoutput="true"
-                      checkreturn="true"
-                      passthru="true" />
-            </else>
-        </if>
-    </target>
 </project>

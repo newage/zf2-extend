@@ -66,7 +66,10 @@ abstract class AbstractUserForm extends AbstractDoctrineForm implements InputFil
                 'required' => true,
                 'validators' => [
                     [
-                        'name' => 'EmailAddress'
+                        'name' => 'EmailAddress',
+                        'options' => [
+                            'break_chain_on_failure' => true
+                        ]
                     ]
                 ]
             ],
