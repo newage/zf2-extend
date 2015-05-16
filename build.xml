@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="ZF2Ext" default="behat">
+<project name="ZF2Ext" default="setup">
 
-    <!-- Application configuration -->
-    <property name="behat.bin"            value="${project.basedir}/bin/behat" />
-    <property name="behat.logs.dir"       value="${project.basedir}/build/behat" />
-    <property name="behat.htmlReport"     value="${behat.logs.dir}/behat.html" />
-    <property name="behat.init.overwrite" value="true" />
+    <target name="setup" description="Setup project first time.">
+        <property name="path.puphpet" value="${project.basedir}/puphpet" />
 
-    <target name="behat:init" description="Setup steps for Behat build tasks.">
-        <!-- Create an artefacts structure -->
-        <mkdir dir="${behat.logs.dir}"/>
+        <!-- Pull git submodule -->
+        <echo>Git submobule update</echo>
+        <exec command="git submodule update --init" dir="${path.puphpet}" />
+        <echo>Vagrant up</echo>
+        <exec command="vagrant up" />
 
-        <!-- Ensure we have the latest configuration -->
-        <copy file="behat.yml.dist"
-              tofile="behat.yml"
-              overwrite="${behat.init.overwrite}">
+        <!-- Copy config file for zend-developer-tools -->
+        <copy file="vendor/zendframework/zend-developer-tools/config/zenddevelopertools.local.php.dist"
+              tofile="config/autoload/zdt.local.php"
+              overwrite="false">
             <filterchain>
                 <expandproperties />
             </filterchain>
         </copy>
+    </target>
 
+    <target name="setup:database" description="Setup database on vagrant environment" >
+        <!-- Create tables in database -->
+        <exec command="bin/doctrine-module orm:schema-tool:create" />
+
+        <!-- Apply fixtures for empty database -->
+        <exec command="bin/doctrine-module data-fixture:import" />
     </target>
 
 </project>
