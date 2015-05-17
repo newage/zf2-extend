@@ -24,7 +24,7 @@ echo $this->form()->openTag($this->form);
         'class' => 'form-control'
     ));
     echo $this->formLabel($identifier);
-    echo '<div class="col-sm-10">';
+    echo '<div class="col-sm-10" id="field-identifier">';
     echo $this->formInput($identifier);
     echo $this->formElementErrors()
         ->setMessageOpenFormat('<div class="bs-callout bs-callout-danger">')
@@ -45,7 +45,7 @@ echo $this->form()->openTag($this->form);
         'class' => 'form-control'
     ));
     echo $this->formLabel($credential);
-    echo '<div class="col-sm-10">';
+    echo '<div class="col-sm-10" id="field-password">';
     echo $this->formPassword($credential);
     echo $this->formElementErrors()
         ->setMessageOpenFormat('<div class="bs-callout bs-callout-danger">')
@@ -66,7 +66,7 @@ echo $this->form()->openTag($this->form);
         'class' => 'form-control'
     ));
     echo $this->formLabel($credential);
-    echo '<div class="col-sm-10">';
+    echo '<div class="col-sm-10" id="field-identical">';
     echo $this->formPassword($credential);
     echo $this->formElementErrors()
         ->setMessageOpenFormat('<div class="bs-callout bs-callout-danger">')

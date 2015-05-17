@@ -26,4 +26,26 @@ class ForgotForm extends AbstractUserForm
             ]
         ]);
     }
+
+    /**
+     * Should return an array specification compatible with
+     * {@link \Zend\InputFilter\Factory::createInputFilter()}.
+     *
+     * @return array
+     */
+    public function getInputFilterSpecification()
+    {
+        $filters = parent::getInputFilterSpecification();
+        $filters['identifier']['validators'][] = [
+            'name' => 'DoctrineModule\Validator\ObjectExists',
+            'options' => [
+                'object_repository' => $this->getEntityManager()->getRepository('User\Entity\User'),
+                'fields' => 'identifier',
+                'messages' => [
+                    'noObjectFound' => 'A user with this email not exists!'
+                ]
+            ]
+        ];
+        return $filters;
+    }
 }

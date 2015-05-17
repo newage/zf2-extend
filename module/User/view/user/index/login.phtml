@@ -23,7 +23,7 @@
         'class' => 'form-control'
     ]);
     echo $this->formLabel($identifier);
-    echo '<div class="col-sm-10">';
+    echo '<div class="col-sm-10" id="field-identifier">';
     echo $this->formInput($identifier);
     echo $this->formElementErrors()
         ->setMessageOpenFormat('<div class="bs-callout bs-callout-danger">')
@@ -44,7 +44,7 @@
         'class' => 'form-control'
     ]);
     echo $this->formLabel($credential);
-    echo '<div class="col-sm-10">';
+    echo '<div class="col-sm-10" id="field-password">';
     echo $this->formPassword($credential);
     echo $this->formElementErrors()
         ->setMessageOpenFormat('<div class="bs-callout bs-callout-danger">')
@@ -64,7 +64,7 @@
         ]);
         echo $this->formElement($element);
         ?>
-        <a class="btn-link" href="<?= $this->url('forgot') ?>">Forgot password?</a>
+        <a class="btn-link" href="<?= $this->url('forgot') ?>" id="link-forgot">Forgot password?</a>
     </div>
 </div>
 

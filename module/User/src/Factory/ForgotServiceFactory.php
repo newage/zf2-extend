@@ -26,6 +26,7 @@ class ForgotServiceFactory implements FactoryInterface
 
         $form = new ForgotForm();
         $form->bind(new User());
+        $form->setServiceLocator($serviceLocator);
         $service->setForm($form);
 
         /* Send email with instructions for restore password */

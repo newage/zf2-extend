@@ -6,3 +6,5 @@
 .vagrant
 .idea
 /puphpet/*
+
+tests/_output/*
