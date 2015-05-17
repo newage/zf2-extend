@@ -1,0 +1,50 @@
+<div class="page-header">
+    <h1><?php echo $this->translate('Restore password') ?></h1>
+</div>
+
+<?php
+$this->form->prepare();
+
+// Set the method attribute for the form
+$this->form->setAttribute('class', 'form-horizontal');
+// Get the form label plugin
+$formLabel = $this->plugin('formLabel');
+
+echo $this->form()->openTag($this->form);
+?>
+
+<div class="form-group">
+    <?php
+    /* @var $identifier \Zend\Form\Element\Text */
+    $identifier = $this->form->get('identifier');
+    $identifier->setLabelAttributes([
+        'class' => 'col-sm-2 control-label'
+    ]);
+    $identifier->setAttributes([
+        'class' => 'form-control'
+    ]);
+    echo $this->formLabel($identifier);
+    echo '<div class="col-sm-10" id="field-identifier">';
+    echo $this->formInput($identifier);
+    echo $this->formElementErrors()
+        ->setMessageOpenFormat('<div class="bs-callout bs-callout-danger">')
+        ->setMessageCloseString('</div>')
+        ->render($identifier);
+    echo '</div>';
+    ?>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <?php
+        /* @var $element \Zend\Form\Element\Button */
+        $element = $this->form->get('send');
+        $element->setAttributes([
+            'class' => 'btn btn-primary'
+        ]);
+        echo $this->formElement($element);
+        ?>
+    </div>
+</div>
+
+<?php echo $this->form()->closeTag() ?>

@@ -26,29 +26,29 @@ class IdentifierFieldset extends Fieldset implements InputFilterProviderInterfac
         $this->setHydrator(new ClassMethodsHydrator())
             ->setObject(new User());
 
-        $this->add(array(
+        $this->add([
             'name' => 'identifier',
             'type' => 'text',
-            'options' => array(
+            'options' => [
                 'label' => 'Email'
-            )
-        ));
+            ]
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name' => 'password',
             'type' => 'password',
-            'options' => array(
+            'options' => [
                 'label' => 'Password'
-            )
-        ));
+            ]
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name' => 'identical',
             'type' => 'password',
-            'options' => array(
+            'options' => [
                 'label' => 'Password Verify'
-            )
-        ));
+            ]
+        ]);
     }
 
     /**
@@ -59,56 +59,56 @@ class IdentifierFieldset extends Fieldset implements InputFilterProviderInterfac
      */
     public function getInputFilterSpecification()
     {
-        return array(
-            'identifier' => array(
+        return [
+            'identifier' => [
                 'required' => true,
-                'validators' => array(
-                    array(
+                'validators' => [
+                    [
                         'name' => 'EmailAddress'
-                    )
-                )
-            ),
-            'password' => array(
+                    ]
+                ]
+            ],
+            'password' => [
                 'required' => true,
-                'validators' => array(
-                    array(
+                'validators' => [
+                    [
                         'name' => 'StringLength',
-                        'options' => array(
+                        'options' => [
                             'encoding' => 'UTF-8',
                             'min' => 3
-                        )
-                    )
-                ),
-                'filters' => array(
-                    array(
+                        ]
+                    ]
+                ],
+                'filters' => [
+                    [
                         'name' => 'StringTrim'
-                    )
-                )
-            ),
-            'identical' => array(
+                    ]
+                ]
+            ],
+            'identical' => [
                 'required' => true,
-                'validators' => array(
-                    array(
+                'validators' => [
+                    [
                         'name' => 'StringLength',
-                        'options' => array(
+                        'options' => [
                             'encoding' => 'UTF-8',
                             'min' => 3
-                        )
-                    ),
-                    array(
+                        ]
+                    ],
+                    [
                         'name' => 'Identical',
-                        'options' => array(
+                        'options' => [
                             'token' => 'password',
                             'message' => 'Passwords not match!'
-                        )
-                    )
-                ),
-                'filters' => array(
-                    array(
+                        ]
+                    ]
+                ],
+                'filters' => [
+                    [
                         'name' => 'StringTrim'
-                    )
-                )
-            )
-        );
+                    ]
+                ]
+            ]
+        ];
     }
 }

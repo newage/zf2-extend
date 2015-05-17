@@ -1,14 +1,9 @@
 <?php
-return array(
-    'navigation' => array(
-        'default' => array(
-
-        )
-    ),
-    'service_manager' => array(
-        'factories' => array(
+return [
+    'service_manager' => [
+        'factories' => [
             'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory'
-        )
-    )
-);
+        ]
+    ]
+];
 

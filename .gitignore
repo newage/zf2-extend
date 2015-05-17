@@ -1,6 +1,10 @@
+/bin/*
 /vendor/*
 /composer*
 !/composer.json
 /components/*
 .vagrant
 .idea
+/puphpet/*
+
+tests/_output/*

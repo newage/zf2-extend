@@ -1,71 +1,71 @@
 <?php
 namespace User\Mapper;
 
-use Core\Mapper\AbstractDoctrineMapper;
+use Core\Entity\EntityInterface;
+use Core\Mapper\DoctrineMapper;
 use User\Entity\Role;
 
 /**
  * Mapper for role entity
- *
- * @author V.Leontiev
  */
-class RoleMapper extends AbstractDoctrineMapper
+class RoleMapper extends DoctrineMapper
 {
 
     /**
      * Find one row
-     *
-     * @param type $id            
+     * @param int $identifier
      * @return Role
      */
-    public function find($id)
+    public function find($identifier)
     {
         $em = $this->getEntityManager();
-        return $em->getRepository('User\Entity\Role')->find((int) $id);
+        return $em->getRepository('User\Entity\Role')->find($identifier);
     }
 
-    public function findBy($params)
-    {}
-
-    public function findOne($params)
+    public function findBy(array $params, array $order = null, $limit = null)
     {
-        if (! is_array($params)) {
-            throw new \Zend\Stdlib\Exception\InvalidArgumentException('Params in not array');
-        }
+        return null;
+    }
+
+    /**
+     * Find one entity by parameters
+     * @param array$params
+     * @return Role
+     */
+    public function findOne(array $params)
+    {
         $em = $this->getEntityManager();
         return $em->getRepository('User\Entity\Role')->findOneBy($params);
     }
 
     /**
      * Disable role
-     *
-     * @param int $id            
+
+     * @param int $identifier
      * @return Role
      */
-    public function delete($id)
+    public function delete($identifier)
     {
-        return $entity;
+        return null;
     }
 
     /**
      * Create new role
-     *
-     * @param Role $entity            
+     * @param Role|EntityInterface $entity
      * @return Role
      */
-    public function create($entity)
+    public function create(EntityInterface $entity)
     {
-        return $entity;
+        return null;
     }
 
     /**
-     * Udate role
-     *
-     * @param Role $entity            
+     * Update role
+     * @param Role|EntityInterface $entity
      * @return Role
      */
-    public function update($entity)
+    public function update(EntityInterface $entity)
     {
-        return $entity;
+        return null;
     }
 }

@@ -8,23 +8,64 @@ $flash->setMessageOpenFormat('<div%s>
     ->setMessageSeparatorString('<br/>')
     ->setMessageCloseString('</div>');
 
-echo $flash->render('error', array(
+echo $flash->render('error', [
     'alert',
     'alert-dismissable',
     'alert-danger'
-));
-echo $flash->render('info', array(
-    'alert',
-    'alert-dismissable',
-    'alert-info'
-));
-echo $flash->render('default', array(
+]);
+echo $flash->render('warning', [
     'alert',
     'alert-dismissable',
     'alert-warning'
-));
-echo $flash->render('success', array(
+]);
+echo $flash->render('info', [
+    'alert',
+    'alert-dismissable',
+    'alert-info'
+]);
+echo $flash->render('default', [
+    'alert',
+    'alert-dismissable',
+    'alert-warning'
+]);
+echo $flash->render('success', [
     'alert',
     'alert-dismissable',
     'alert-success'
-));
+]);
+
+
+/* @var $messenger \Core\View\Helper\Messenger */
+$messenger = $this->messenger();
+$messenger->setMessageOpenFormat('<div%s>
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+        &times;
+    </button>')
+    ->setMessageSeparatorString('<br/>')
+    ->setMessageCloseString('</div>');
+
+echo $messenger->render('error', [
+    'alert',
+    'alert-dismissable',
+    'alert-danger'
+]);
+echo $messenger->render('warning', [
+    'alert',
+    'alert-dismissable',
+    'alert-warning'
+]);
+echo $messenger->render('info', [
+    'alert',
+    'alert-dismissable',
+    'alert-info'
+]);
+echo $messenger->render('default', [
+    'alert',
+    'alert-dismissable',
+    'alert-warning'
+]);
+echo $messenger->render('success', [
+    'alert',
+    'alert-dismissable',
+    'alert-success'
+]);

@@ -1,19 +1,15 @@
 <?php
 namespace User\Entity;
 
+use Core\Entity\EntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class User
+class User implements EntityInterface
 {
-
-    const SECRET_KEY = 'secret key for user';
-
-    const STATUS_ENABLE = 'ENABLE';
-    const STATUS_DISABLE = 'DISABLE';
 
     /**
      * @ORM\Id
@@ -33,11 +29,6 @@ class User
     protected $password;
 
     /**
-     * @ORM\Column(type="string")
-     */
-    protected $salt;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Role")
      * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      */
@@ -54,105 +45,189 @@ class User
     protected $updatedAt;
 
     /**
-     * @ORM\Column(type="string", name="password_hash", nullable=true)
+     * @ORM\Column(type="string", name="restore_hash", nullable=true)
      */
-    protected $passwordHash;
+    protected $restoreHash;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="datetime", name="restore_hash_created_at", nullable=true)
      */
-    protected $status;
+    protected $restoreHashCreatedAt;
 
+    /**
+     * @ORM\Column(type="integer", name="is_enable")
+     */
+    protected $isEnable;
+
+    /**
+     * Get identifier for entity
+     * @return int
+     */
     public function getId()
+    {
+        return $this->getPrimary();
+    }
+
+    /**
+     * Set identifier for entity
+     * @param $primary
+     * @return $this
+     */
+    public function setId($primary)
+    {
+        return $this->setPrimary($primary);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrimary()
     {
         return $this->primary;
     }
 
+    /**
+     * @param mixed $primary
+     * @return $this
+     */
+    public function setPrimary($primary)
+    {
+        $this->primary = $primary;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getIdentifier()
     {
         return $this->identifier;
     }
 
+    /**
+     * @param mixed $identifier
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getPassword()
     {
         return $this->password;
     }
 
-    public function getSalt()
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password)
     {
-        return $this->salt;
+        $this->password = $password;
     }
 
+    /**
+     * @return mixed
+     */
     public function getRole()
     {
         return $this->role;
     }
 
+    /**
+     * @param mixed $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
+    /**
+     *
+     */
+    public function setCreatedAt()
+    {
+        $this->createdAt = new \DateTime("now");
+    }
+
+    /**
+     * @return mixed
+     */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
 
-    public function getPasswordHash()
-    {
-        return $this->passwordHash;
-    }
-
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    public function setIdentifier($identifier)
-    {
-        $this->identifier = $identifier;
-        return $this;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
-        return $this;
-    }
-
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-        return $this;
-    }
-
-    public function setRole($role)
-    {
-        $this->role = $role;
-        return $this;
-    }
-
-    public function setCreatedAt()
-    {
-        $this->createdAt = new \DateTime("now");
-        return $this;
-    }
-
+    /**
+     *
+     */
     public function setUpdatedAt()
     {
         $this->updatedAt = new \DateTime("now");
-        return $this;
     }
 
-    public function setPasswordHash()
+    /**
+     * @return mixed
+     */
+    public function getRestoreHash()
     {
-        $this->passwordHash = md5(time() . uniqid());
-        return $this;
+        return $this->restoreHash;
     }
 
-    public function setStatus($status)
+    /**
+     * @param $restoreHash
+     */
+    public function setRestoreHash($restoreHash)
     {
-        $this->status = $status;
-        return $this;
+        $this->restoreHash = $restoreHash;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnable()
+    {
+        return $this->isEnable == 1;
+    }
+
+    /**
+     * Set enable flag
+     */
+    public function setEnable()
+    {
+        $this->isEnable = 1;
+    }
+
+    /**
+     * Set disable flag
+     */
+    public function setDisable()
+    {
+        $this->isEnable = 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRestoreHashCreatedAt()
+    {
+        return $this->restoreHashCreatedAt;
+    }
+
+    /**
+     *
+     */
+    public function setRestoreHashCreatedAt()
+    {
+        $this->restoreHashCreatedAt = new \DateTime("now");;
     }
 }

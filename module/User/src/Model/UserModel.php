@@ -2,6 +2,7 @@
 namespace User\Model;
 
 use Core\Model\AbstractModel;
+use User\Entity\Role;
 use User\Entity\User;
 use Zend\Stdlib\Hydrator;
 
@@ -14,77 +15,111 @@ class UserModel extends AbstractModel
 {
 
     /**
-     * Get form for update user data
-     *
-     * @param int $identifier
-     * @return \User\Form\LoginForm
+     * @var int
      */
-    public function getUpdateForm($identifier)
+    protected $identity = null;
+
+    /**
+     * Make hash, enable user, set role and insert user to DB
+     * @param \User\Entity\User $entityUser
+     * @param \User\Entity\Role $entityRole
+     * @return \User\Entity\User
+     */
+    public function create(User $entityUser, Role $entityRole)
     {
-        /* @var $form \User\Form\RegistrationForm */
-        $form = $this->getServiceLocator()->get('RegistrationForm');
-        $form->bind($this->getMapper()->find($identifier));
-        return $form;
+        $passwordHash = $this->makeHash($entityUser->getPassword());
+        $entityUser->setPassword($passwordHash);
+        $entityUser->setRole($entityRole);
+        $entityUser->setEnable();
+
+        return $this->getMapper()->create($entityUser);
     }
 
     /**
-     * @return \Core\Form\AbstractForm
+     * Create hash for user for restore password
+     * @param \User\Entity\User $entityUser
+     * @return \User\Entity\User
      */
-    public function getRegistrationForm()
+    public function createHash(User $entityUser)
     {
-        /* @var $form \User\Form\RegistrationForm */
-        $form = $this->getServiceLocator()->get('RegistrationForm');
-        $form->bind(new User());
-        return $form;
+        $entityUser = $this->getMapper()->getUserByEmail($entityUser->getIdentifier());
+        $entityUser->setRestoreHash(sha1(microtime() . uniqid()));
+        $entityUser->setRestoreHashCreatedAt();
+
+        return $this->getMapper()->update($entityUser);
     }
 
     /**
-     * @return \User\Form\LoginForm
+     * Update password for user
+     * @param User $entityUser
+     * @return User
      */
-    public function getLoginForm()
+    public function updatePassword(User $entityUser)
     {
-        /* @var $form \User\Form\LoginForm */
-        $form = $this->getServiceLocator()->get('LoginForm');
-        $form->bind(new User());
-        return $form;
+        $passwordHash = $this->makeHash($entityUser->getPassword());
+        $entityUser = $this->getMapper()->getUserByHash($entityUser->getRestoreHash());
+        $entityUser->setPassword($passwordHash);
+        $entityUser->setRestoreHash(null);
+        $entityUser->setUpdatedAt();
+
+        return $this->getMapper()->update($entityUser);
     }
 
-    public function create()
+    /**
+     * Create hash for password
+     * @param string $password
+     * @return string
+     */
+    protected function makeHash($password)
     {
-        /* @var $roleModel \User\Model\RoleModel */
-        $roleModel = $this->getServiceLocator()->get('RoleModel');
-        
-        /* @var $entity \User\Entity\User */
-        $entity = $this->getForm()->getObject();
-        var_dump($entity); die;
-        $mapper = $this->getMapper();
-        
-        $entity->setSalt(md5(time()));
-        $entity->setPassword(md5($entity->getPassword() . $entity->getSalt() . User::SECRET_KEY));
-        
-        $role = $roleModel->getMapper()->findOne(array(
-            'name' => 'user'
-        ));
-        $entity->setRole($role);
-        
-        $mapper->create($entity);
+        $options = [
+            'cost' => 10,
+            'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+        ];
+        return password_hash($password, PASSWORD_BCRYPT, $options);
     }
 
-    public function update()
+    /**
+     * Get registered users
+     * @return array|void
+     */
+    public function getUsers()
     {
-        $roleId = $this->getForm()->getValue('role_id');
-        /* @var $entity \User\Entity\User */
-        $entity = $this->getForm()->getObject();
-        $mapper = $this->getMapper();
-        
-        if ($roleId) {
-            /* @var $roleModel \User\Model\RoleModel */
-            $roleModel = $this->getServiceLocator()->get('RoleModel');
-            
-            $role = $roleModel->getMapper()->find($roleId);
-            $entity->setRole($role);
-        }
-        
-        $mapper->update($entity);
+        return $this->getMapper()->getUsers();
+    }
+
+    /**
+     * Get current user
+     * @return User
+     */
+    public function getCurrentUser()
+    {
+
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdentity()
+    {
+        return $this->identity;
+    }
+
+    /**
+     * @param int $identity
+     * @return $this
+     */
+    public function setIdentity($identity)
+    {
+        $this->identity = $identity;
+        return $this;
+    }
+
+    /**
+     * @return \User\Mapper\UserMapper
+     */
+    protected function getMapper()
+    {
+        return parent::getMapper();
     }
 }

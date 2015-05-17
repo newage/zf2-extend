@@ -6,10 +6,8 @@ use Doctrine\ORM\EntityManager;
 
 /**
  * Abstract mapper for doctrine
- *
- * @author vadim
  */
-abstract class AbstractDoctrineMapper extends AbstractMapper implements EntityDoctrineManagerInterface
+abstract class DoctrineMapper extends AbstractMapper implements EntityDoctrineManagerInterface
 {
 
     /**
@@ -25,9 +23,8 @@ abstract class AbstractDoctrineMapper extends AbstractMapper implements EntityDo
      */
     public function getEntityManager()
     {
-        if (! $this->entityManager) {
-            $this->setEntityManager($this->getServiceLocator()
-                ->get('Doctrine\ORM\EntityManager'));
+        if (!$this->entityManager) {
+            $this->setEntityManager($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
         }
         return $this->entityManager;
     }
@@ -35,12 +32,26 @@ abstract class AbstractDoctrineMapper extends AbstractMapper implements EntityDo
     /**
      * Set entity manager
      *
-     * @param \Doctrine\ORM\EntityManager $entityManager            
-     * @return \Core\Mapper\AbstractDoctrineMapper
+     * @param EntityManager $entityManager
+     * @return \Core\Mapper\doctrineMapper
      */
     public function setEntityManager(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
         return $this;
+    }
+
+    /**
+     * Execute action for entity
+     *
+     * @param $entity
+     * @return bool|int
+     */
+    public function persist($entity)
+    {
+        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
+
+        return $entity;
     }
 }

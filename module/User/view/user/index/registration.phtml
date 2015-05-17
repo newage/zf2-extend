@@ -15,10 +15,8 @@ echo $this->form()->openTag($this->form);
 
 <div class="form-group">
     <?php
-    /* @var $identity \User\Form\IdentifierFieldset */
     /* @var $identifier \Zend\Form\Element\Text */
-    $identity = $this->form->get('identity');
-    $identifier = $identity->get('identifier');
+    $identifier = $this->form->get('identifier');
     $identifier->setLabelAttributes(array(
         'class' => 'col-sm-2 control-label'
     ));
@@ -26,7 +24,7 @@ echo $this->form()->openTag($this->form);
         'class' => 'form-control'
     ));
     echo $this->formLabel($identifier);
-    echo '<div class="col-sm-10">';
+    echo '<div class="col-sm-10" id="field-identifier">';
     echo $this->formInput($identifier);
     echo $this->formElementErrors()
         ->setMessageOpenFormat('<div class="bs-callout bs-callout-danger">')
@@ -39,7 +37,7 @@ echo $this->form()->openTag($this->form);
 <div class="form-group">
     <?php
     /* @var $credential \Zend\Form\Element\Password */
-    $credential = $identity->get('password');
+    $credential = $this->form->get('password');
     $credential->setLabelAttributes(array(
         'class' => 'col-sm-2 control-label'
     ));
@@ -47,7 +45,7 @@ echo $this->form()->openTag($this->form);
         'class' => 'form-control'
     ));
     echo $this->formLabel($credential);
-    echo '<div class="col-sm-10">';
+    echo '<div class="col-sm-10" id="field-password">';
     echo $this->formPassword($credential);
     echo $this->formElementErrors()
         ->setMessageOpenFormat('<div class="bs-callout bs-callout-danger">')
@@ -60,7 +58,7 @@ echo $this->form()->openTag($this->form);
 <div class="form-group">
     <?php
     /* @var $credential \Zend\Form\Element\Password */
-    $credential = $identity->get('identical');
+    $credential = $this->form->get('identical');
     $credential->setLabelAttributes(array(
         'class' => 'col-sm-2 control-label'
     ));
@@ -68,7 +66,7 @@ echo $this->form()->openTag($this->form);
         'class' => 'form-control'
     ));
     echo $this->formLabel($credential);
-    echo '<div class="col-sm-10">';
+    echo '<div class="col-sm-10" id="field-identical">';
     echo $this->formPassword($credential);
     echo $this->formElementErrors()
         ->setMessageOpenFormat('<div class="bs-callout bs-callout-danger">')

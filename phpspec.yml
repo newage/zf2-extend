@@ -1,0 +1,6 @@
+suites:
+    User:
+        namespace: User
+        spec_path: module/User/bundle
+        src_path: module/User/src
+        psr4_prefix: User

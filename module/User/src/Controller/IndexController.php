@@ -1,18 +1,17 @@
 <?php
 namespace User\Controller;
 
+use Core\Mvc\Controller\AbstractExtendController;
 use Zend\View\Model\ViewModel;
-use Core\Mvc\Controller\EntityController;
 use User\Mapper\UserMapper;
 use User\Form\RegistrationForm;
 use User\Model\UserModel;
 
 /**
  * Description of Index
- *
  * @author vadim
  */
-class IndexController extends EntityController
+class IndexController extends AbstractExtendController
 {
 
     /**
@@ -36,15 +35,16 @@ class IndexController extends EntityController
      */
     public function indexAction()
     {
-        $em = $this->getEntityManager();
-        
-        $users = $em->getRepository('User\Entity\User')->findBy(array(), array(
-            'id' => 'ASC'
-        ));
-        
-        return new ViewModel(array(
+        /* @var $model \User\Model\UserModel */
+        $model = $this->getServiceLocator()->get('UserModel');
+        $users = $model->getUsers();
+
+        $view = new ViewModel();
+        $view->setTemplate('user/index/index');
+        $view->setVariables([
             'users' => $users
-        ));
+        ]);
+        return $view;
     }
 
     /**
@@ -53,57 +53,32 @@ class IndexController extends EntityController
      */
     public function loginAction()
     {
-        $model = $this->getUserModel();
-        $form = $model->getLoginForm();
+        /* @var $service \User\Service\LoginService */
+        $service = $this->getServiceLocator()->get('LoginService');
+        $form = $service->getForm();
 
+        /* @var $request \Zend\Http\PhpEnvironment\Request */
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
-            
+
             if ($form->isValid()) {
-                $model->create();
-                $this->flashMessenger()->addSuccessMessage('User Logined');
-                return $this->redirect()->toRoute('login');
+                $authResult = $service->login();
+
+                if ($authResult->isValid()) {
+                    $this->flashMessenger()->addSuccessMessage('User logged in');
+                    return $this->redirect()->toRoute('home');
+                } else {
+                    $this->messenger()->addErrorMessage('A user account not be found or disable');
+                }
             }
         }
         $view = new ViewModel();
         $view->setTemplate('user/index/login');
-        $view->setVariables(array(
+        $view->setVariables([
             'form' => $form
-        ));
+        ]);
         return $view;
-    }
-
-    /**
-     * Update user
-     *
-     * @return \Zend\View\Model\ViewModel
-     */
-    public function updateAction()
-    {
-        $model = $this->getUserModel();
-        $form = $model->getUpdateForm($this->params('id'));
-//        $form->setData(array(
-//            'id' => $this->params('id')
-//        ));
-        
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $form->setData($request->getPost());
-            
-            if ($form->isValid()) {
-                $model->update();
-                
-                $this->flashMessenger()->addSuccessMessage('User Updated');
-                return $this->redirect()->toRoute('user/update');
-            }
-        } else {
-            $form = $this->getUserModel()->getForm();
-        }
-        
-        return new ViewModel(array(
-            'form' => $form
-        ));
     }
 
     /**
@@ -111,45 +86,104 @@ class IndexController extends EntityController
      *
      * @return \Zend\View\Model\ViewModel
      */
-    public function createAction()
+    public function registrationAction()
     {
-        $model = $this->getUserModel();
-        $form = $model->getRegistrationForm();
-        
+        /* @var $service \User\Service\RegistrationService */
+        $service = $this->getServiceLocator()->get('RegistrationService');
+        $form = $service->getForm();
+
+        /* @var $request \Zend\Http\PhpEnvironment\Request */
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
             
             if ($form->isValid()) {
-                $model->create();
-                $this->flashMessenger()->addSuccessMessage('User Saved');
-                return $this->redirect()->toRoute('user/create');
+                $service->registration();
+                $this->flashMessenger()->addSuccessMessage('User registered');
+                return $this->redirect()->toRoute('login');
             }
         }
         
-        return new ViewModel(array(
+        $view = new ViewModel();
+        $view->setVariables([
             'form' => $form
-        ));
+        ]);
+        $view->setTemplate('user/index/registration');
+        return $view;
     }
-
-    public function logoutAction()
-    {}
 
     /**
-     *
-     * @return UserModel
+     * Logout user
+     * @return ViewModel
      */
-    public function getUserModel()
+    public function logoutAction()
     {
-        if (! $this->userModel) {
-            $this->setUserModel($this->getServiceLocator()->get('UserModel'));
-        }
-        return $this->userModel;
+        /* @var $authService \Zend\Authentication\AuthenticationService */
+        $authService = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
+        $authService->clearIdentity();
+        return $this->redirect()->toRoute('home');
     }
 
-    public function setUserModel(UserModel $model)
+    /**
+     * Show forgot form with email
+     * @return ViewModel
+     */
+    public function forgotAction()
     {
-        $this->userModel = $model;
-        return $this;
+        /* @var $service \User\Service\ForgotService */
+        $service = $this->getServiceLocator()->get('ForgotService');
+        $form = $service->getForm();
+
+        /* @var $request \Zend\Http\PhpEnvironment\Request */
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                $service->forgot();
+                $this->flashMessenger()->addSuccessMessage('Instructions sent to your email');
+                return $this->redirect()->toRoute('login');
+            }
+        }
+
+        $view = new ViewModel();
+        $view->setVariables([
+            'form' => $form
+        ]);
+        $view->setTemplate('user/index/forgot');
+        return $view;
+    }
+
+    /**
+     * Show restore form with password field
+     * @return ViewModel
+     */
+    public function restoreAction()
+    {
+        /* @var $service \User\Service\RestoreService */
+        $service = $this->getServiceLocator()->get('RestoreService');
+        $form = $service->getForm();
+
+        /* @var $request \Zend\Http\PhpEnvironment\Request */
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                $service->restore();
+                $this->flashMessenger()->addSuccessMessage('Your password was change');
+                return $this->redirect()->toRoute('login');
+            } elseif ($form->get('restore_hash')->getMessages()) {
+                $this->messenger()->addErrorMessage('Hash is wrong');
+            }
+        }
+
+        $view = new ViewModel();
+        $view->setVariables([
+            'form' => $form,
+            'hash' => $this->params('hash')
+        ]);
+        $view->setTemplate('user/index/restore');
+        return $view;
     }
 }

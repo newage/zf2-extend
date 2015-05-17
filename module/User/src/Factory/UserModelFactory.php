@@ -2,6 +2,7 @@
 
 namespace User\Factory;
 
+use User\Model\UserModel;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -19,10 +20,10 @@ class UserModelFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $model = new \User\Model\UserModel();
-        $model->setServiceLocator($serviceLocator);
-        $model->setForm($serviceLocator->get('RegistrationForm'));
-        $model->setMapper($serviceLocator->get('UserMapper'));
+        $model = new UserModel();
+        /* @var $mapper \User\Mapper\UserMapper */
+        $mapper = $serviceLocator->get('UserMapper');
+        $model->setMapper($mapper);
         return $model;
     }
 }

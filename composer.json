@@ -1,6 +1,9 @@
 {
+    "config": {
+       "bin-dir": "bin/"
+    },
     "name": "newage/zf2-extend",
-    "description": "ZendFramework2 skeleton application + Doctrine + other libraries",
+    "description": "ZendFramework2 skeleton application + Doctrine + Behat",
     "license": "MIT",
     "keywords": [
         "framework",
@@ -8,7 +11,7 @@
     ],
     "require": {
         "php": ">=5.5",
-        "zendframework/zendframework": "2.3.*",
+        "zendframework/zendframework": "2.4.*",
         "doctrine/doctrine-module": "0.*",
         "doctrine/doctrine-orm-module": "0.*",
         "hounddog/doctrine-data-fixture-module": "0.*",
@@ -18,12 +21,28 @@
         "components/font-awesome": "4.*"
     },
     "require-dev": {
-        "zendframework/zend-developer-tools": "dev-master",
-        "zendframework/zftool": "dev-master",
-        "phpunit/phpunit": "3.7.*",
-        "behat/behat": "3.0.*",
-        "squizlabs/php_codesniffer": "1.5.*",
-        "phpmd/phpmd": "2.1.*",
-        "theseer/phpdox": "0.*"
+        "zendframework/zend-developer-tools":   "dev-master",
+        "zendframework/zftool":                 "dev-master",
+        "phpunit/phpunit":                      "~4.1",
+        "squizlabs/php_codesniffer":            "1.5.*",
+        "phpmd/phpmd":                          "2.1.*",
+        "theseer/phpdox":                       "0.*",
+        "phing/phing":                          "2.*",
+        "behat/behat":                          "~3.0",
+        "behat/mink-extension":                 "~2.0",
+        "behat/mink-selenium2-driver":          "~1.2",
+        "behat/mink-goutte-driver":             "~1.1",
+        "behat/mink":                           "~1.6",
+        "phpspec/phpspec":                      "~2.0",
+        "codeception/codeception":              "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Core\\": "library/"
+        },
+        "psr-4": {
+            "User\\Behat\\": "module/User/bundle/behat",
+            "User\\": "module/User/src/"
+        }
     }
 }

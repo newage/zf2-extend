@@ -2,6 +2,7 @@
 
 namespace User\Factory;
 
+use User\Model\RoleModel;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -20,10 +21,10 @@ class RoleModelFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $model = new \User\Model\RoleModel();
-        $model->setServiceLocator($serviceLocator);
-        $model->setForm($serviceLocator->get('RoleForm'));
-        $model->setMapper($serviceLocator->get('RoleMapper'));
+        $model = new RoleModel();
+        /* @var $mapper \User\Mapper\RoleMapper */
+        $mapper = $serviceLocator->get('RoleMapper');
+        $model->setMapper($mapper);
         return $model;
     }
 }

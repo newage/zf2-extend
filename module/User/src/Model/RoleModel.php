@@ -13,12 +13,14 @@ use Zend\Stdlib\Hydrator;
 class RoleModel extends AbstractModel
 {
 
-    public function getRoleForm()
+    /**
+     * @return Role
+     */
+    public function getDefaultRole()
     {
-        $form = $this->getForm();
-        $form->setHydrator(new Hydrator\ClassMethods());
-        $form->setMapper($this->getMapper());
-        $form->bind(new Role());
-        return $form;
+        $role = $this->getMapper()->findOne(array(
+            'name' => 'user'
+        ));
+        return $role;
     }
 }

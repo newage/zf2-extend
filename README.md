@@ -1,16 +1,17 @@
 zf2-extend
 ==========
 
-ZendFramework2 skeleton application + Doctrine2 + other libraries
+ZendFramework2 skeleton application + Doctrine2 with BDD (Behat, phpspec) and modern testing tool (codeception)
 
 ##Install
-Run install file
+Install via composer
 ```
-> ./install
+$> composer install
 ```
 
 ##Setup
 ###Apache Virtual host
+If don't use vagrant
 ```
 <VirtualHost *:80>
     ServerName zf2-extend
@@ -34,26 +35,38 @@ Run install file
 </VirtualHost>
 ```
 
+###Setup project
+```
+$> bin/phing setup
+```
+
+###Update database on vagrant
+```
+$> vagrant ssh
+$> cd /var/www
+$> bin/phing setup:database
+```
+
 ##Doctrine
 
 ###Validate mappings
 ```
-./vendor/bin/doctrine-module orm:validate-schema
+bin/doctrine-module orm:validate-schema
 ```
 
 ###Generate the database
 ```
-./vendor/bin/doctrine-module orm:schema-tool:create
+bin/doctrine-module orm:schema-tool:create
 ```
 
 ###Update the database
 ```
-./vendor/bin/doctrine-module orm:schema-tool:update
+bin/doctrine-module orm:schema-tool:update
 ```
 
 ###Apply fixtures
 ```
-./vendor/bin/doctrine-module data-fixture:import
+bin/doctrine-module data-fixture:import
 ```
 
 ##MVC Structure
@@ -62,6 +75,8 @@ Entity - Provide access to data. Are simple. Data, keep them simple! No logic, j
 
 Mapper - Provide methods for work with DB.
 
-Model - Implement all business logic. Work with form and mapper and other model.
+Model - Implement all business logic. Work with mapper.
 
-Controller - Call model and add data to view.
+Service - Create relations between any models and form. 
+
+Controller - Call service and add data to view.
