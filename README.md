@@ -4,7 +4,7 @@ zf2-extend
 ZendFramework2 skeleton application + Doctrine2 with BDD (Behat, phpspec) and modern testing tool (codeception)
 
 ##Install
-Run install file
+Install via composer
 ```
 $> composer install
 ```
