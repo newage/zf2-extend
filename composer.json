@@ -24,7 +24,6 @@
         "zendframework/zend-developer-tools":   "dev-master",
         "zendframework/zftool":                 "dev-master",
         "phpunit/phpunit":                      "~4.1",
-        "mockery/mockery":                      "dev-master",
         "squizlabs/php_codesniffer":            "1.5.*",
         "phpmd/phpmd":                          "2.1.*",
         "theseer/phpdox":                       "0.*",
@@ -33,14 +32,17 @@
         "behat/mink-extension":                 "~2.0",
         "behat/mink-selenium2-driver":          "~1.2",
         "behat/mink-goutte-driver":             "~1.1",
-        "behat/mink":                           "~1.6"
+        "behat/mink":                           "~1.6",
+        "phpspec/phpspec":                      "~2.0",
+        "codeception/codeception":              "*"
     },
     "autoload": {
         "psr-0": {
             "Core\\": "library/"
         },
         "psr-4": {
-            "BDD\\": "behat/"
+            "User\\Behat\\": "module/User/bundle/behat",
+            "User\\": "module/User/src/"
         }
     }
 }

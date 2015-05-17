@@ -3,7 +3,7 @@ default:
         user:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
-                - BDD\Context\User\LoginContext
+                - User\Behat\LoginContext
                 - Core\Behat\ResourceContext
             filters:
                 tags: "@user"
