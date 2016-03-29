@@ -2,6 +2,7 @@
 /vendor/*
 /composer*
 !/composer.json
+!/composer.lock
 /components/*
 .vagrant
 .idea
