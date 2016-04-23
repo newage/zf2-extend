@@ -8,7 +8,7 @@ RUN apt-get install -y software-properties-common
 RUN add-apt-repository -y ppa:ondrej/php5-5.6
 RUN apt-get update -y
 RUN apt-get install -y --force-yes supervisor git mc openssh-server apache2 libapache2-mod-php5 mysql-server php5-mysql \
-    php5-intl php5-json php5-curl php5-gd php5-xdebug && \
+    php5-intl php5-json php5-curl php5-gd php5-xdebug php5-xsl nodejs npm && \
     echo "ServerName zf2-extend" >> /etc/apache2/apache2.conf
 
 ADD docker/xdebug.ini /etc/php5/mods-available/xdebug.ini

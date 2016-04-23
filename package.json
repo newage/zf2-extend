@@ -1,0 +1,26 @@
+{
+  "name": "zf2-extend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "angular": "~v1.5.3",
+    "font-awesome": "4.*"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/newage/angular-example.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/newage/angular-example/issues"
+  },
+  "homepage": "https://github.com/newage/angular-example#readme"
+}

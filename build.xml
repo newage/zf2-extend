@@ -3,6 +3,9 @@
 <project name="ZF2Ext" default="setup">
 
     <target name="setup" description="Setup database on vagrant environment" >
+        <!-- Install js libraries -->
+        <exec command="npm install" />
+
         <!-- Create tables in database -->
         <exec command="bin/doctrine-module orm:schema-tool:create" />
 

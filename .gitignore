@@ -3,9 +3,7 @@
 /composer*
 !/composer.json
 !/composer.lock
-/components/*
+/node_modules/*
 .vagrant
 .idea
-/puphpet/*
-
 tests/_output/*

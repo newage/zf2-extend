@@ -14,11 +14,7 @@
         "zendframework/zendframework": "~2.5",
         "doctrine/doctrine-module": "~1",
         "doctrine/doctrine-orm-module": "0.*",
-        "hounddog/doctrine-data-fixture-module": "0.*",
-        "components/jquery": "1.10.*",
-        "components/bootstrap": "3.*",
-        "components/bootstrap-default": "3.*",
-        "components/font-awesome": "4.*"
+        "hounddog/doctrine-data-fixture-module": "0.*"
     },
     "require-dev": {
         "zendframework/zend-developer-tools":   "dev-master",
