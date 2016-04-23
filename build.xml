@@ -2,26 +2,7 @@
 
 <project name="ZF2Ext" default="setup">
 
-    <target name="setup" description="Setup project first time.">
-        <property name="path.puphpet" value="${project.basedir}/puphpet" />
-
-        <!-- Pull git submodule -->
-        <echo>Git submobule update</echo>
-        <exec command="git submodule update --init" dir="${path.puphpet}" />
-        <echo>Vagrant up</echo>
-        <exec command="vagrant up" />
-
-        <!-- Copy config file for zend-developer-tools -->
-        <copy file="vendor/zendframework/zend-developer-tools/config/zenddevelopertools.local.php.dist"
-              tofile="config/autoload/zdt.local.php"
-              overwrite="false">
-            <filterchain>
-                <expandproperties />
-            </filterchain>
-        </copy>
-    </target>
-
-    <target name="setup:database" description="Setup database on vagrant environment" >
+    <target name="setup" description="Setup database on vagrant environment" >
         <!-- Create tables in database -->
         <exec command="bin/doctrine-module orm:schema-tool:create" />
 

@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+    ServerName zf2-extend
+    DocumentRoot /var/www/public
+    DirectoryIndex index.php
+    <Directory /var/www/public>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    Alias /components /var/www/components
+    <Directory /var/www/components>
+        AllowOverride All
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    SetEnv APPLICATION_ENV development
+</VirtualHost>

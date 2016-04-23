@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=5.5",
-        "zendframework/zendframework": "2.5.*",
+        "zendframework/zendframework": "~2.5",
         "doctrine/doctrine-module": "~1",
         "doctrine/doctrine-orm-module": "0.*",
         "hounddog/doctrine-data-fixture-module": "0.*",
@@ -23,7 +23,7 @@
     "require-dev": {
         "zendframework/zend-developer-tools":   "dev-master",
         "zendframework/zftool":                 "dev-master",
-        "phpunit/phpunit":                      "~4.1",
+        "phpunit/phpunit":                      "~4.8",
         "squizlabs/php_codesniffer":            "2.5.*",
         "phpmd/phpmd":                          "2.4.*",
         "theseer/phpdox":                       "0.*",

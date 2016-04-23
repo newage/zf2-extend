@@ -4,47 +4,39 @@ zf2-extend
 ZendFramework2 skeleton application + Doctrine2 with BDD (Behat, phpspec) and modern testing tool (codeception)
 
 ##Install
-Install via composer
+###Docker
+
+To build the docker container
+```
+sudo docker build -t zf2-extend/dev .
+```
+
+To run the docker container
+```
+sudo docker run -d -v <local_path>:/var/www -p 80:80 -p 3306:3306 --name zf2 -t zf2-extend/dev /bin/bash apachectl start
+```
+
+To connect the docker container
+```
+sudo docker exec -i -t zf2 bash
+```
+
+To get ip address the docker container
+```
+sudo docker inspect zf2 | grep IPAddress
+```
+
+
+###Install via composer
 ```
 $> composer install
 ```
 
 ##Setup
-###Apache Virtual host
-If don't use vagrant
+###Update database in the docker container
 ```
-<VirtualHost *:80>
-    ServerName zf2-extend
-    DocumentRoot /var/www/zf2-extend/public
-    DirectoryIndex index.php
-    <Directory /var/www/zf2-extend/public>
-        Options Indexes FollowSymLinks MultiViews
-        AllowOverride All
-        Order allow,deny
-        allow from all
-    </Directory>
-
-    Alias /components /var/www/zf2-extend/components
-    <Directory /var/www/zf2-extend/components>
-        AllowOverride All
-        Order allow,deny
-        allow from all
-    </Directory>
-
-    SetEnv APPLICATION_ENV development
-</VirtualHost>
-```
-
-###Setup project
-```
-$> bin/phing setup
-```
-
-###Update database on vagrant
-```
-$> vagrant ssh
 $> cd /var/www
-$> bin/phing setup:database
+$> bin/phing
 ```
 
 ##Doctrine

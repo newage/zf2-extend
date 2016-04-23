@@ -9,9 +9,9 @@ return array(
                 'params' => array(
                     'host' => 'localhost',
                     'port' => '3306',
-                    'user' => 'root',
+                    'user' => 'admin',
                     'password' => '123456',
-                    'dbname' => 'dbname'
+                    'dbname' => 'zf2extend'
                 )
             )
         )
