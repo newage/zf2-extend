@@ -11,6 +11,8 @@ RUN apt-get install -y --force-yes supervisor git mc openssh-server apache2 liba
     php5-intl php5-json php5-curl php5-gd php5-xdebug && \
     echo "ServerName zf2-extend" >> /etc/apache2/apache2.conf
 
+ADD docker/xdebug.ini /etc/php5/mods-available/xdebug.ini
+
 # Add image configuration and scripts
 ADD docker/start-apache2.sh /start-apache2.sh
 ADD docker/start-mysqld.sh /start-mysqld.sh
