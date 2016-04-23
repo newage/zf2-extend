@@ -8,17 +8,23 @@ ZendFramework2 skeleton application + Doctrine2 with BDD (Behat, phpspec) and mo
 
 To build the docker container
 ```
-sudo docker build -t zf2-extend/dev .
+sudo docker build -t zf2/dev .
 ```
 
 To run the docker container
 ```
-sudo docker run -d -v <local_path>:/var/www -p 80:80 -p 3306:3306 --name zf2 -t zf2-extend/dev /bin/bash apachectl start
+sudo docker run -d -v <local_path>:/var/www -p 80:80 -p 3306:3306 -p 22:22 --name zf2 -t zf2/dev
 ```
 
 To connect the docker container
 ```
 sudo docker exec -i -t zf2 bash
+```
+
+SSH connect to docker container
+```
+ssh root@172.17.0.2
+password: screencast
 ```
 
 To get ip address the docker container
