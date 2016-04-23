@@ -9,8 +9,8 @@
         allow from all
     </Directory>
 
-    Alias /components /var/www/components
-    <Directory /var/www/components>
+    Alias /components /var/www/node_modules
+    <Directory /var/www/node_modules>
         AllowOverride All
         Order allow,deny
         allow from all

@@ -17,7 +17,7 @@ if (getenv('APPLICATION_ENV') == 'development' && file_exists('config/applicatio
 }
 
 // Setup autoloading
-require 'init_autoloader.php';
+require 'vendor/autoload.php';
 
 // Run the application!
 Zend\Mvc\Application::init($config)->run();
